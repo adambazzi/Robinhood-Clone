@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
+from sqlalchemy.orm import validates
 from .user import User
 
 class Watchlist(db.Model):
@@ -10,7 +11,7 @@ class Watchlist(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    name = db.Column(db.String(), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime,
@@ -32,15 +33,6 @@ class Watchlist(db.Model):
         if not user:
             raise ValueError('User with that ID does not exist.')
         return user_id
-
-    @validates('name')
-    def validate_name(self, key, name):
-        # Check if name is less than 50 characters and it exists
-        if not name:
-            raise ValueError('Name is required.')
-        if len(name) > 50:
-            raise ValueError('Name cannot be longer than 50 characters.')
-        return name
 
     @validates('name')
     def validate_name(self, key, name):
