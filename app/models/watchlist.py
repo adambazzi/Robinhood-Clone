@@ -24,7 +24,7 @@ class Watchlist(db.Model):
     # Define Many-to-One relationship with users table
     user = db.relationship("User", back_populates="watchlists")
     # Define Many-to-Many relationship with stocks table through the join table watchlist_stocks
-    stocks = db.relationship('Stock', secondary='watchlist_stock', backref=db.backref('watchlists', lazy='dynamic'), cascade='all, delete-orphan')
+    stocks = db.relationship('Stock', secondary='watchlist_stock', back_populates='watchlists', cascade='all, delete-orphan')
 
     @validates('user_id')
     def validate_user_id(self, key, user_id):

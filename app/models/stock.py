@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.orm import validates
 
 class Stock(db.Model):
-    __tablename__ = 'watchlist'
+    __tablename__ = 'watchlists'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -13,13 +13,20 @@ class Stock(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define Relationships
-    # Define One-to-Many relationship with users table
-    watchlists = db.relationship('Watchlist', secondary='watchlist_stock', backref=db.backref('stocks', lazy='dynamic'))
+    # Define Many-to-Many relationship with Watchlists table
+    watchlists = db.relationship('Watchlist', secondary='watchlist_stock', back_populates='stocks')
+    # Define a one-to-one relationship with Transactions table
+    transaction = db.relationship('Transaction', uselist=False, back_populates='stock')
+    # Define One-to-Many relationship with Transaction table
+    transactions = db.relationship('Transaction', back_populates='stock')
+    # Define One-to-Many relationship with Investment table
+    investments = db.relationship('Investment', back_populates='stock')
+
 
     # Validations
     @validates('ticker')
     def validate_ticker(self, key, value):
-        if not value.isalnum():
+        if not value.isalpha():
             raise ValueError('Ticker can only contain letters and numbers.')
         return value
 

@@ -24,6 +24,12 @@ class User(db.Model, UserMixin):
         nullable=False
     )
 
+    #Relationships
+    # Define a one-to-one relationship between user and portfolio
+    portfolio = db.relationship('Portfolio', uselist=False, back_populates='user', cascade='all, delete-orphan')
+    # Define One-to-Many relationship with Watchlist table
+    watchlists = db.relationship('Watchlist', back_populates='users')
+
 
     @property
     def password(self):
