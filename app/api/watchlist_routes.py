@@ -1,11 +1,11 @@
 from flask import Blueprint, jsonify, request, redirect
 from app.models import Watchlist, User, db
 from flask_login import login_required, current_user
-from sqlalchemy import func
 
 watchlist_routes = Blueprint('watchlists', __name__)
 
 @watchlist_routes.route('')
+@login_required
 def get_current_user_watchlists():
     """
     Get all current user's watchlists and returns them in a list of watchlist dictionaries
@@ -14,11 +14,6 @@ def get_current_user_watchlists():
     # Query for all watchlists associated with the current user
     current_user_watchlists = Watchlist.query.filter_by(user_id=current_user.id).all()
 
-    # Case 1: User does not have any watchlists
-    if not current_user_watchlists:
-        return jsonify({'watchlists': []})
-
-    # Case 2: User does have watchlists
     watchlist_data = []
     for watchlist in current_user_watchlists:
         watchlist_dict = watchlist.to_dict()
@@ -28,7 +23,8 @@ def get_current_user_watchlists():
 
     return jsonify({'watchlists': watchlist_data})
 
-@watchlist_routes.route('/<int:id>')
+@watchlist_routes.route('/<int:id>', methods=['POST'])
+@login_required
 def create_watchlist():
     """
     Creates a new watchlist for the current user
