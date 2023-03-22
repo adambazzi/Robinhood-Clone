@@ -9,7 +9,7 @@ class Transfer(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    portfolio_id = db.Column(db.Integer, db.ForeignKey('portfolios.id', index=True), nullable=False)
+    portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
     amount = db.Column(db.Integer, nullable=False)
     executed_at = db.Column(db.DateTime, default=datetime.utcnow)
 

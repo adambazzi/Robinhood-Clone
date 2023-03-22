@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.orm import validates
 
 class Stock(db.Model):
-    __tablename__ = 'watchlists'
+    __tablename__ = 'stocks'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -14,9 +14,8 @@ class Stock(db.Model):
 
     # Define Relationships
     # Define Many-to-Many relationship with Watchlists table
-    watchlists = db.relationship('Watchlist', secondary='watchlist_stock', back_populates='stocks')
-    # Define a one-to-one relationship with Transactions table
-    transaction = db.relationship('Transaction', uselist=False, back_populates='stock')
+    watchlists = db.relationship('Watchlist', secondary='watchlist_stocks', back_populates='stocks')
+    watchlist_stocks = db.relationship('Watchlist_Stock', back_populates='stock')
     # Define One-to-Many relationship with Transaction table
     transactions = db.relationship('Transaction', back_populates='stock')
     # Define One-to-Many relationship with Investment table

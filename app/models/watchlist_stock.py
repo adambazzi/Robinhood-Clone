@@ -8,7 +8,7 @@ class Watchlist_Stock(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    stock_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('stocks.id')), nullable=False)
+    stock_id = db.Column(db.String, db.ForeignKey(add_prefix_for_prod('stocks.ticker')), nullable=False)
     watchlist_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('watchlists.id')), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -17,14 +17,14 @@ class Watchlist_Stock(db.Model):
 
     # Define Relationships
     # Define Many-to-One relationship with stocks table
-    stock = db.relationship("Stock", back_populates="watchlist_stocks")
+    stock = db.relationship('Stock', back_populates='watchlist_stocks')
     # Define Many-to-One relationship with watchlists table
-    watchlist = db.relationship("Watchlist", back_populates="watchlist_stocks")
+    watchlist = db.relationship('Watchlist', back_populates='watchlist_stocks')
 
     def to_dict(self):
         return {
             'id': self.id,
             'stockId': self.stock_id,
             'watchlistId': self.watchlist_id,
-            'createdAt': self.created_at,
+            'createdAt': self.created_at
         }

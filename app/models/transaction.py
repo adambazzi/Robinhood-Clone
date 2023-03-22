@@ -9,8 +9,8 @@ class Transaction(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    portfolio_id = db.Column(db.Integer, db.ForeignKey('portfolios.id', index=True), nullable=False)
-    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id', index=True), nullable=False)
+    portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
+    stock_id = db.Column(db.String, db.ForeignKey(add_prefix_for_prod('stocks.ticker')), nullable=False)
     num_shares = db.Column(db.Integer, nullable=False)
     average_price = db.Column(db.Integer, nullable=False)
     total_expense = db.Column(db.Integer, nullable=False)
@@ -19,8 +19,8 @@ class Transaction(db.Model):
     # Define Relationships
     # Define Many-to-One relationship with Portfolio table
     portfolio = db.relationship('Portfolio', back_populates='transactions')
-    # Define a one-to-one relationship between Transaction and Stock
-    stock = db.relationship('Stock', uselist=False, back_populates='transaction')
+    # Define a Many-to-one relationship between Transaction and Stock
+    stock = db.relationship('Stock', back_populates='transactions')
 
 
     # Validations

@@ -4,7 +4,7 @@ from sqlalchemy.orm import validates
 from .user import User
 
 class Watchlist(db.Model):
-    __tablename__ = 'watchlist'
+    __tablename__ = 'watchlists'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -24,7 +24,8 @@ class Watchlist(db.Model):
     # Define Many-to-One relationship with users table
     user = db.relationship("User", back_populates="watchlists")
     # Define Many-to-Many relationship with stocks table through the join table watchlist_stocks
-    stocks = db.relationship('Stock', secondary='watchlist_stock', back_populates='watchlists', cascade='all, delete-orphan')
+    stocks = db.relationship('Stock', secondary='watchlist_stocks', back_populates='watchlists')
+    watchlist_stocks = db.relationship('Watchlist_Stock', back_populates='watchlist')
 
     @validates('user_id')
     def validate_user_id(self, key, user_id):

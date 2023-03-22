@@ -9,7 +9,7 @@ class Portfolio(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', index=True), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     buying_power = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -21,9 +21,13 @@ class Portfolio(db.Model):
 
     # Define Relationships
     # Define One-to-Many relationship with PortfolioHistory table
-    portfolio_histories = db.relationship('PortfolioHistory', back_populates='portfolio', cascade='all, delete-orphan')
+    portfolio_histories = db.relationship('Portfolio_History', back_populates='portfolio')
     # Define One-to-Many relationship with Notification table
-    notifications = db.relationship('Notification', back_populates='portfolio', cascade='all, delete-orphan')
+    notifications = db.relationship('Notification', back_populates='portfolio')
+    # Define One-to-Many relationship with Notification table
+    transactions = db.relationship('Transaction', back_populates='portfolio')
+    # Define a one-to-one relationship between portfolio and user
+    investments = db.relationship('Investment', back_populates='portfolio')
     # Define a one-to-one relationship between portfolio and user
     user = db.relationship('User', uselist=False, back_populates='portfolio')
 

@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
-class PortfolioHistory(db.Model):
+class Portfolio_History(db.Model):
     __tablename__ = 'portfolio_histories'
 
     if environment == "production":
@@ -9,7 +9,7 @@ class PortfolioHistory(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.Integer, nullable=False)
-    portfolio_id = db.Column(db.Integer, db.ForeignKey('portfolios.id'), nullable=False)
+    portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define Relationships

@@ -2,7 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 from sqlalchemy.orm import validates
 
-class Notifications(db.Model):
+class Notification(db.Model):
     __tablename__ = 'notifications'
 
     if environment == "production":
@@ -11,7 +11,7 @@ class Notifications(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(30), nullable=False)
     read = db.Column(db.Boolean, nullable=False, default=False)
-    portfolio_id = db.Column(db.Integer, db.ForeignKey('portfolios.id', index=True), nullable=False)
+    portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define Relationships
