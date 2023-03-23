@@ -2,7 +2,7 @@
 
 
 const fetchStockData = async (ticker, range) => {
-    const apiKey = 'YIsjtlgOpCfZx63PAtYxx4H68H3PklSp';
+    const apiKey = 'VPG2erwTW0gUxwEbKjL2PmqI8mlVLU6L';
     const dateTo = new Date();
     const dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - range);
