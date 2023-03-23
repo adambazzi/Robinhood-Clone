@@ -3,9 +3,9 @@ from app.models import Transaction, db
 from flask_login import login_required
 from sqlalchemy import func
 
-stock_routes = Blueprint('transactions', __name__)
+transaction_routes = Blueprint('transactions', __name__)
 
-@stock_routes.route('/<string:ticker', methods=['POST'])
+@transaction_routes.route('/<string:ticker>', methods=['POST'])
 @login_required
 def create_transaction(ticker):
     """
