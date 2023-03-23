@@ -1,0 +1,10 @@
+
+.chart__master {
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buySell__master {
+    width: 30%;
+}
