@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
-import fetchStockData from './StockData';
-import fetchStockDetails from './StockDetails';
+import { fetchStockData, fetchStockDetails } from './FetchStockData';
 import './LineGraph.css';
 
 function LineGraph() {
