@@ -33,10 +33,10 @@ class Transaction(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'portfolioId': self.portfolio_id,
-            'stockId': self.stock_id,
-            'numShares': self.num_shares,
+            'portfolio_id': self.portfolio_id,
+            'stock_id': self.stock_id,
+            'num_shares': self.num_shares,
             'average_price': self.average_price,
             'total_expense': self.total_expense,
-            'executedAt': self.executed_at
+            'executed_at': self.executed_at
         }

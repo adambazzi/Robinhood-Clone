@@ -4,8 +4,7 @@ from flask_login import login_required, current_user
 
 stock_routes = Blueprint('stocks', __name__)
 
-@stock_routes.route('')
-@login_required
+@stock_routes.route('/')
 def get_all_stocks():
     """
     Get all stocks
@@ -17,11 +16,10 @@ def get_all_stocks():
     # Convert stocks to list of dictionaries
     stocks_dict = [stock.to_dict() for stock in all_stocks]
 
-    return jsonify({'stocks': stocks_dict})
+    return jsonify(stocks_dict)
 
 @stock_routes.route('/<string:ticker>')
-@login_required
-def get_single_spot(ticker):
+def get_single_stock(ticker):
     """
     Get single stock
     """
@@ -33,4 +31,4 @@ def get_single_spot(ticker):
     if not single_stock:
         return jsonify({'message': f'Stock with ticker {ticker} not found'}), 404
 
-    return jsonify({'stocks': single_stock.to_dict()})
+    return jsonify(single_stock.to_dict())
