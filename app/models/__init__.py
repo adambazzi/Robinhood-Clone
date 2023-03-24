@@ -8,5 +8,3 @@ from .portfolio_history import Portfolio_History
 from .transaction import Transaction
 from .investment import Investment
 from .notification import Notification
-
-from .db import environment, SCHEMA

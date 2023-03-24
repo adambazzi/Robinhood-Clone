@@ -27,7 +27,7 @@ class Transfer(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'portfolioId': self.portfolio_id,
+            'portfolio_id': self.portfolio_id,
             'amount': self.amount,
-            'executedAt': self.executed_at
+            'executed_at': self.executed_at
         }

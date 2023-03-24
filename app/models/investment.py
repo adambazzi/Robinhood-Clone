@@ -12,6 +12,7 @@ class Investment(db.Model):
     portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
     stock_id = db.Column(db.String, db.ForeignKey(add_prefix_for_prod('stocks.ticker')), nullable=False)
     num_shares = db.Column(db.Integer, nullable=False)
+    total_value = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime,
@@ -34,18 +35,13 @@ class Investment(db.Model):
             raise ValueError(f'{key} must be a positive integer.')
         return value
 
-    # Define a custom property for the total value of investment
-    @property
-    def total_value(self):
-        return self.num_shares * self.average_price
-
     def to_dict(self):
         return {
             'id': self.id,
-            'portfolioId': self.portfolio_id,
-            'stockId': self.stock_id,
-            'numShares': self.num_shares,
+            'portfolio_id': self.portfolio_id,
+            'stock_id': self.stock_id,
+            'num_shares': self.num_shares,
             'total_value': self.total_value,
-            'createdAt': self.created_at,
-            'updatedAt': self.updated_at
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }

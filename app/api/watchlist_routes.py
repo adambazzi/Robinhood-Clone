@@ -4,8 +4,7 @@ from flask_login import login_required, current_user
 
 watchlist_routes = Blueprint('watchlists', __name__)
 
-@watchlist_routes.route('')
-@login_required
+@watchlist_routes.route('/')
 def get_current_user_watchlists():
     """
     Get all current user's watchlists and returns them in a list of watchlist dictionaries
@@ -21,10 +20,9 @@ def get_current_user_watchlists():
         watchlist_dict['stocks'] = stock_data
         watchlist_data.append(watchlist_dict)
 
-    return jsonify({'watchlists': watchlist_data})
+    return jsonify(watchlist_data)
 
-@watchlist_routes.route('/<int:id>', methods=['POST'])
-@login_required
+@watchlist_routes.route('/', methods=['POST'])
 def create_watchlist():
     """
     Creates a new watchlist for the current user
@@ -47,4 +45,4 @@ def create_watchlist():
     db.session.commit()
 
     # Return newly created watchlist
-    return jsonify({'watchlist': new_watchlist.to_dict()}), 201
+    return jsonify(new_watchlist.to_dict()), 201

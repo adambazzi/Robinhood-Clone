@@ -2,19 +2,16 @@ from flask import Blueprint, jsonify, request
 from app.models import Portfolio, db
 from flask_login import login_required, current_user
 from sqlalchemy import func
+import pdb
 
 portfolio_routes = Blueprint('portfolio', __name__)
 
 
-@portfolio_routes.route('', methods=['POST'])
-@login_required
+@portfolio_routes.route('/', methods=['POST'])
 def create_portfolio():
     """
     Create portfolio
     """
-
-    # Parse request data
-    data = request.get_json()
 
     # Create new portfolio
     new_porfolio = Portfolio(
@@ -26,12 +23,11 @@ def create_portfolio():
     db.session.commit()
 
     # Return newly created portfolio
-    return jsonify({'portfolio': new_porfolio.to_dict()}), 201
+    return jsonify(new_porfolio.to_dict()), 201
 
 
-@portfolio_routes.route('', methods=['PUT'])
-@login_required
-def edit_portfolio(ticker):
+@portfolio_routes.route('/<int:portfolioId>', methods=['PUT'])
+def edit_portfolio(portfolioId):
     """
     Edit portfolio investment
     """
@@ -40,18 +36,32 @@ def edit_portfolio(ticker):
     data = request.get_json()
 
     # Query for the portfolio to be updated
-    portfolio = Portfolio.query.filter_by(
-        user_id=current_user.id
-    ).first()
+    portfolio = Portfolio.query.get(portfolioId)
 
     # Check if the portfolio exists
     if not portfolio:
         return jsonify({'message': 'Portfolio not found'}), 404
 
     # Update the portfolio with new data
-    portfolio.buying_power = data.get('buying_power')
+    portfolio.buying_power = data.get('buyingPower')
 
     db.session.commit()
 
     # Return updated portfolio
-    return jsonify({'porfolio': portfolio.to_dict()})
+    return jsonify(portfolio.to_dict())
+
+@portfolio_routes.route('/<int:portfolioId>', methods=['GET'])
+def get_portfolio(portfolioId):
+    """
+    Get protfolio for user
+    """
+
+    # Query for the portfolio with the given ID
+    portfolio = Portfolio.query.filter_by(id=portfolioId).first()
+
+    # Check if the portfolio exists
+    if not portfolio:
+        return jsonify({'message': 'Portfolio not found'}), 404
+
+    # Return the portfolio data
+    return jsonify(portfolio.to_dict())

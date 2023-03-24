@@ -19,6 +19,6 @@ def undo_stocks():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.stocks RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM watchlists"))
+        db.session.execute(text("DELETE FROM stocks"))
 
     db.session.commit()

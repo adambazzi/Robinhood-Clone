@@ -41,8 +41,8 @@ class Portfolio(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'userId': self.user_id,
-            'buyingPower': self.buying_power,
-            'createdAt': self.created_at,
-            'updatedAt': self.updated_at
+            'user_id': self.user_id,
+            'buying_power': self.buying_power,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }

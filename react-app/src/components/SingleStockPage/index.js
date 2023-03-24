@@ -1,6 +1,7 @@
 import React from "react";
 import LineGraph from "./LineGraph";
 import './index.css'
+import BuySellForm from "./BuySellForm";
 
 
 function SingleStockPage(){
@@ -11,7 +12,7 @@ function SingleStockPage(){
             <LineGraph />
 		</div>
         <div className="buySell__master">
-
+            <BuySellForm />
         </div>
         </>
 	);

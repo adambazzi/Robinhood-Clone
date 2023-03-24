@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 96e113687dc3
+Revision ID: 27258d5dea0e
 Revises: 
-Create Date: 2023-03-21 19:01:40.081416
+Create Date: 2023-03-23 19:10:28.910606
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '96e113687dc3'
+revision = '27258d5dea0e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,6 +55,27 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('investments',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('portfolio_id', sa.Integer(), nullable=False),
+    sa.Column('stock_id', sa.String(), nullable=False),
+    sa.Column('num_shares', sa.Integer(), nullable=False),
+    sa.Column('total_value', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
+    sa.ForeignKeyConstraint(['stock_id'], ['stocks.ticker'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('notifications',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('message', sa.String(length=30), nullable=False),
+    sa.Column('read', sa.Boolean(), nullable=False),
+    sa.Column('portfolio_id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('portfolio_histories',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('value', sa.Integer(), nullable=False),
@@ -93,6 +114,8 @@ def downgrade():
     op.drop_table('watchlist_stocks')
     op.drop_table('transactions')
     op.drop_table('portfolio_histories')
+    op.drop_table('notifications')
+    op.drop_table('investments')
     op.drop_table('watchlists')
     op.drop_table('portfolios')
     op.drop_table('users')
