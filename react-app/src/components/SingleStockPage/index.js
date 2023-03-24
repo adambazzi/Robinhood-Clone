@@ -10,10 +10,10 @@ function SingleStockPage(){
         <>
 		<div className="chart__master">
             <LineGraph />
+            <div className="buySell__master">
+                <BuySellForm />
+            </div>
 		</div>
-        <div className="buySell__master">
-            <BuySellForm />
-        </div>
         </>
 	);
 }

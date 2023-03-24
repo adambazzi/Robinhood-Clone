@@ -7,11 +7,14 @@ import { createInvestment, editInvestment, getInvestments } from '../../store/in
 import { getPortfolio, editPortfolio } from '../../store/portfolio';
 import { createTransaction } from '../../store/transactions';
 import { fetchClosingCost } from './FetchStockData'
+import './BuySellForm.css'
 
 const BuySellForm = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    // The 'buyingOption' dropdown allows the user to choose whether they want to buy in USD or shares.
     const [buyingOption, setBuyingOption] = useState(true)
+    // The 'buy' option determines if the user is buying or selling shares
     const [buy, setBuy] = useState(true)
     const [amount, setAmount] = useState(0)
     let { ticker } = useParams()
@@ -118,7 +121,7 @@ const BuySellForm = () => {
           createdTransactionId = newTransaction.id;
 
 
-          history.push(`/stocks/${ticker}`)
+          history.push(`/`)
         } else {
           // If there are validation errors, set the validationErrors state to the error messages
           setValidationErrors(errors);
@@ -129,30 +132,35 @@ const BuySellForm = () => {
 
 
   return (
-    <section id='spot-form-section'>
-        <div id='spot-form-container'>
-            <h2>Buy</h2>
-            <form className='stock__buyForm' onSubmit={handleSubmit}>
-                <button onClick={() => setBuy(true)}>Buy</button>
-                <button onClick={() => setBuy(false)}>Sell</button>
-                <label>Buy in
-                    <select id="buyForm__dropdown_buyingOption" value={buyingOption} onChange={(e) => setBuyingOption(e.target.value)}>
-                        <option value={true}>USD</option>
-                        <option value={false}>Shares</option>
-                    </select>
-                </label>
-                <label>Amount
-                    <input
-                        id="amount"
-                        type="number"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                    />
-                </label>
-                <button type="submit">Submit</button>
-            </form>
+      <section id='spot-form-section' className='spot-form-section'>
+        <div id='spot-form-container' className='spot-form-container'>
+          <form className='stock__buyForm' onSubmit={handleSubmit}>
+            <div className='buy-sell-buttons-container'>
+              <div className='buy-sell-buttons'>
+                <button className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
+                <button className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>
+              </div>
+            </div>
+            <label className='buy-option-label'>
+              <div>Buy in</div>
+              <select id="buyForm__dropdown_buyingOption" className='buying-option' value={buyingOption} onChange={(e) => setBuyingOption(e.target.value)}>
+                <option value={true}>USD</option>
+                <option value={false}>Shares</option>
+              </select>
+            </label>
+            <label className='amount-label'>Amount
+              <input
+                id="amount"
+                type="number"
+                className='amount-input'
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </label>
+            <button type="submit" className='submit-button'>Review order</button>
+          </form>
         </div>
-    </section>
+      </section>
   )
 };
 
