@@ -1,0 +1,99 @@
+#spot-form-section {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+#spot-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+  .stock__buyForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    height: 100%;
+  }
+
+  .stock__buyForm button {
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+    margin-bottom: 0;
+  }
+
+  .stock__buyForm label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .stock__buyForm select {
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .stock__buyForm input {
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .stock__buyForm button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .stock__buyForm button[type="submit"]:hover {
+    background-color: var(--color);
+  }
+
+  .buy-sell-buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(232, 226, 226);
+  }
+  .buy-button .sell-button {
+    margin: 0px;
+  }
+
+  .buy-button.underline {
+    border-bottom: 2px solid black;
+  }
+  .sell-button.underline {
+    border-bottom: 2px solid black;
+  }
+
+  .buy-option-label {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
