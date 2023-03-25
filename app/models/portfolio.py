@@ -26,7 +26,7 @@ class Portfolio(db.Model):
     notifications = db.relationship('Notification', back_populates='portfolio')
     # Define One-to-Many relationship with Notification table
     transactions = db.relationship('Transaction', back_populates='portfolio')
-    # Define a one-to-one relationship between portfolio and user
+    # Define a One-to-Many relationship between portfolio and investments
     investments = db.relationship('Investment', back_populates='portfolio')
     # Define a one-to-one relationship between portfolio and user
     user = db.relationship('User', uselist=False, back_populates='portfolio')
