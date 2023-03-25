@@ -45,7 +45,6 @@ export const editInvestment = (data, investmentId) => async dispatch => {
 
     if (investmentResponse.ok) {
         const payload = await investmentResponse.json();
-        
         dispatch(reviseInvestment(payload))
     }
 }

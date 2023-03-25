@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
-import { fetchStockData, fetchStockDetails } from './FetchStockData';
+import { fetchStockChartData, fetchStockDetails } from './FetchStockData';
 import './LineGraph.css';
 
 function LineGraph() {
@@ -25,7 +25,7 @@ function LineGraph() {
   // Fetch stock data from polygon for graph
   useEffect(() => {
     async function fetchChartData() {
-      const data = await fetchStockData(ticker.toUpperCase(), range);
+      const data = await fetchStockChartData(ticker.toUpperCase(), range);
       const labels = data.results.map(result => new Date(result.t).toLocaleDateString());
       const prices = data.results.map(result => result.c);
       setChartData({

@@ -1,7 +1,7 @@
 
 
 
-export const fetchStockData = async (ticker, range=0) => {
+export const fetchStockChartData = async (ticker, range=0) => {
     const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
     const dateTo = new Date();
     const dateFrom = new Date();
@@ -31,4 +31,15 @@ export const fetchClosingCost = async (ticker='TSLA') => {
     const data = await response.json();
 
     return data.results[0].c;
+}
+
+export const fetchStockData = async (ticker='TSLA') => {
+    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+
+    const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${apiKey}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data.results[0];
 }

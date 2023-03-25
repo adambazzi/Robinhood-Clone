@@ -1,18 +1,26 @@
 from app import db
-from app.models import Watchlist_Stock, SCHEMA, environment
+from app.models import SCHEMA, environment
+from app.models.watchlist_stock import watchlist_stocks
+from sqlalchemy import insert
 
 # Seed the database with 3 stocks for user1
 def seed_watchlist_stocks():
     # Create join instance
 
-    join1 = Watchlist_Stock(watchlist_id=1, stock_id=1)
-    join2 = Watchlist_Stock(watchlist_id=1, stock_id=2)
-    join3 = Watchlist_Stock(watchlist_id=1, stock_id=3)
+    watchlist_stock_data = [
+        {'watchlist_id': 1, 'ticker': 'TSLA'},
+        {'watchlist_id': 1, 'ticker': 'GM'},
+        {'watchlist_id': 1, 'ticker': 'DOW'}
+    ]
 
-    # Add to the database
-    db.session.add_all([join1, join2, join3])
+    for data in watchlist_stock_data:
+        stock = insert(watchlist_stocks).values(
+            watchlist_id = data['watchlist_id'],
+            ticker = data['ticker']
+        )
+        db.session.execute(stock)
+
     db.session.commit()
-
 
 def undo_watchlist_stocks():
     if environment == "production":

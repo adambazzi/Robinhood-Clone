@@ -9,16 +9,10 @@ def get_current_user_watchlists():
     """
     Get all current user's watchlists and returns them in a list of watchlist dictionaries
     """
-
     # Query for all watchlists associated with the current user
     current_user_watchlists = Watchlist.query.filter_by(user_id=current_user.id).all()
 
-    watchlist_data = []
-    for watchlist in current_user_watchlists:
-        watchlist_dict = watchlist.to_dict()
-        stock_data = [watchlist_stock.to_dict() for watchlist_stock in watchlist.stocks]
-        watchlist_dict['stocks'] = stock_data
-        watchlist_data.append(watchlist_dict)
+    watchlist_data = [watchlist.to_dict() for watchlist in current_user_watchlists]
 
     return jsonify(watchlist_data)
 

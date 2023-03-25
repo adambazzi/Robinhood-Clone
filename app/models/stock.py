@@ -15,7 +15,6 @@ class Stock(db.Model):
     # Define Relationships
     # Define Many-to-Many relationship with Watchlists table
     watchlists = db.relationship('Watchlist', secondary='watchlist_stocks', back_populates='stocks')
-    watchlist_stocks = db.relationship('Watchlist_Stock', back_populates='stock')
     # Define One-to-Many relationship with Transaction table
     transactions = db.relationship('Transaction', back_populates='stock')
     # Define One-to-Many relationship with Investment table
@@ -33,5 +32,6 @@ class Stock(db.Model):
         return {
             'id': self.ticker,
             'orgName': self.org_name,
+            'watchlists': [watchlist.to_dict() for watchlist in self.watchlist_stocks],
             'createdAt': self.created_at
         }

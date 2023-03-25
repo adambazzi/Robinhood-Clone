@@ -40,6 +40,13 @@ const BuySellForm = () => {
       }
     }, [dispatch, portfolio.id, ticker]);
 
+    let foundInvestment;
+    for (let key in investments) {
+      if (investments[key].stock_id === ticker) {
+        foundInvestment = investments[key];
+        break;
+      }
+    }
 
     const handleSubmit = async (e) => {
         // Prevent the default form submission behavior
@@ -54,15 +61,6 @@ const BuySellForm = () => {
         const totalExpense = buy ? stockData * numShares : -stockData * numShares;
         const averagePrice = stockData;
 
-        let foundInvestment;
-        for (let key in investments) {
-          if (investments[key].stock_id === ticker) {
-            foundInvestment = investments[key];
-            break;
-          }
-        }
-
-
 
         // Construct the payload object for the request
         const payload = {
@@ -76,12 +74,18 @@ const BuySellForm = () => {
           investment: {
             portfolioId: portfolio.id,
             stockId: ticker,
-            numShares: foundInvestment ? foundInvestment.num_shares + (buyingOption === false ? numAmount : numAmount / stockData) : (buyingOption === false ? numAmount : numAmount / stockData),
-            totalValue: foundInvestment ? foundInvestment.total_value + averagePrice * numShares : averagePrice * numShares,
+            numShares: buy
+            ? (foundInvestment
+              ? foundInvestment.num_shares + numShares
+              : numShares)
+            : (foundInvestment
+              ? foundInvestment.num_shares - numShares
+              : numShares),
+              totalValue: foundInvestment ? foundInvestment.total_value + totalExpense : totalExpense,
           },
           portfolio: {
             userId: user.id,
-            buyingPower: portfolio.buying_power - totalExpense,
+            buyingPower: portfolio.buying_power - totalExpense
           },
         };
 
@@ -96,7 +100,7 @@ const BuySellForm = () => {
         if (buy === false && payload.transaction.totalExpense >= 0) {
             errors.inputCannotBeNegative = "Input cannot be negative or 0";
         }
-        if (payload.investment.totalValue < payload.transaction.totalExpense && buy === false) {
+        if (payload.investment.totalValue < 0) {
             errors.unableToSell = "Unable to sell, insufficient funds";
         }
 
@@ -141,23 +145,31 @@ const BuySellForm = () => {
                 <button className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>
               </div>
             </div>
-            <label className='buy-option-label'>
-              <div>Buy in</div>
-              <select id="buyForm__dropdown_buyingOption" className='buying-option' value={buyingOption} onChange={(e) => setBuyingOption(e.target.value)}>
+            <div className='buySell__entryContainer'>
+              <div>Order Type</div>
+              <div>Market Order ⓘ</div>
+            </div>
+            <div className='buySell__entryContainer'>
+              <label className='buy-option-label'>{buy ? 'Buy in' : 'Sell in'}</label>
+              <select id="buyForm__dropdown_buyingOption" className='buying-option' value={buyingOption} onChange={(e) => setBuyingOption(e.target.value === 'true')}>
                 <option value={true}>USD</option>
                 <option value={false}>Shares</option>
               </select>
-            </label>
-            <label className='amount-label'>Amount
-              <input
-                id="amount"
-                type="number"
-                className='amount-input'
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-            </label>
+            </div>
+            <div className='buySell__entryContainer'>
+              <label className='amount-label'>Amount</label>
+                <input
+                  id="amount"
+                  type="number"
+                  className='amount-input'
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+            </div>
             <button type="submit" className='submit-button'>Review order</button>
+            <div className='buySell__buyingPower'>
+              {buy ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : `$${Number(foundInvestment.total_value).toFixed(2)} available`}
+            </div>
           </form>
         </div>
       </section>

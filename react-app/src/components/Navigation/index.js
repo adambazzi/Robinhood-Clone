@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
-function Navigation({ isLoaded }){
+function Navigation(){
 	const sessionUser = useSelector(state => state.session.user);
 
 	return (
@@ -23,11 +23,9 @@ function Navigation({ isLoaded }){
 				<a href="/">Messages</a>
 				<a href="/">Notifications</a>
 				<ul className='navbar__account'>
-					{isLoaded && (
 					<li>
 						<ProfileButton user={sessionUser} />
 					</li>
-					)}
 				</ul>
 			</div>
 		</div>

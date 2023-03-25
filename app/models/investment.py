@@ -31,7 +31,7 @@ class Investment(db.Model):
     # Validations
     @validates('num_shares')
     def validate_integer_value(self, key, value):
-        if value <= 0:
+        if value < 0:
             raise ValueError(f'{key} must be a positive integer.')
         return value
 

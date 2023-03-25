@@ -25,29 +25,29 @@ class Watchlist(db.Model):
     user = db.relationship("User", back_populates="watchlists")
     # Define Many-to-Many relationship with stocks table through the join table watchlist_stocks
     stocks = db.relationship('Stock', secondary='watchlist_stocks', back_populates='watchlists')
-    watchlist_stocks = db.relationship('Watchlist_Stock', back_populates='watchlist')
 
-    @validates('user_id')
-    def validate_user_id(self, key, user_id):
-        # Check if the user ID corresponds to an existing user
-        user = User.query.filter_by(id=user_id).first()
-        if not user:
-            raise ValueError('User with that ID does not exist.')
-        return user_id
+    # @validates('user_id')
+    # def validate_user_id(self, key, user_id):
+    #     # Check if the user ID corresponds to an existing user
+    #     user = User.query.filter_by(id=user_id).first()
+    #     if not user:
+    #         raise ValueError('User with that ID does not exist.')
+    #     return user_id
 
-    @validates('name')
-    def validate_name(self, key, name):
-        # Check if another watchlist with the same name already exists for this user
-        existing_watchlist = Watchlist.query.filter_by(user_id=self.user_id, name=name).first()
-        if existing_watchlist:
-            raise ValueError('Watchlist with that name already exists.')
-        return name
+    # @validates('name')
+    # def validate_name(self, key, name):
+    #     # Check if another watchlist with the same name already exists for this user
+    #     existing_watchlist = Watchlist.query.filter_by(user_id=self.user_id, name=name).first()
+    #     if existing_watchlist:
+    #         raise ValueError('Watchlist with that name already exists.')
+    #     return name
 
     def to_dict(self):
         return {
             'id': self.id,
             'userId': self.user_id,
             'name': self.name,
+            'stocks': [stock.to_dict() for stock in self.stocks],
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
         }
