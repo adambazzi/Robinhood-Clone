@@ -1,8 +1,12 @@
 /* TODO Add site wide styles */
 
 :root {
-    --rh__primary-base: rgb(0, 200, 5);
-    --rh__primary-hover: rgba(0, 180, 5, 1);
+    --a__primary-green: rgb(0, 200, 5);
+    --a__primary-greenHover: rgba(0, 180, 5, 1);
+    --a__gray1: rgb(227, 233, 237);
+    --a__gray2: #e7e5e5;
+    --a__gray3: rgb(245, 248, 250);
+    --a__orange1: rgb(255, 80, 0);
 }
 body {
     font-family: "Capsule Sans Text", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;

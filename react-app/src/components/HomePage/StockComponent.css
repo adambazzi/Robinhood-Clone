@@ -1,0 +1,36 @@
+.stock__component {
+    height: 54px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+    align-items: center;
+}
+
+.stock__graph {
+    height: 70%;
+    width: 20%;
+    max-width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5%;
+}
+
+.stock__values {
+    margin-right: 10%;
+}
+
+.stock__name {
+    margin-left: 10%;
+    width: 15%;
+}
+
+.redValue {
+    color: red;
+}
+.greenValue {
+    color: green;
+}

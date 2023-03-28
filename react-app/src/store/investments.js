@@ -49,8 +49,8 @@ export const editInvestment = (data, investmentId) => async dispatch => {
     }
 }
 
-export const getInvestments = (stockId, portfolioId) => async dispatch => {
-    const response = await fetch(`/api/investments/?stockId=${stockId}&portfolioId=${portfolioId}`);
+export const getInvestments = (portfolioId) => async dispatch => {
+    const response = await fetch(`/api/investments/?portfolioId=${portfolioId}`);
     if (response.ok) {
       const payload = await response.json();
       dispatch(loadInvestments(payload))

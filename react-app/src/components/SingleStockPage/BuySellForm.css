@@ -80,7 +80,7 @@
   padding: 10px;
   border: none;
   border-radius: 20px;
-  background-color: var(--rh__primary-base);
+  background-color: var(--a__primary-green);
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -89,7 +89,7 @@
 }
 
 .submit-button:hover {
-  background-color: var(--rh__primary-hover);
+  background-color: var(--a__primary-greenHover);
 }
 .buySell__buyingPower {
   margin-top: 20px;

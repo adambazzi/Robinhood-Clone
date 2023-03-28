@@ -1,0 +1,79 @@
+.create-watchlist-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+
+.form-input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.form-input-group input {
+    height: 36px;
+    width: 65%;
+    border-radius: 5px;
+    border: none;
+    margin-right: 10%;
+    background-color: var(--a__gray3);
+    padding-left: 10px;
+}
+
+.form-input:focus {
+    outline: var(--a__orange1) 1px solid;
+
+}
+.form-input-icon {
+    width: 20px;
+    background-color: var(--a__gray3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    margin-left: 10%;
+
+}
+
+.form-button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 10%;
+}
+
+.cancel-button {
+    color: var(--a__orange1);
+    border: solid 2px var(--a__orange1);
+    width: 30%;
+    height: 36px;
+    margin-right: 3%;
+    border-radius: 20px;
+    background-color: var(--a__gray3);
+}
+
+.cancel-button:hover {
+    background-color: rgba(255, 81, 0, 0.316);
+}
+
+.create-button {
+    border: none;
+    background-color: var(--a__orange1);
+    width: 30%;
+    height: 36px;
+    margin-right: 3%;
+    border-radius: 20px;
+    color: white;
+}
+
+.create-button:hover {
+    background-color: rgba(255, 106, 38, 1);
+}

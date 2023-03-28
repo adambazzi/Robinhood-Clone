@@ -1,0 +1,104 @@
+
+.homePage__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .homePage_portfolio {
+    width: 70%;
+  }
+
+  .homePage__sideBar_container {
+    width: 330px;
+    display: flex;
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    border: solid 2px var(--a__gray1);
+    height: 87vh;
+    overflow: auto;
+  }
+
+  /* Hide the scrollbar */
+  .homePage__sideBar_container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .homePage__sideBar_container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .homePage__sideBar_container::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  .investingStocks_container {
+    height: 300px;
+    margin-bottom: 20px;
+  }
+
+  .watchlists__container {
+    height: 600px;
+  }
+
+  .watchlist__main {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    justify-content: space-between;
+    height: 50px;
+    border-top: solid 2px var(--a__gray1);
+    border-bottom: solid 2px var(--a__gray1);
+  }
+
+  .watchlist__main_lists {
+    font-size: 13px;
+    color: #333;
+    margin-left: 10%;
+    font-weight: bold;
+  }
+
+
+  .watchlist__main_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5%;
+    width: 10%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: 70%;
+    border-radius: 5px;
+  }
+  .watchlist__main_icon:hover {
+    background-color: var(--a__gray2);
+  }
+  /* rgb(227, 233, 237); */
+
+.watchlist__header {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  justify-content: space-between;
+  height: 50px;
+}
+.stocks_container_stocks {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  justify-content: space-between;
+  height: 50px;
+  border-bottom: solid 2px var(--a__gray1);
+}
+.stocks_container_stocks {
+  padding-left: 10%;
+  font-size: 13px;
+  font-weight: bold;
+}

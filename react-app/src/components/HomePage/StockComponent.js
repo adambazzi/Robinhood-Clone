@@ -1,30 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { fetchStockData } from "../SingleStockPage/FetchStockData";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import StockComponentGraph from "./StockComponentGraph";
+import './StockComponent.css'
 
 function StockComponent({ stock }) {
-  const [stockData, setStockData] = useState({});
-  const [openCloseDifference, setOpenCloseDifference] = useState(0);
+  const value = ((stock[0].o - stock[0].c)/ stock[0].o) * 100
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchStockData(stock.ticker);
-      setStockData(data);
-    };
-    fetchData();
-  }, [stock.ticker]);
-
-  useEffect(() => {
-    if (stockData.c && stockData.o) {
-      setOpenCloseDifference((stockData.c - stockData.o) / stockData.o);
-    }
-  }, [stockData]);
 
   return (
-    <div className="stock__component">
-      <div>{stock.ticker}</div>
-      <div>{stockData.c}</div>
-      <div>{openCloseDifference}</div>
-    </div>
+    <NavLink to={`/stocks/${stock[0].T}`} className="stock__component">
+      <div className="stock__name">{stock[0].T}</div>
+      <div className="stock__graph">
+        <StockComponentGraph ticker={stock[0].T} value={value} />
+      </div>
+      <div className="stock__values">
+        <div>${stock[0].c}</div>
+        <div className={value < 0 ? 'redValue' : 'greenValue'}>{value.toFixed(2)}%</div>
+      </div>
+    </NavLink>
   );
 }
 

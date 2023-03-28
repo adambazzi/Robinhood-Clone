@@ -62,12 +62,11 @@ def get_investments():
     Get all stock investments for user
     """
 
-    stock_id = request.args.get('stockId')
+    # stock_id = request.args.get('stockId')
     portfolio_id = request.args.get('portfolioId')
 
     # Query for the investments for the user
     investments = Investment.query.filter_by(
-        stock_id=stock_id,
         portfolio_id=portfolio_id
     ).all()
 

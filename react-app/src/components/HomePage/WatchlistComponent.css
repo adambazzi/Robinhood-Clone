@@ -1,0 +1,125 @@
+.watchlist__component {
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+.watchlist__header {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    justify-content: space-between;
+    height: 50px;
+  }
+
+  .watchlist__header:hover {
+  background-color: var(--a__gray3);
+}
+
+
+  .watchlist__component.my-watchlist {
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+
+  .watchlist__name {
+    font-size: 13px;
+    color: #333;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .watchlist__icon {
+    font-size: 15px;
+    color: #666;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+
+  .watchlist__icon:hover {
+    color: red;
+  }
+
+  .watchlist__options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 25%;
+    margin-right: 5%;
+  }
+
+  .watchlist__icon.flipped {
+    transform: rotate(180deg);
+  }
+
+  .watchlist__options__otherOptions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    width: 35%;
+  }
+
+  .watchlist__options__otherOptions:hover {
+    background-color:  #e7e5e5;
+  }
+
+  .watchlist-dropdown {
+    position: absolute;
+  }
+
+  .watchlist-dropdown {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 10px;
+    margin: 0;
+    list-style: none;
+  }
+
+  .watchlist-dropdown.hidden {
+    display: none;
+  }
+
+  .watchlist-dropdown li {
+    margin: 5px 0;
+  }
+
+  .watchlist-dropdown button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  .watchlist-dropdown button:hover {
+    color: #0073e6;
+  }
+  .watchlist__header_icon {
+    width: 20px;
+    background-color: var(--a__gray3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+    width: 30px;
+    border-radius: 5px;
+    margin-right: 5px;
+  }

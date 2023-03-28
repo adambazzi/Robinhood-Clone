@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import { ModalProvider, Modal } from "./context/Modal";
+import WatchlistFormProvider from "./context/WatchlistContext"
 import configureStore from "./store";
 import * as sessionActions from "./store/session";
 import App from "./App";
@@ -23,12 +24,14 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
 	return (
 		<ModalProvider>
-			<Provider store={store}>
-				<BrowserRouter>
-					<App />
-					<Modal />
-				</BrowserRouter>
-			</Provider>
+			<WatchlistFormProvider>
+				<Provider store={store}>
+					<BrowserRouter>
+						<App />
+						<Modal />
+					</BrowserRouter>
+				</Provider>
+			</WatchlistFormProvider>
 		</ModalProvider>
 	);
 }

@@ -36,7 +36,7 @@ const BuySellForm = () => {
 
     useEffect(() => {
       if (portfolio.id) {
-        dispatch(getInvestments(ticker, portfolio.id));
+        dispatch(getInvestments(portfolio.id));
       }
     }, [dispatch, portfolio.id, ticker]);
 

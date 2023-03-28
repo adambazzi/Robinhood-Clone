@@ -58,6 +58,7 @@ export const getWatchlists = () => async dispatch => {
 }
 
 const initialState = {
+
 }
 
 const watchlistsReducer = (state = initialState, action) => {

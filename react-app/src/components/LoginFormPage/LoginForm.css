@@ -5,6 +5,7 @@
     flex-grow: 1;
     height: 100vh;
     width: 100%;
+    overflow: hidden;
   }
 
   .login__imageContainer {
@@ -134,4 +135,8 @@
     background-color: gray;
     height: 1%;
     margin: 20px 0;
+   }
+
+   .login-form__errors {
+    color: red;
    }

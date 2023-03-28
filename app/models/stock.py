@@ -32,6 +32,5 @@ class Stock(db.Model):
         return {
             'id': self.ticker,
             'orgName': self.org_name,
-            'watchlists': [watchlist.to_dict() for watchlist in self.watchlist_stocks],
             'createdAt': self.created_at
         }

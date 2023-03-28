@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './LoginForm.css';
 
 function LoginFormPage() {
@@ -19,18 +20,22 @@ function LoginFormPage() {
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
+    } else {
+      history.push('/')
+
     }
-    history.push('/')
   };
 
   const loginDemoUser = async (e) => {
     e.preventDefault();
-    
+
     const data = await dispatch(login('demo@aa.io', 'password'));
     if (data) {
       setErrors(data);
+    } else {
+      history.push('/')
+
     }
-    history.push('/')
   };
 
   return (
@@ -40,11 +45,8 @@ function LoginFormPage() {
       </div>
       <form className="login-form" onSubmit={handleSubmit}>
         <h1 className="login-form__title">Log in to Arrow</h1>
-        <ul className="login-form__error-list">
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
+
+        <div className="login-form__errors">{errors.length ? 'Unable to login with provided credentials' : ''}</div>
         <label className="login-form__label">
           <div>Email</div>
           <input
@@ -71,6 +73,7 @@ function LoginFormPage() {
             <hr className="login-form__button_or_line"/><div>   or   </div><hr className="login-form__button_or_line"/>
           </div>
           <button className="login-form__button__demoUser" onClick={loginDemoUser}>Log in as demo user</button>
+          <div>Not on Arrow? <NavLink to='/signup'>Create an account</NavLink></div>
         </div>
       </form>
 
