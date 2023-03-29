@@ -10,8 +10,8 @@ def seed_watchlist_stocks():
 
     watchlist_stock_data = [
         {'watchlist_id': 1, 'ticker': 'TSLA'},
-        {'watchlist_id': 1, 'ticker': 'GM'},
-        {'watchlist_id': 1, 'ticker': 'DOW'}
+        {'watchlist_id': 1, 'ticker': 'META'},
+        {'watchlist_id': 1, 'ticker': 'VRTX'}
     ]
 
     for data in watchlist_stock_data:
