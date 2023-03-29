@@ -75,11 +75,16 @@ const investmentsReducer = (state = initialState, action) => {
                     ...action.payload
                 }
             }
-        case LOAD_INVESTMENTS:
-            return {
-                ...state,
-                ...action.payload
-            }
+            case LOAD_INVESTMENTS:
+                return {
+                    ...action.payload.reduce(
+                        (investments, investment) => ({
+                            ...investments,
+                            [investment.id]: investment
+                        }),
+                        {}
+                    )
+                }
         default:
             return state;
     }

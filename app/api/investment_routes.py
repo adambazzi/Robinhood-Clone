@@ -19,8 +19,7 @@ def create_investment():
     new_investment = Investment(
         portfolio_id=data.get('portfolioId'),
         stock_id=data.get('stockId'),
-        num_shares=data.get('numShares'),
-        total_value=data.get('totalValue')
+        num_shares=data.get('numShares')
     )
 
     db.session.add(new_investment)
@@ -47,7 +46,6 @@ def edit_investment(investmentId):
 
     # Update the investment with new data
     investment.num_shares = data.get('numShares')
-    investment.total_value = data.get('totalValue')
     investment.stock_id = data.get('stockId')
     investment.portfolio_id = data.get('portfolioId')
 

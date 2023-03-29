@@ -1,106 +1,123 @@
 
-
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createInvestment, editInvestment, getInvestments } from '../../store/investments';
 import { getPortfolio, editPortfolio } from '../../store/portfolio';
 import { createTransaction } from '../../store/transactions';
-import { fetchClosingCost } from './FetchStockData'
-import './BuySellForm.css'
+import { fetchClosingCost } from './FetchStockData';
+import './BuySellForm.css';
 
 const BuySellForm = () => {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    // The 'buyingOption' dropdown allows the user to choose whether they want to buy in USD or shares.
-    const [buyingOption, setBuyingOption] = useState(true)
-    // The 'buy' option determines if the user is buying or selling shares
-    const [buy, setBuy] = useState(true)
-    const [amount, setAmount] = useState(0)
-    let { ticker } = useParams()
-    ticker = ticker.toUpperCase()
+  const dispatch = useDispatch();
+  const history = useHistory();
+  // The 'buyingOption' dropdown allows the user to choose whether they want to buy in USD or shares.
+  const [buyingOption, setBuyingOption] = useState(true);
+  // The 'buy' option determines if the user is buying or selling shares
+  const [buy, setBuy] = useState(true);
+  const [amount, setAmount] = useState(0);
+  const [stockData, setStockData] = useState(0)
+  let { ticker } = useParams();
+  ticker = ticker.toUpperCase();
+  const [validationErrors, setValidationErrors] = useState({
+    buyPowerInsufficient: '',
+    unableToSell: '',
+    inputCannotBeNegative: ''
+  });
 
+  const user = useSelector(state => state.session.user);
+  const investments = useSelector(state => state.investments);
+  const portfolio = useSelector(state => state.portfolio);
 
-    const [validationErrors, setValidationErrors] = useState({
-        buyPowerInsufficient: '',
-        unableToSell: '',
-        inputCannotBeNegative: ''
-    })
-    const user = useSelector(state => state.session.user)
-    const investments = useSelector(state => state.investments)
-    const portfolio = useSelector(state => state.portfolio)
+  // Fetch portfolio data when the component mounts
+  useEffect(() => {
+    dispatch(getPortfolio(user.id));
+  }, [dispatch, user.id]);
 
-    useEffect(() => {
-      dispatch(getPortfolio(user.id));
-    }, [dispatch, user.id]);
+  // Fetch investment data when the portfolio data is loaded or the ticker changes
+  useEffect(() => {
+    if (portfolio.id) {
+      dispatch(getInvestments(portfolio.id));
+    }
+  }, [dispatch, portfolio.id]);
 
-    useEffect(() => {
+  // Fetch investment data and stock data when the portfolio data or ticker changes
+  useEffect(() => {
+    const fetchInvestmentData = async () => {
       if (portfolio.id) {
         dispatch(getInvestments(portfolio.id));
       }
-    }, [dispatch, portfolio.id, ticker]);
-
-    let foundInvestment;
-    for (let key in investments) {
-      if (investments[key].stock_id === ticker) {
-        foundInvestment = investments[key];
-        break;
-      }
+    }
+    const fetchStockData = async () => {
+      let value = await fetchClosingCost(ticker);
+      setStockData(value);
     }
 
-    const handleSubmit = async (e) => {
-        // Prevent the default form submission behavior
-        e.preventDefault();
+    Promise.all([fetchInvestmentData(), fetchStockData()])
+      .catch(error => console.error(error));
+  }, [dispatch, portfolio.id, ticker]);
 
-        // Retrieve stock data using the ticker symbol
-        const stockData = await fetchClosingCost(ticker);
+  // Find the investment for the current ticker, if it exists
+  let foundInvestment;
+  for (let key in investments) {
+    if (investments[key].stock_id === ticker) {
+      foundInvestment = investments[key];
+      break;
+    }
+  }
 
-        // Calculate the number of shares, total expense, and average price based on the user's inputs and stock data
-        const numAmount = Number(amount)
-        const numShares = buyingOption === false ? numAmount : numAmount / stockData;
-        const totalExpense = buy ? stockData * numShares : -stockData * numShares;
-        const averagePrice = stockData;
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
 
-        // Construct the payload object for the request
-        const payload = {
-          transaction: {
-            portfolioId: portfolio.id,
-            stockId: ticker,
-            numShares: numShares,
-            averagePrice: averagePrice,
-            totalExpense: totalExpense,
-          },
-          investment: {
-            portfolioId: portfolio.id,
-            stockId: ticker,
-            numShares: buy
-            ? (foundInvestment
-              ? foundInvestment.num_shares + numShares
-              : numShares)
-            : (foundInvestment
-              ? foundInvestment.num_shares - numShares
-              : numShares),
-              totalValue: foundInvestment ? foundInvestment.total_value + totalExpense : totalExpense,
-          },
-          portfolio: {
-            userId: user.id,
-            buyingPower: portfolio.buying_power - totalExpense
-          },
-        };
+    // Calculate the number of shares, total expense, and average price based on the user's inputs and stock data
+    const numAmount = Number(amount)
+    const numShares = buyingOption === false ? numAmount : numAmount / stockData;
+    const totalExpense = buy ? stockData * numShares : -stockData * numShares;
+    const averagePrice = stockData;
 
-        // Perform validation checks on the payload data
-        const errors = {};
-        if (payload.transaction.totalExpense > portfolio.buying_power && buy === true) {
-            errors.buyPowerInsufficient = "Buy power insufficient";
-        }
-        if (buy === true && payload.transaction.totalExpense <= 0) {
-            errors.inputCannotBeNegative = "Input cannot be negative or 0";
-        }
+    // Construct the payload object for the request
+    const payload = {
+      transaction: {
+        portfolioId: portfolio.id,
+        stockId: ticker,
+        numShares: numShares,
+        averagePrice: averagePrice,
+        totalExpense: totalExpense,
+      },
+      investment: {
+        portfolioId: portfolio.id,
+        stockId: ticker,
+        numShares: buy
+          ? (foundInvestment
+            ? foundInvestment.num_shares + numShares
+            : numShares)
+          : (foundInvestment
+            ? foundInvestment.num_shares - numShares
+            : numShares),
+        // totalValue: foundInvestment ? foundInvestment.total_value + totalExpense : totalExpense,
+      },
+      portfolio: {
+        userId: user.id,
+        buyingPower: portfolio.buying_power - totalExpense
+      },
+    };
+
+    // Perform validation checks on the payload data
+    const errors = {};
+    if (payload.transaction.totalExpense > portfolio.buying_power && buy === true) {
+      errors.buyPowerInsufficient = "Buy power insufficient";
+    }
+    if (buy === true && payload.transaction.totalExpense <= 0) {
+      errors.inputCannotBeNegative = "Input cannot be negative or 0";
+    }
+
+
         if (buy === false && payload.transaction.totalExpense >= 0) {
             errors.inputCannotBeNegative = "Input cannot be negative or 0";
         }
-        if (payload.investment.totalValue < 0) {
+        if (payload.investment.numShares < 0) {
             errors.unableToSell = "Unable to sell, insufficient funds";
         }
 
@@ -142,7 +159,7 @@ const BuySellForm = () => {
             <div className='buy-sell-buttons-container'>
               <div className='buy-sell-buttons'>
                 <button className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
-                <button className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>
+                {foundInvestment && <button className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
               </div>
             </div>
             <div className='buySell__entryContainer'>
@@ -168,7 +185,7 @@ const BuySellForm = () => {
             </div>
             <button type="submit" className='submit-button'>Review order</button>
             <div className='buySell__buyingPower'>
-              {buy ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : `$${Number(foundInvestment.total_value).toFixed(2)} available`}
+              {buy ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : (buyingOption ? `$${Number(foundInvestment.num_shares * stockData).toFixed(2)} available` : `${foundInvestment.num_shares.toFixed(2)} shares available`)}
             </div>
           </form>
         </div>

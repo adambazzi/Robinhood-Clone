@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import { ModalProvider, Modal } from "./context/Modal";
 import WatchlistFormProvider from "./context/WatchlistContext"
+import StockProvider from "./context/StockContext";
 import configureStore from "./store";
 import * as sessionActions from "./store/session";
 import App from "./App";
@@ -25,12 +26,14 @@ function Root() {
 	return (
 		<ModalProvider>
 			<WatchlistFormProvider>
-				<Provider store={store}>
-					<BrowserRouter>
-						<App />
-						<Modal />
-					</BrowserRouter>
-				</Provider>
+				<StockProvider>
+					<Provider store={store}>
+						<BrowserRouter>
+							<App />
+							<Modal />
+						</BrowserRouter>
+					</Provider>
+				</StockProvider>
 			</WatchlistFormProvider>
 		</ModalProvider>
 	);

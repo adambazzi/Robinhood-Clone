@@ -46,3 +46,47 @@ def create_watchlist():
 
     # Return newly created watchlist
     return jsonify(new_watchlist.to_dict()), 201
+
+@watchlist_routes.route('/<int:watchlistId>', methods=['PUT'])
+def edit_watchlist(watchlistId):
+    """
+    Edit watchlist
+    """
+
+    # Parse request data
+    data = request.get_json()
+
+    # Query for the portfolio to be updated
+    watchlist = Watchlist.query.get(watchlistId)
+
+    # Check if the portfolio exists
+    if not watchlist:
+        return jsonify({'message': 'Watchlist not found'}), 404
+
+    # Update the portfolio with new data
+    watchlist.name = data.get('name')
+
+    db.session.commit()
+
+    # Return updated portfolio
+    return jsonify(watchlist.to_dict())
+
+@watchlist_routes.route('/<int:watchlistId>', methods=['DELETE'])
+def deleteWatchlist(watchlistId):
+    """
+    Delete a watchlist by ID
+    """
+    # Query for the watchlist to be deleted
+    watchlist = Watchlist.query.get(watchlistId)
+
+    # Check if the watchlist exists
+    if not watchlist:
+        # Return a 404 error if the watchlist does not exist
+        return jsonify({'message': 'Watchlist not found'}), 404
+
+    # Delete the watchlist from the database
+    db.session.delete(watchlist)
+    db.session.commit()
+
+    # Return a JSON response with the deleted watchlist data
+    return jsonify(watchlist.to_dict())

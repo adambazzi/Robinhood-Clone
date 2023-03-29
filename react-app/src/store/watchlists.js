@@ -1,6 +1,7 @@
 const ADD_WATCHLIST = 'watchlists/ADD_WATCHLIST'
 const EDIT_WATCHLIST = 'watchlists/EDIT_WATCHLIST'
 const LOAD_WATCHLISTS = 'watchlists/LOAD_WATCHLISTS'
+const REMOVE_WATCHLIST = 'watchlists/REMOVE_WATCHLIST'
 
 // action creators
 const addWatchlist = payload => ({
@@ -15,6 +16,11 @@ const reviseWatchlist = payload => ({
 
 const loadWatchlists = payload => ({
     type: LOAD_WATCHLISTS,
+    payload
+})
+
+const removeWatchlist = payload => ({
+    type: REMOVE_WATCHLIST,
     payload
 })
 
@@ -57,6 +63,19 @@ export const getWatchlists = () => async dispatch => {
     }
 }
 
+export const deleteWatchlist = (watchlistId) => async dispatch => {
+    const response = await fetch(`/api/watchlists/${watchlistId}`, {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    if (response.ok) {
+      dispatch(removeWatchlist(watchlistId))
+    }
+}
+
+
 const initialState = {
 
 }
@@ -86,6 +105,10 @@ const watchlistsReducer = (state = initialState, action) => {
                     {}
                 )
             }
+        case REMOVE_WATCHLIST:
+            const newState = { ...state };
+            delete newState[action.payload];
+            return newState;
         default:
             return state;
     }

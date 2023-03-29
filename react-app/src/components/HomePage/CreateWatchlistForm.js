@@ -35,14 +35,14 @@ function CreateWatchlistForm() {
 
 
     return (
-      <form onSubmit={handleSubmit} class="create-watchlist-form">
-        <div class="form-input-group">
-          <div class="form-input-icon"><FontAwesomeIcon icon={faBolt} /></div>
-          <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder='List Name' class="form-input"/>
+      <form onSubmit={handleSubmit} className="create-watchlist-form">
+        <div className="form-input-group">
+          <div className="form-input-icon"><FontAwesomeIcon icon={faBolt} /></div>
+          <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder='List Name' className="form-input"/>
         </div>
-        <div class="form-button-group">
-          <button onClick={() => setWatchlistFormState(false)} class="cancel-button">Cancel</button>
-          <button type="submit" class="create-button">Create List</button>
+        <div className="form-button-group">
+          <button onClick={() => setWatchlistFormState(false)} className="cancel-button">Cancel</button>
+          <button type="submit" className="create-button">Create List</button>
         </div>
       </form>
     )

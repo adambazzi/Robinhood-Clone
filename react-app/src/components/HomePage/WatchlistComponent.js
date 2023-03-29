@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import StockComponent from "./StockComponent";
 import { fetchStockData } from "../SingleStockPage/FetchStockData";
+import EditWatchlistModel from "./EditWatchlistModel";
+import DeleteWatchlistModel from "./DeleteWatchlistModel";
+import OpenModalButton from "../OpenModalButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +17,7 @@ function WatchListComponent({ watchlist }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   // State variables for showing and hiding the dropdown menu
+
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -48,6 +52,21 @@ function WatchListComponent({ watchlist }) {
     fetchStocks();
   }, [watchlist.stocks]);
 
+  useEffect(() => {
+    if (!showMenu) return;
+
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("click", closeMenu);
+
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
+
+
   // Define the class name of the dropdown menu based on the state variable
   const ulClassName = "watchlist-dropdown" + (showMenu ? "" : " hidden");
 
@@ -56,6 +75,8 @@ function WatchListComponent({ watchlist }) {
     setIsVisible(!isVisible);
     setIsFlipped(!isFlipped);
   };
+
+  const closeMenu = () => setShowMenu(false);
 
   return (
     <div className="watchlist__component">
@@ -69,8 +90,20 @@ function WatchListComponent({ watchlist }) {
           </div>
           {/* The dropdown menu */}
           <ul className={ulClassName} ref={ulRef}>
-            <li><button>Edit</button></li>
-            <li><button>Delete</button></li>
+            <li>
+              <OpenModalButton
+                buttonText="Edit"
+                onItemClick={closeMenu}
+                modalComponent={<EditWatchlistModel watchlistId={watchlist.id} />}
+                />
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText="Delete"
+                onItemClick={closeMenu}
+                modalComponent={<DeleteWatchlistModel watchlistId={watchlist.id} watchlistName={watchlist.name} />}
+                />
+            </li>
           </ul>
           {/* The icon for showing and hiding the stock data */}
           <div

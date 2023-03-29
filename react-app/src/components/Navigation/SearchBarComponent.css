@@ -1,0 +1,26 @@
+.searchBar__component-container {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    justify-content: space-between;
+    height: 50px;
+    text-decoration: none;
+    border: none;
+}
+
+.searchBar__component-name {
+    font-size: 13px;
+    color: #333;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.searchBar__component-container:hover {
+    background-color: var(--a__gray3);
+}

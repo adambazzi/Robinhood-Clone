@@ -1,5 +1,6 @@
 from app import db
 from app.models import Watchlist, SCHEMA, environment
+from sqlalchemy.sql import text
 
 # Seed the database with 2 watchlists for user1
 def seed_watchlists():

@@ -12,7 +12,6 @@ class Investment(db.Model):
     portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
     stock_id = db.Column(db.String, db.ForeignKey(add_prefix_for_prod('stocks.ticker')), nullable=False)
     num_shares = db.Column(db.Integer, nullable=False)
-    total_value = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime,
@@ -41,7 +40,6 @@ class Investment(db.Model):
             'portfolio_id': self.portfolio_id,
             'stock_id': self.stock_id,
             'num_shares': self.num_shares,
-            'total_value': self.total_value,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

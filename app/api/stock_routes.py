@@ -1,24 +1,29 @@
 from flask import Blueprint, jsonify, request, redirect
-from app.models import Stock, Transaction, Portfolio, Investment, User, db
+from app.models import Stock, db
 from flask_login import login_required, current_user
 
 stock_routes = Blueprint('stocks', __name__)
 
-@stock_routes.route('/')
-def get_all_stocks():
+@stock_routes.route('/', methods=['GET'])
+@login_required
+def get_filtered_stocks():
     """
-    Get all stocks
+    Get filtered stocks based on user input
     """
 
-    # Query for all stocks
-    all_stocks = Stock.query.all()
+    # Get user input from query parameter
+    entry = request.args.get('entry')
 
-    # Convert stocks to list of dictionaries
-    stocks_dict = [stock.to_dict() for stock in all_stocks]
+    # Query for all stocks matching the user input
+    matching_stocks = Stock.query.filter(Stock.org_name.like(f"%{entry}%")).all()
 
-    return jsonify(stocks_dict)
+    # Convert matching stocks to list of dictionaries
+    matching_stocks_dict = [stock.to_dict() for stock in matching_stocks]
+
+    return jsonify(matching_stocks_dict)
 
 @stock_routes.route('/<string:ticker>')
+@login_required
 def get_single_stock(ticker):
     """
     Get single stock

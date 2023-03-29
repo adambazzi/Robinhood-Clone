@@ -1,5 +1,6 @@
 from app import db
 from app.models import Portfolio, SCHEMA, environment
+from sqlalchemy.sql import text
 
 # Seed the database with 4 stocks
 def seed_portfolios():

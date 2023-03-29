@@ -2,6 +2,7 @@ from app import db
 from app.models import SCHEMA, environment
 from app.models.watchlist_stock import watchlist_stocks
 from sqlalchemy import insert
+from sqlalchemy.sql import text
 
 # Seed the database with 3 stocks for user1
 def seed_watchlist_stocks():
