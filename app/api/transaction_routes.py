@@ -5,7 +5,8 @@ from sqlalchemy import func
 
 transaction_routes = Blueprint('transactions', __name__)
 
-@transaction_routes.route('/', methods=['POST'])
+@transaction_routes.route('', methods=['POST'])
+@login_required
 def create_transaction():
     """
     Create transaction (buy or sell stock)

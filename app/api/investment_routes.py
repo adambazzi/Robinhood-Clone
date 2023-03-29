@@ -77,3 +77,23 @@ def get_investments():
 
     # Return the investments
     return jsonify(investments_dict)
+
+@investment_routes.route('/<int:investmentId>', methods=['DELETE'])
+def deleteinvestment(investmentId):
+    """
+    Delete a investment by ID
+    """
+    # Query for the investment to be deleted
+    investment = Investment.query.get(investmentId)
+
+    # Check if the investment exists
+    if not investment:
+        # Return a 404 error if the investment does not exist
+        return jsonify({'message': 'Investment not found'}), 404
+
+    # Delete the investment from the database
+    db.session.delete(investment)
+    db.session.commit()
+
+    # Return a JSON response with the deleted investment data
+    return jsonify(investment.to_dict())

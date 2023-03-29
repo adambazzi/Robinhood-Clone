@@ -23,12 +23,6 @@ class Transaction(db.Model):
     stock = db.relationship('Stock', back_populates='transactions')
 
 
-    # Validations
-    @validates('average_price', 'total_expense', 'num_shares')
-    def validate_integer_value(self, key, value):
-        if value <= 0:
-            raise ValueError(f'{key} must be a non-negative integer.')
-        return value
 
     def to_dict(self):
         return {
