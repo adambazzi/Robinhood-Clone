@@ -1,17 +1,20 @@
-#spot-form-section {
+.stock-form-section {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 100vh;
+  margin: 0 0 0 30%;
+  padding: 0px;
+  width: fit-content;
 }
 
-#spot-form-container {
+.stock-form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
+  width: 320px;
   height: auto;
-  padding: 20px;
+  padding: 0;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -33,7 +36,7 @@
 }
 
 .buy-button, .sell-button {
-  padding: 10px 20px;
+  padding: 20px 20px;
   font-size: 16px;
   border: none;
   background-color: transparent;
@@ -50,29 +53,37 @@
   width: 100%;
   margin-bottom: 20px;
   font-size: 16px;
+
+}
+
+.buySell__entryContainer div {
+  padding: 0 20px;
 }
 
 .buy-option-label, .amount-label {
   width: 40%;
   display: flex;
   align-items: center;
+  padding: 0 20px;
 }
 
 .buying-option {
-  width: 60%;
+  width: 50%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  margin-right: 20px;
 }
 
 .amount-input {
-  width: 60%;
+  width: 50%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  margin-right: 20px;
 }
 
 .submit-button {
@@ -98,4 +109,14 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  padding-bottom: 20px;
+}
+
+.buySell__marketPrice {
+  padding-top: 20px;
+  border-bottom: rgb(193, 191, 191) solid 1px;
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
 }

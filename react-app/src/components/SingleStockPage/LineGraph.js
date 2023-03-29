@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
-import { fetchStockChartData, fetchStockDetails } from './FetchStockData';
+import { fetchStockChartData } from '../../Utils';
+import AboutComponent from './AboutComponent';
 import './LineGraph.css';
 
-function LineGraph() {
+function LineGraph({details}) {
   // State for storing chart data, range, stock details
   const [chartData, setChartData] = useState(null);
   const [range, setRange] = useState(90);
-  const [details, setDetails] = useState(null);
+
 
   // Get the stock ticker from the URL params
   const { ticker } = useParams();
 
   // Fetch stock details such as company name
-  useEffect(() => {
-    async function fetchChartDetails() {
-      const incomingDetails = await fetchStockDetails(ticker.toUpperCase());
-      setDetails(incomingDetails);
-    }
-    fetchChartDetails();
-  }, [ticker]);
+
 
   // Fetch stock data from polygon for graph
   useEffect(() => {
@@ -81,17 +76,18 @@ function LineGraph() {
 
 
   return (
-    <section className="stock__chart">
-      {/* Display the company name if it has been fetched */}
-      <h3>{details && details.name}</h3>
-      <div className="chart__container">
-        {/* Display the chart if data has been fetched */}
-        {chartData && (
-          <Line
-            data={chartData}
-            options={options}
-          />
-        )}
+      <section className="stock__chart">
+        {/* Display the company name if it has been fetched */}
+        <h3>{details && details.name}</h3>
+        <div className="chart__container">
+          {/* Display the chart if data has been fetched */}
+          {chartData && (
+            <Line
+              data={chartData}
+              options={options}
+            />
+          )}
+        </div>
         <nav className="chart-nav">
           {/* Display buttons to change the range of data */}
           <ul>
@@ -103,8 +99,7 @@ function LineGraph() {
             <li><button className="chart-nav__button" onClick={() => setRange(365*5)}>5Y</button></li>
           </ul>
         </nav>
-      </div>
-    </section>
+      </section>
   );
 
 }

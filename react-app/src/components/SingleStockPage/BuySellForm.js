@@ -153,8 +153,8 @@ const BuySellForm = () => {
 
 
   return (
-      <section id='spot-form-section' className='spot-form-section'>
-        <div id='spot-form-container' className='spot-form-container'>
+      <section className='stock-form-section'>
+        <div className='stock-form-container'>
           <form className='stock__buyForm' onSubmit={handleSubmit}>
             <div className='buy-sell-buttons-container'>
               <div className='buy-sell-buttons'>
@@ -181,11 +181,18 @@ const BuySellForm = () => {
                   className='amount-input'
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
+                  min="0"
                 />
+            </div>
+            <div className='buySell__marketPrice'>
+              <div style={{"color": "var(--a__primary-green)"}}>Market Price</div><div>${stockData && stockData}</div>
+            </div>
+            <div>
+              {/* Total Cost {buyingOption ? 'Total Cost ' + } */}
             </div>
             <button type="submit" className='submit-button'>Review order</button>
             <div className='buySell__buyingPower'>
-              {buy ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : (buyingOption ? `$${Number(foundInvestment.num_shares * stockData).toFixed(2)} available` : `${foundInvestment.num_shares.toFixed(2)} shares available`)}
+              {buy ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : (buyingOption ? `$${Number(foundInvestment.num_shares * stockData).toFixed(2)} availableⓘ` : `${foundInvestment.num_shares.toFixed(2)} shares availableⓘ`)}
             </div>
           </form>
         </div>

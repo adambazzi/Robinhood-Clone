@@ -43,3 +43,12 @@ export const fetchStockData = async (ticker) => {
 
     return data.results;
 }
+
+export const fetchTickerNews = async (ticker) => {
+    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+    const url = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&order=asc&limit=10&sort=published_utc&apiKey=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data.results;
+}

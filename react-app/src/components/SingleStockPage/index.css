@@ -1,13 +1,18 @@
 
-.chart__master {
-    width: 100%;
+.singleStockPage-upper {
+    margin: 50px 15%; /* adjust the margin as needed */
     display: flex;
-    justify-content: flex-end;
-    margin: 0;
+    height: 500px;
 }
 
 .buySell__master {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    margin: 20px 0; /* adjust the margin as needed */
+    position: fixed;
+    left: 750px;
+
+}
+
+.singleStockPage-middle {
+    margin: 0 15%;
 }
