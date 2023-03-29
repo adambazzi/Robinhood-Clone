@@ -6,7 +6,7 @@ export default function AboutComponent ({details}) {
 
     const numberWithCommas = (x) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      }
+    }
 
     if (!details) return null
 

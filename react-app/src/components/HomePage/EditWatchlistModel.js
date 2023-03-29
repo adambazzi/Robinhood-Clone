@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editWatchlist } from "../../store/watchlists";
 import { useModal } from "../../context/Modal";
-import './index.css'
+import './EditWatchlistModel.css'
 
 function EditWatchlistModel({watchlistId}) {
   const dispatch = useDispatch();
@@ -31,13 +31,25 @@ function EditWatchlistModel({watchlistId}) {
   };
 
   return (
-    <>
-      <h1>Edit List</h1>
-      <form onSubmit={handleSubmit} className='edit-form'>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder='List Name' className="editForm-input"/>
-        <button type="submit" className="edit-button" disabled={disableButton}>Save</button>
-      </form>
-    </>
+  <div className='edit-list'>
+    <h1 className='edit-list__heading'>Edit List</h1>
+    <form onSubmit={handleSubmit} className='edit-list__form'>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder='List Name'
+        className="edit-list__input"
+      />
+      <button
+        type="submit"
+        className="edit-list__button"
+        disabled={disableButton}
+      >
+        Save
+      </button>
+    </form>
+  </div>
   );
 }
 

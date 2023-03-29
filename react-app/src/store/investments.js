@@ -1,6 +1,7 @@
 const ADD_INVESTMENT = 'investments/ADD_INVESTMENT'
 const EDIT_INVESTMENT = 'investments/EDIT_INVESTMENT'
 const LOAD_INVESTMENTS = 'investments/LOAD_INVESTMENTS'
+const REMOVE_INVESTMENT = 'investments/REMOVE_INVESTMENT'
 
 // action creators
 const addInvestment = payload => ({
@@ -15,6 +16,11 @@ const reviseInvestment = payload => ({
 
 const loadInvestments = payload => ({
     type: LOAD_INVESTMENTS,
+    payload
+})
+
+const removeInvestment = payload => ({
+    type: REMOVE_INVESTMENT,
     payload
 })
 
@@ -57,7 +63,20 @@ export const getInvestments = (portfolioId) => async dispatch => {
     }
 }
 
-const initialState = {
+export const deleteInvestment = (investmentId) => async dispatch => {
+    const response = await fetch(`/api/investments/${investmentId}`, {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    if (response.ok) {
+      dispatch(removeInvestment(investmentId))
+    }
+}
+
+let initialState = {
+
 }
 
 const investmentsReducer = (state = initialState, action) => {
@@ -85,6 +104,10 @@ const investmentsReducer = (state = initialState, action) => {
                         {}
                     )
                 }
+            case REMOVE_INVESTMENT:
+                const newState = { ...state };
+                delete newState[action.payload];
+                return newState;
         default:
             return state;
     }

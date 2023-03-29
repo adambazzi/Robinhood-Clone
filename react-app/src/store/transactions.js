@@ -25,7 +25,6 @@ export const createTransaction = data => async dispatch => {
     if (transactionResponse.ok) {
         const payload = await transactionResponse.json();
         dispatch(addTransaction(payload))
-        return payload
     }
 };
 

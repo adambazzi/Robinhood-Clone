@@ -1,16 +1,16 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { createInvestment, editInvestment, getInvestments } from '../../store/investments';
 import { getPortfolio, editPortfolio } from '../../store/portfolio';
 import { createTransaction } from '../../store/transactions';
 import { fetchClosingCost } from './FetchStockData';
+import { deleteInvestment } from '../../store/investments';
 import './BuySellForm.css';
 
 const BuySellForm = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   // The 'buyingOption' dropdown allows the user to choose whether they want to buy in USD or shares.
   const [buyingOption, setBuyingOption] = useState(true);
   // The 'buy' option determines if the user is buying or selling shares
@@ -77,6 +77,7 @@ const BuySellForm = () => {
     const totalExpense = buy ? stockData * numShares : -stockData * numShares;
     const averagePrice = stockData;
 
+
     // Construct the payload object for the request
     const payload = {
       transaction: {
@@ -96,7 +97,6 @@ const BuySellForm = () => {
           : (foundInvestment
             ? foundInvestment.num_shares - numShares
             : numShares),
-        // totalValue: foundInvestment ? foundInvestment.total_value + totalExpense : totalExpense,
       },
       portfolio: {
         userId: user.id,
@@ -113,13 +113,12 @@ const BuySellForm = () => {
       errors.inputCannotBeNegative = "Input cannot be negative or 0";
     }
 
-
-        if (buy === false && payload.transaction.totalExpense >= 0) {
-            errors.inputCannotBeNegative = "Input cannot be negative or 0";
-        }
-        if (payload.investment.numShares < 0) {
-            errors.unableToSell = "Unable to sell, insufficient funds";
-        }
+    if (buy === false && payload.transaction.totalExpense >= 0) {
+        errors.inputCannotBeNegative = "Input cannot be negative or 0";
+    }
+    if (payload.investment.numShares < 0) {
+        errors.unableToSell = "Unable to sell, insufficient funds";
+    }
 
         // If there are no validation errors, dispatch the necessary actions to update the investment, portfolio, and transaction data
         if (!Object.values(errors).length) {
@@ -127,9 +126,14 @@ const BuySellForm = () => {
           const investmentExists = !!foundInvestment;
           let createdTransactionId;
 
+          const verifyInvestmentDelete = Number((payload.investment.numShares * payload.transaction.averagePrice).toFixed(2))
           // Create or edit the investment data
-          if (investmentExists) {
+          if (investmentExists && verifyInvestmentDelete > 0) {
             dispatch(editInvestment(payload.investment, foundInvestment.id));
+          }
+          else if (investmentExists && verifyInvestmentDelete === 0) {
+            setBuy(true)
+            dispatch(deleteInvestment(foundInvestment.id))
           } else {
             dispatch(createInvestment(payload.investment));
           }
@@ -140,9 +144,6 @@ const BuySellForm = () => {
           // Create the transaction data
           let newTransaction = dispatch(createTransaction(payload.transaction));
           createdTransactionId = newTransaction.id;
-
-
-          history.push(`/`)
         } else {
           // If there are validation errors, set the validationErrors state to the error messages
           setValidationErrors(errors);
@@ -158,8 +159,8 @@ const BuySellForm = () => {
           <form className='stock__buyForm' onSubmit={handleSubmit}>
             <div className='buy-sell-buttons-container'>
               <div className='buy-sell-buttons'>
-                <button className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
-                {foundInvestment && <button className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
+                <button type="button" className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
+                {foundInvestment && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
               </div>
             </div>
             <div className='buySell__entryContainer'>
@@ -177,7 +178,7 @@ const BuySellForm = () => {
               <label className='amount-label'>Amount</label>
                 <input
                   id="amount"
-                  type="number"
+                  type="decimal"
                   className='amount-input'
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}

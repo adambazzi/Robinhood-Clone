@@ -8,7 +8,9 @@
     font-size: 13px;
     align-items: center;
 }
-
+.stock__component:hover {
+    background-color: var(--a__gray3);
+}
 .stock__graph {
     height: 70%;
     width: 20%;
