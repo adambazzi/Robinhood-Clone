@@ -39,6 +39,7 @@ function HomePage() {
     fetchStocks();
   }, [fetchStocks]);
 
+
   return (
     <section className="homePage__main">
       <div className="homePage_portfolio"></div>
@@ -59,7 +60,7 @@ function HomePage() {
             </button>
           </div>
           {watchlistFormState && <CreateWatchlistForm />}
-          {Object.values(watchlists).map((watchlist) => (
+          {Object.values(watchlists).length && Object.values(watchlists).map((watchlist) => (
             <WatchListComponent key={watchlist.id} watchlist={watchlist} />
           ))}
         </div>
