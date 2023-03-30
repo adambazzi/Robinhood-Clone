@@ -183,7 +183,7 @@ const BuySellForm = () => {
             <div className='buy-sell-buttons-container'>
               <div className='buy-sell-buttons'>
                 <button type="button" className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
-                {Object.values(foundInvestment).length && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
+                {foundInvestment && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
               </div>
             </div>
             <div className='buySell__entryContainer'>

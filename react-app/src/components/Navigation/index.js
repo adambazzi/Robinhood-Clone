@@ -83,8 +83,8 @@ function Navigation() {
       <div className="navbar__menuItems">
         <a href="/">Investing</a>
         <a href="/">PortFolio</a>
-        <a href="/">LinkedIn</a>
-        <a href="/">Github</a>
+        <a href="https://www.linkedin.com/in/adam-bazzi/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/adambazzi" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="/">Notifications</a>
         <ul className="navbar__account">
           <li>
