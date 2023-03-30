@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import { fetchStockChartData } from '../../Utils';
-import AboutComponent from './AboutComponent';
 import './LineGraph.css';
 
 function LineGraph({details}) {
