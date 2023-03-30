@@ -88,7 +88,9 @@ function Navigation() {
         <a href="/">Notifications</a>
         <ul className="navbar__account">
           <li>
-            <ProfileButton user={sessionUser} />
+            <ProfileButton
+            user={sessionUser}
+            />
           </li>
         </ul>
       </div>

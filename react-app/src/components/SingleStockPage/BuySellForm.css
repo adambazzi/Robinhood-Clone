@@ -4,9 +4,10 @@
   align-items: center;
   flex-direction: column;
   height: 100vh;
-  margin: 0 0 0 30%;
+  margin: 0;
   padding: 0px;
   width: fit-content;
+  height: fit-content;
 }
 
 .stock-form-container {

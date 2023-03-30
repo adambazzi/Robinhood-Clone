@@ -39,7 +39,7 @@ const BuySellForm = () => {
   // Fetch investment data when the portfolio data is loaded or the ticker changes
   useEffect(() => {
     if (portfolio.id) {
-      dispatch(getInvestments(portfolio.id));
+      dispatch(getInvestments(Number(portfolio.id)));
     }
   }, [dispatch, portfolio.id]);
 
@@ -47,7 +47,7 @@ const BuySellForm = () => {
   useEffect(() => {
     const fetchInvestmentData = async () => {
       if (portfolio.id) {
-        dispatch(getInvestments(portfolio.id));
+        dispatch(getInvestments(Number(portfolio.id)));
       }
     }
     const fetchStockData = async () => {
@@ -94,10 +94,10 @@ const BuySellForm = () => {
         stockId: ticker,
         numShares: buy
           ? (foundInvestment
-            ? foundInvestment.num_shares + numShares
+            ? Number(foundInvestment.num_shares) + numShares
             : numShares)
           : (foundInvestment
-            ? foundInvestment.num_shares - numShares
+            ? Number(foundInvestment.num_shares) - numShares
             : numShares),
       },
       portfolio: {
