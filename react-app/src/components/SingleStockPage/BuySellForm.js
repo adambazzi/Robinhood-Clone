@@ -33,7 +33,7 @@ const BuySellForm = () => {
 
   // Fetch portfolio data when the component mounts
   useEffect(() => {
-    dispatch(getPortfolio(user.id));
+    dispatch(getPortfolio(Number(user.id)));
   }, [dispatch, user.id]);
 
   // Fetch investment data when the portfolio data is loaded or the ticker changes
@@ -52,7 +52,7 @@ const BuySellForm = () => {
     }
     const fetchStockData = async () => {
       let value = await fetchClosingCost(ticker);
-      setStockData(value);
+      setStockData(Number(value));
     }
 
     Promise.all([fetchInvestmentData(), fetchStockData()])
@@ -62,8 +62,8 @@ const BuySellForm = () => {
   // Find the investment for the current ticker, if it exists
   let foundInvestment;
   for (let key in investments) {
-    if (investments[key].stock_id === ticker) {
-      foundInvestment = investments[key];
+    if (investments[Number(key)].stock_id === ticker) {
+      foundInvestment = investments[Number(key)];
       break;
     }
   }

@@ -4,16 +4,19 @@ import { editWatchlist } from "../../store/watchlists";
 import { useModal } from "../../context/Modal";
 import './EditWatchlistModel.css'
 
-function EditWatchlistModel({watchlistId}) {
+function EditWatchlistModel({watchlistId, watchlist}) {
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
+  const [name, setName] = useState(watchlist.name);
   const [validationErrors, setValidationErrors] = useState({});
   const { closeModal } = useModal();
-  const [disableButton, setDisableButton] = useState(true)
+  const [disableButton, setDisableButton] = useState(false)
 
   useEffect(() => {
-    if (name.length < 1)  setDisableButton(false)
+    if (name.length < 1 || name.length > 20)  setDisableButton(true)
   }, [name])
+
+
+
 
 
   const handleSubmit = async (e) => {
@@ -40,6 +43,7 @@ function EditWatchlistModel({watchlistId}) {
         onChange={(e) => setName(e.target.value)}
         placeholder='List Name'
         className="edit-list__input"
+        maxLength={20}
       />
       <button
         type="submit"

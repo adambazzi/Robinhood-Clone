@@ -94,7 +94,7 @@ function WatchListComponent({ watchlist }) {
               <OpenModalButton
                 buttonText="Edit"
                 onItemClick={closeMenu}
-                modalComponent={<EditWatchlistModel watchlistId={watchlist.id} />}
+                modalComponent={<EditWatchlistModel watchlistId={watchlist.id} watchlist={watchlist} />}
                 />
             </li>
             <li>
