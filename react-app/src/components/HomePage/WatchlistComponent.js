@@ -115,7 +115,7 @@ function WatchListComponent({ watchlist }) {
         </div>
       </div>
       {/* Show the stock data if isVisible is true */}
-      {isVisible && stockData.map((stock, index) => (
+      {isVisible && stockData.length && stockData.map((stock, index) => (
         <StockComponent key={index} stock={stock} />
       ))}
     </div>
