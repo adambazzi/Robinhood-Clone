@@ -11,7 +11,7 @@ Watchlist_Stock = db.Table(
     extend_existing=True
 )
 # Define a query attribute
-db.Model.query = db.session.query_property()
+# db.Model.query = db.session.query_property()
 
 
 if environment == "production":
