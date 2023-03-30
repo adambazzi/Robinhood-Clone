@@ -4,7 +4,7 @@ import StockComponentGraph from "./StockComponentGraph";
 import './StockComponent.css'
 
 function StockComponent({ stock }) {
-  const value = ((stock[0].o - stock[0].c)/ stock[0].o) * 100
+  const value = ((Number(stock[0].o) - Number(stock[0].c))/ Number(stock[0].o)) * 100
 
 
   return (
