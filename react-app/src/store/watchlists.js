@@ -2,6 +2,7 @@ const ADD_WATCHLIST = 'watchlists/ADD_WATCHLIST'
 const EDIT_WATCHLIST = 'watchlists/EDIT_WATCHLIST'
 const LOAD_WATCHLISTS = 'watchlists/LOAD_WATCHLISTS'
 const REMOVE_WATCHLIST = 'watchlists/REMOVE_WATCHLIST'
+const REMOVE_WATCHLISTS = 'watchlists/REMOVE_WATCHLISTS'
 
 // action creators
 const addWatchlist = payload => ({
@@ -22,6 +23,10 @@ const loadWatchlists = payload => ({
 const removeWatchlist = payload => ({
     type: REMOVE_WATCHLIST,
     payload
+})
+
+const removeWatchlists = () => ({
+    type: REMOVE_WATCHLISTS
 })
 
 //Thunks
@@ -75,6 +80,10 @@ export const deleteWatchlist = (watchlistId) => async dispatch => {
     }
 }
 
+export const clearWatchlists = () => async dispatch => {
+    dispatch(removeWatchlists())
+  }
+
 
 const initialState = {
 
@@ -109,6 +118,8 @@ const watchlistsReducer = (state = initialState, action) => {
             const newState = { ...state };
             delete newState[action.payload];
             return newState;
+        case REMOVE_WATCHLISTS:
+            return {};
         default:
             return state;
     }

@@ -26,7 +26,6 @@ def seed_stocks():
         {"ticker": "NFLX", "org_name": "Netflix"},
         {"ticker": "QCOM", "org_name": "QUALCOMM"},
         {"ticker": "AMD", "org_name": "Advanced Micro Devices"},
-        {"ticker": "META", "org_name": "Meta Platforms"},
         {"ticker": "CSCO", "org_name": "Cisco Systems"},
         {"ticker": "INTU", "org_name": "Intuit"},
         {"ticker": "AMGN", "org_name": "Amgen"},

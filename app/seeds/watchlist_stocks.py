@@ -1,6 +1,6 @@
 from app import db
 from app.models import SCHEMA, environment
-from app.models.watchlist_stock import watchlist_stocks
+from app.models.watchlist_stock import Watchlist_Stock
 from sqlalchemy import insert
 from sqlalchemy.sql import text
 
@@ -11,11 +11,11 @@ def seed_watchlist_stocks():
     watchlist_stock_data = [
         {'watchlist_id': 1, 'ticker': 'TSLA'},
         {'watchlist_id': 1, 'ticker': 'META'},
-        {'watchlist_id': 1, 'ticker': 'VRTX'}
+        {'watchlist_id': 1, 'ticker': 'FISV'}
     ]
 
     for data in watchlist_stock_data:
-        stock = insert(watchlist_stocks).values(
+        stock = insert(Watchlist_Stock).values(
             watchlist_id = data['watchlist_id'],
             ticker = data['ticker']
         )
@@ -25,8 +25,8 @@ def seed_watchlist_stocks():
 
 def undo_watchlist_stocks():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.watchlist_stocks RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.Watchlist_Stock RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM watchlist_stocks"))
+        db.session.execute(text("DELETE FROM Watchlist_Stock"))
 
     db.session.commit()

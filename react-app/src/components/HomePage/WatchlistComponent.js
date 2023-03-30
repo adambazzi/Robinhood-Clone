@@ -16,18 +16,18 @@ function WatchListComponent({ watchlist }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // State variables for showing and hiding the dropdown menu
+  // State variables for showing and hiding the modal menu
 
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  // Function for opening the dropdown menu
+  // Function for opening the modal menu
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
   };
 
-  // Close the dropdown menu when user clicks outside of it
+  // Close the modal menu when user clicks outside of it
   useEffect(() => {
     if (!showMenu) return;
 

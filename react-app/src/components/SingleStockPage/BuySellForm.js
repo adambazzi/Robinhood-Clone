@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { createInvestment, editInvestment, getInvestments } from '../../store/investments';
@@ -7,6 +7,8 @@ import { getPortfolio, editPortfolio } from '../../store/portfolio';
 import { createTransaction } from '../../store/transactions';
 import { fetchClosingCost } from './FetchStockData';
 import { deleteInvestment } from '../../store/investments';
+import ReviseWatchlistModel from './ReviseWatchlistModal';
+import OpenModalButton from "../OpenModalButton";
 import './BuySellForm.css';
 
 const BuySellForm = () => {
@@ -151,7 +153,34 @@ const BuySellForm = () => {
       };
 
 
+  // State variables for showing and hiding the modal menu
 
+  const [showMenu, setShowMenu] = useState(false);
+  const ulRef = useRef();
+
+  // Function for opening the modal menu
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
+
+  // Close the modal menu when user clicks outside of it
+  useEffect(() => {
+    if (!showMenu) return;
+
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("click", closeMenu);
+
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
+
+
+  const closeMenu = () => setShowMenu(false);
 
   return (
       <section className='stock-form-section'>
@@ -197,7 +226,11 @@ const BuySellForm = () => {
             </div>
           </form>
         </div>
-        <div><button>Add to Lists</button></div>
+        <OpenModalButton
+            buttonText="Add to Lists"
+            onItemClick={closeMenu}
+            modalComponent={<ReviseWatchlistModel stockId={ticker} />}
+            />
       </section>
   )
 };
