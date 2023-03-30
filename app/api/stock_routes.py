@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, redirect
 from app.models import Stock, db
 from flask_login import login_required, current_user
+from sqlalchemy import func
 
 stock_routes = Blueprint('stocks', __name__)
 
@@ -12,10 +13,10 @@ def get_filtered_stocks():
     """
 
     # Get user input from query parameter
-    entry = request.args.get('entry')
+    entry = request.args.get('entry').lower()
 
     # Query for all stocks matching the user input
-    matching_stocks = Stock.query.filter(Stock.org_name.like(f"%{entry}%")).all()
+    matching_stocks = Stock.query.filter(func.lower(Stock.org_name).like(f"%{entry}%")).all()
 
     # Convert matching stocks to list of dictionaries
     matching_stocks_dict = [stock.to_dict() for stock in matching_stocks]

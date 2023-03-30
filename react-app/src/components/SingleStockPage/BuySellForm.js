@@ -158,12 +158,6 @@ const BuySellForm = () => {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  // Function for opening the modal menu
-  const openMenu = () => {
-    if (showMenu) return;
-    setShowMenu(true);
-  };
-
   // Close the modal menu when user clicks outside of it
   useEffect(() => {
     if (!showMenu) return;
@@ -189,7 +183,7 @@ const BuySellForm = () => {
             <div className='buy-sell-buttons-container'>
               <div className='buy-sell-buttons'>
                 <button type="button" className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
-                {foundInvestment && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
+                {Object.values(foundInvestment).length && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
               </div>
             </div>
             <div className='buySell__entryContainer'>
