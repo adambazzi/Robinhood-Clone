@@ -3,6 +3,7 @@
 :root {
     --a__primary-green: rgb(0, 200, 5);
     --a__primary-greenHover: rgba(0, 180, 5, 1);
+    --a__primary-lightGreenHover: rgba(0, 180, 6, 0.161);
     --a__gray1: rgb(227, 233, 237);
     --a__gray2: #e7e5e5;
     --a__gray3: rgb(245, 248, 250);

@@ -55,3 +55,9 @@
   .watchlist-stocks__button {
     background-color: var(--a__primary-greenHover);
   }
+
+  .watchlist-stocks__component {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }

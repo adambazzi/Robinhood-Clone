@@ -6,7 +6,7 @@ import { createWatchlistStocks, deleteWatchlistStocks } from "../../store/watchl
 import { clearWatchlists } from "../../store/watchlists";
 import './ReviseWatchlistModal.css'
 
-function ReviseWatchlistModel({ stockId }) {
+function ReviseWatchlistModal({ stockId }) {
   const dispatch = useDispatch();
 
   // State variables
@@ -77,8 +77,7 @@ function ReviseWatchlistModel({ stockId }) {
       <h1 className="watchlist-stocks__heading">Add TSLA to Your Lists</h1>
       <form onSubmit={handleSubmit} className="watchlist-stocks__form">
         {watchlistsArr.map((watchlist) => (
-          <div key={watchlist.id}>
-            <label htmlFor={`watchlist-stocks-${watchlist.id}`}>{watchlist.name}</label>
+          <div key={watchlist.id} className='watchlist-stocks__component'>
             <input
               type="checkbox"
               id={`watchlist-${watchlist.id}`}
@@ -86,6 +85,7 @@ function ReviseWatchlistModel({ stockId }) {
               onChange={handleWatchlistChange}
               className='watchlist-stocks__input'
             />
+            <label htmlFor={`watchlist-stocks-${watchlist.id}`}>{watchlist.name}</label>
           </div>
         ))}
 
@@ -97,4 +97,4 @@ function ReviseWatchlistModel({ stockId }) {
   );
 }
 
-export default ReviseWatchlistModel;
+export default ReviseWatchlistModal;

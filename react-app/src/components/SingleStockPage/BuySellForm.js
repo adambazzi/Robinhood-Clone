@@ -7,7 +7,7 @@ import { getPortfolio, editPortfolio } from '../../store/portfolio';
 import { createTransaction } from '../../store/transactions';
 import { fetchClosingCost } from './FetchStockData';
 import { deleteInvestment } from '../../store/investments';
-import ReviseWatchlistModel from './ReviseWatchlistModal';
+import ReviseWatchlistModal from './ReviseWatchlistModal';
 import OpenModalButton from "../OpenModalButton";
 import './BuySellForm.css';
 
@@ -226,11 +226,15 @@ const BuySellForm = () => {
             </div>
           </form>
         </div>
-        <OpenModalButton
-            buttonText="Add to Lists"
-            onItemClick={closeMenu}
-            modalComponent={<ReviseWatchlistModel stockId={ticker} />}
-            />
+        <div className='ReviseWatchlistModalButton__container'>
+
+          <OpenModalButton
+              buttonText="Add to Lists"
+              onItemClick={closeMenu}
+              modalComponent={<ReviseWatchlistModal stockId={ticker} />}
+              className='ReviseWatchlistModalButton'
+              />
+        </div>
       </section>
   )
 };
