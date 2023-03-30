@@ -131,17 +131,17 @@ const BuySellForm = () => {
           const verifyInvestmentDelete = Number((payload.investment.numShares * payload.transaction.averagePrice).toFixed(2))
           // Create or edit the investment data
           if (investmentExists && verifyInvestmentDelete > 0) {
-            dispatch(editInvestment(payload.investment, foundInvestment.id));
+            dispatch(editInvestment(payload.investment, Number(foundInvestment.id)));
           }
           else if (investmentExists && verifyInvestmentDelete === 0) {
             setBuy(true)
-            dispatch(deleteInvestment(foundInvestment.id))
+            dispatch(deleteInvestment(Number(foundInvestment.id)))
           } else {
             dispatch(createInvestment(payload.investment));
           }
 
           // Edit the portfolio data
-          dispatch(editPortfolio(payload.portfolio, portfolio.id));
+          dispatch(editPortfolio(payload.portfolio, Number(portfolio.id)));
 
           // Create the transaction data
           let newTransaction = dispatch(createTransaction(payload.transaction));
