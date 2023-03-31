@@ -73,7 +73,7 @@ function LoginFormPage() {
             <hr className="login-form__button_or_line"/><div>   or   </div><hr className="login-form__button_or_line"/>
           </div>
           <button className="login-form__button__demoUser" onClick={loginDemoUser}>Log in as demo user</button>
-          <div>Not on Arrow? <NavLink to='/signup'>Create an account</NavLink></div>
+          <div className="create-account__button-container">Not on Arrow? <NavLink to='/signup'>Create an account</NavLink></div>
         </div>
       </form>
 

@@ -31,7 +31,6 @@ def seed_stocks():
         {"ticker": "AMGN", "org_name": "Amgen"},
         {"ticker": "AMAT", "org_name": "Applied Materials"},
         {"ticker": "GILD", "org_name": "Gilead Sciences"},
-        {"ticker": "BKNG", "org_name": "Booking Holdings"},
         {"ticker": "MDLZ", "org_name": "Mondelez International"},
         {"ticker": "ADI", "org_name": "Analog Devices"},
         {"ticker": "ADP", "org_name": "Automatic Data Processing"},

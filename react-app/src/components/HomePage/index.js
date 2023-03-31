@@ -10,6 +10,7 @@ import { useWatchlistFormContext } from "../../context/WatchlistContext";
 import { fetchStockData } from "../SingleStockPage/FetchStockData";
 import StockComponent from "./StockComponent";
 import { getInvestments } from "../../store/investments";
+import { getPortfolio } from "../../store/portfolio";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ function HomePage() {
   useEffect(() => {
     dispatch(getWatchlists());
     dispatch(getInvestments(user.id));
+    dispatch(getPortfolio(user.id))
   }, [dispatch, user.id]);
 
   const fetchStocks = useCallback(async () => {

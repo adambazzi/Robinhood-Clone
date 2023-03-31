@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { faBolt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { createWatchlist } from "../../store/watchlists";
@@ -15,25 +15,33 @@ function CreateWatchlistForm() {
     const { watchlistFormState, setWatchlistFormState } = useWatchlistFormContext();
 
 
+
     const handleSubmit = (event) => {
-        event.preventDefault();
+      event.preventDefault();
 
-        const payload = {
-            name: inputValue
-        }
+      const payload = {
+        name: inputValue
+      }
 
-        const errors = {}
-        if (payload.name.length < 1) errors.invalidInput = "Must input a name for watchlist"
-        if (payload.name.length > 20) errors.invalidInput = "Your list name must be less than 20 characters."
+      const errors = {}
+      if (payload.name.length < 1) errors.invalidInput = "Must input a name for watchlist"
+      if (payload.name.length > 20) errors.invalidInput = "Your list name must be less than 20 characters."
 
-        if (!Object.values(errors).length) {
-          dispatch(createWatchlist(payload));
-          setWatchlistFormState(false)
-        } else {
-          setValidationErrors(errors)
-        }
-      };
+      if (!Object.values(errors).length) {
+        dispatch(createWatchlist(payload));
+        setWatchlistFormState(false)
+      } else {
+        setValidationErrors(errors)
+      }
+    };
 
+
+
+    useEffect(() => {
+      if (validationErrors.invalidInput.length && inputValue.length <= 20) {
+        setValidationErrors({ invalidInput: "" });
+      }
+    }, [inputValue, validationErrors]);
 
     return (
       <form onSubmit={handleSubmit} className="create-watchlist-form">
@@ -45,7 +53,7 @@ function CreateWatchlistForm() {
           <button onClick={() => setWatchlistFormState(false)} className="cancel-button">Cancel</button>
           <button type="submit" className="create-button">Create List</button>
         </div>
-        {validationErrors.invalidInput.length > 0 && <div className="create-watchlist__error-menu">{validationErrors.invalidInput}</div> }
+        {validationErrors.invalidInput.length > 0 && <div className="create-watchlist__error-menu"><div id="create-watchlist__error-menu1">ⓘ</div><div id="create-watchlist__error-menu2">{validationErrors.invalidInput}</div></div> }
       </form>
     )
 }

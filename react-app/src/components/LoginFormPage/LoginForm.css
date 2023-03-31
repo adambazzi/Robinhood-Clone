@@ -140,3 +140,7 @@
    .login-form__errors {
     color: red;
    }
+
+   .create-account__button-container {
+    padding-top: 20px;
+   }
