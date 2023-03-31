@@ -60,7 +60,7 @@ function HomePage() {
             </button>
           </div>
           {watchlistFormState && <CreateWatchlistForm />}
-          {Object.values(watchlists).length && Object.values(watchlists).map((watchlist) => (
+          {Object.values(watchlists).length > 0 && Object.values(watchlists).map((watchlist) => (
             <WatchListComponent key={watchlist.id} watchlist={watchlist} />
           ))}
         </div>

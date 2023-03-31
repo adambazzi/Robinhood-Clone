@@ -77,3 +77,13 @@
 .create-button:hover {
     background-color: rgba(255, 106, 38, 1);
 }
+.create-watchlist__error-menu {
+    position: absolute;
+    width: 60%;
+    padding: 0.5rem;
+    background-color: white;
+    color: black;
+    font-size: 13px;
+    top: calc(100% + 10px);
+    left: calc(0% + 5px);
+  }

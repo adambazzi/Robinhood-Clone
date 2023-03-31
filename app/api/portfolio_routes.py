@@ -1,13 +1,13 @@
 from flask import Blueprint, jsonify, request
 from app.models import Portfolio, db
-from flask_login import login_required, current_user
+from flask_login import current_user
 from sqlalchemy import func
 import pdb
 
 portfolio_routes = Blueprint('portfolio', __name__)
 
 
-@portfolio_routes.route('/', methods=['POST'])
+@portfolio_routes.route('', methods=['POST'])
 def create_portfolio():
     """
     Create portfolio

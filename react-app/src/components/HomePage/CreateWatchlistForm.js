@@ -24,6 +24,7 @@ function CreateWatchlistForm() {
 
         const errors = {}
         if (payload.name.length < 1) errors.invalidInput = "Must input a name for watchlist"
+        if (payload.name.length > 20) errors.invalidInput = "Your list name must be less than 20 characters."
 
         if (!Object.values(errors).length) {
           dispatch(createWatchlist(payload));
@@ -44,6 +45,7 @@ function CreateWatchlistForm() {
           <button onClick={() => setWatchlistFormState(false)} className="cancel-button">Cancel</button>
           <button type="submit" className="create-button">Create List</button>
         </div>
+        {validationErrors.invalidInput.length > 0 && <div className="create-watchlist__error-menu">{validationErrors.invalidInput}</div> }
       </form>
     )
 }

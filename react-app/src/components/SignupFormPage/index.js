@@ -22,7 +22,7 @@ function SignupFormPage() {
     e.preventDefault();
     if (password === confirmPassword) {
         const data = await dispatch(signUp(username, firstName, lastName, email, password));
-        const portfolio = await dispatch(createPortfolio())
+        await dispatch(createPortfolio(Number(data.id)))
         if (data) {
           setErrors(data)
         }
