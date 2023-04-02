@@ -23,8 +23,8 @@ def calculate_net_worth():
                 net_worth = 0.0
 
                 for investment in investments:
-                    closing_cost = int(fetch_closing_cost(int(investment.stock_id)))
-                    investment_value = closing_cost * int(investment.num_shares)
+                    closing_cost = float(fetch_closing_cost(int(investment.stock_id)))
+                    investment_value = closing_cost * float(investment.num_shares)
                     net_worth += investment_value
 
                 portfolio_history = Portfolio_History(portfolio_id=int(portfolio['id']), value=net_worth)

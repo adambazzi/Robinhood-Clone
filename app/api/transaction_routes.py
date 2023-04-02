@@ -19,9 +19,9 @@ def create_transaction():
     new_transaction = Transaction(
         portfolio_id=int(data.get('portfolioId')),
         stock_id=data.get('stockId'),
-        num_shares=int(data.get('numShares')),
-        average_price=int(data.get('averagePrice')),
-        total_expense=int(data.get('totalExpense')),
+        num_shares=float(data.get('numShares')),
+        average_price=float(data.get('averagePrice')),
+        total_expense=float(data.get('totalExpense')),
     )
 
     db.session.add(new_transaction)
