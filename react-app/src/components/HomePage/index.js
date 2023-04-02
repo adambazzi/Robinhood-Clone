@@ -51,7 +51,7 @@ function HomePage() {
   return (
     <section className="homePage__main">
       <div className="homePage_portfolio">
-        {Object.values(portfolio).length && <LineGraph portfolio={portfolio} />}
+        {Object.values(portfolio).length > 0 && <LineGraph portfolio={portfolio} />}
         <div className="transactions_container">
         {Object.values(transactions)
           .sort((a, b) => new Date(b.executed_at) - new Date(a.executed_at))

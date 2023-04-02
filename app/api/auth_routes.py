@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.models import User, Portfolio, db
+from app.models import User, Portfolio, Portfolio_History, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user
@@ -73,10 +73,16 @@ def sign_up():
         db.session.add(user)
         db.session.flush()
         portfolio = Portfolio(
-            user_id = user.id
+            user_id = user.id,
+            buying_power = 1000
         )
         db.session.add(portfolio)
-
+        db.session.flush()
+        portfolio_history = Portfolio_History(
+            portfolio_id = portfolio.id,
+            value = 0
+        )
+        db.session.add(portfolio_history)
         db.session.commit()
         login_user(user)
         return user.to_dict()
