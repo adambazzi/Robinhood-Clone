@@ -17,9 +17,9 @@ def create_investment():
 
     # Create new investment
     new_investment = Investment(
-        portfolio_id=data.get('portfolioId'),
+        portfolio_id=int(data.get('portfolioId')),
         stock_id=data.get('stockId'),
-        num_shares=data.get('numShares')
+        num_shares=int(data.get('numShares'))
     )
 
     db.session.add(new_investment)
@@ -45,9 +45,9 @@ def edit_investment(investmentId):
         return jsonify({'message': 'Investment not found'}), 404
 
     # Update the investment with new data
-    investment.num_shares = data.get('numShares')
+    investment.num_shares = int(data.get('numShares'))
     investment.stock_id = data.get('stockId')
-    investment.portfolio_id = data.get('portfolioId')
+    investment.portfolio_id = int(data.get('portfolioId'))
 
     db.session.commit()
 
