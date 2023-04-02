@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState} from "react";
-import { getPortfolioHistories } from "../../store/portfolio_histories";
+import { clearPorfolioHistories, getPortfolioHistories } from "../../store/portfolio_histories";
 import { useDispatch, useSelector } from "react-redux";
 import { Line } from 'react-chartjs-2';
 import './LineGraph.css'
@@ -15,7 +15,13 @@ export default function LineGraph ({ portfolio }) {
     const portfolioHistories = useSelector(state => state.portfolioHistories)
     useEffect(() => {
       dispatch(getPortfolioHistories(portfolio.id))
+
+
     }, [portfolio])
+
+    useEffect(() => {
+      dispatch(clearPorfolioHistories())
+    }, [])
 
     const rangeDate = new Date();
     rangeDate.setDate(rangeDate.getDate() - range);

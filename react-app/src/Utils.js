@@ -26,12 +26,12 @@ export const fetchStockDetails = async (symbol) => {
 export const fetchClosingCost = async (ticker) => {
     const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
-    const url = `https://api.polygon.io/v1/open-close/${ticker}/2023-01-09?adjusted=true&apiKey=${apiKey}`;
+    const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${apiKey}`
 
     const response = await fetch(url);
     const data = await response.json();
 
-    return data.close;
+    return Number(data.results[0].c);
 }
 
 // Get the most recent stock date including closing cost, opening cost etc

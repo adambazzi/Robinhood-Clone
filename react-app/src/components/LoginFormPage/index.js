@@ -4,6 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import './LoginForm.css';
+import { clearTransactions } from "../../store/transactions";
+import { clearWatchlists } from "../../store/watchlists";
+import { clearPortfolios } from "../../store/portfolio";
+import { clearInvestments } from "../../store/investments";
+import { clearStocks } from "../../store/stocks";
+import { clearTransfers } from "../../store/transfers";
+import { clearPorfolioHistories } from "../../store/portfolio_histories";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -17,6 +24,13 @@ function LoginFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(clearWatchlists())
+    dispatch(clearPortfolios())
+    dispatch(clearInvestments())
+    dispatch(clearTransactions())
+    dispatch(clearStocks())
+    dispatch(clearTransfers())
+    dispatch(clearPorfolioHistories())
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
@@ -28,7 +42,13 @@ function LoginFormPage() {
 
   const loginDemoUser = async (e) => {
     e.preventDefault();
-
+    dispatch(clearWatchlists())
+    dispatch(clearPortfolios())
+    dispatch(clearInvestments())
+    dispatch(clearTransactions())
+    dispatch(clearStocks())
+    dispatch(clearTransfers())
+    dispatch(clearPorfolioHistories())
     const data = await dispatch(login('demo@aa.io', 'password'));
     if (data) {
       setErrors(data);

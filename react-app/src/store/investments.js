@@ -2,7 +2,7 @@ const ADD_INVESTMENT = 'investments/ADD_INVESTMENT'
 const EDIT_INVESTMENT = 'investments/EDIT_INVESTMENT'
 const LOAD_INVESTMENTS = 'investments/LOAD_INVESTMENTS'
 const REMOVE_INVESTMENT = 'investments/REMOVE_INVESTMENT'
-
+const REMOVE_INVESTMENTS = 'investments/REMOVE_INVESTMENTS'
 // action creators
 const addInvestment = payload => ({
     type: ADD_INVESTMENT,
@@ -22,6 +22,10 @@ const loadInvestments = payload => ({
 const removeInvestment = payload => ({
     type: REMOVE_INVESTMENT,
     payload
+})
+
+const removeInvestments = () => ({
+    type: REMOVE_INVESTMENTS
 })
 
 //Thunks
@@ -75,6 +79,10 @@ export const deleteInvestment = (investmentId) => async dispatch => {
     }
 }
 
+export const clearInvestments = () => async dispatch => {
+    dispatch(removeInvestments())
+}
+
 let initialState = {
 
 }
@@ -108,6 +116,8 @@ const investmentsReducer = (state = initialState, action) => {
                 const newState = { ...state };
                 delete newState[action.payload];
                 return newState;
+            case REMOVE_INVESTMENTS:
+                return {}
         default:
             return state;
     }

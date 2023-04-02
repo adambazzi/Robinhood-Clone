@@ -1,8 +1,12 @@
 const LOAD_PORTFOLIO_HISTORIES = 'portfolio/LOAD_PORTFOLIO_HISTORIES'
+const REMOVE_PORTFOLIO_HISTORIES =  'portfolio/REMOVE_PORTFOLIO_HISTORIES'
 // action creators
 const loadPortfolioHistories = payload => ({
     type: LOAD_PORTFOLIO_HISTORIES,
     payload
+})
+const removePortfolioHistories = () => ({
+    type: REMOVE_PORTFOLIO_HISTORIES
 })
 
 
@@ -31,6 +35,12 @@ export const createPortfolioHistory = (data) => async dispatch => {
     }
 };
 
+export const clearPorfolioHistories = () => async dispatch => {
+    dispatch(removePortfolioHistories())
+}
+
+
+
 const initialState = {}
 
 
@@ -46,6 +56,8 @@ const portfolioHistoryReducer = (state = initialState, action) => {
                     {}
                 )
             }
+        case REMOVE_PORTFOLIO_HISTORIES:
+            return {}
 
         default:
             return state;

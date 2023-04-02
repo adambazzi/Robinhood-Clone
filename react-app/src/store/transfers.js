@@ -1,5 +1,6 @@
 const ADD_TRANSFER = 'transfers/ADD_TRANSFER'
 const LOAD_TRANSFERS = 'transfers/LOAD_TRANSFERS'
+const REMOVE_TRANSFERS = 'transfers/REMOVE_TRANSFERS'
 
 // action creators
 const addTransfer = payload => ({
@@ -10,6 +11,10 @@ const addTransfer = payload => ({
 const loadTransfers = payload => ({
     type: LOAD_TRANSFERS,
     payload
+})
+
+const removeTransfers = () => ({
+    type: REMOVE_TRANSFERS
 })
 
 
@@ -37,6 +42,10 @@ export const getTransfers = (portfolioId) => async dispatch => {
     }
 }
 
+export const clearTransfers = () => async dispatch => {
+    dispatch(removeTransfers())
+}
+
 
 const initialState = {
 
@@ -59,6 +68,8 @@ const transfersReducer = (state = initialState, action) => {
                     {}
                 )
             }
+        case REMOVE_TRANSFERS:
+            return {}
         default:
             return state;
     }

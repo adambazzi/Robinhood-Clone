@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getWatchlists } from "../../store/watchlists";
+import { clearWatchlists, getWatchlists } from "../../store/watchlists";
 import CreateWatchlistForm from "./CreateWatchlistForm";
 import WatchListComponent from "./WatchlistComponent";
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -9,11 +9,13 @@ import './index.css'
 import { useWatchlistFormContext } from "../../context/WatchlistContext";
 import { fetchStockData } from "../SingleStockPage/FetchStockData";
 import StockComponent from "./StockComponent";
-import { getInvestments } from "../../store/investments";
-import { getPortfolio } from "../../store/portfolio";
+import { clearInvestments, getInvestments } from "../../store/investments";
+import { clearPortfolios, getPortfolio } from "../../store/portfolio";
 import LineGraph from "./LineGraph";
-import { getTransactions } from "../../store/transactions";
+import { clearTransactions, getTransactions } from "../../store/transactions";
 import TransactionComponent from "./TransactionComponent";
+import { clearStocks } from "../../store/stocks";
+import { clearTransfers } from "../../store/transfers";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -24,13 +26,22 @@ function HomePage() {
   const portfolio = useSelector(state => state.portfolio)
   const transactions = useSelector(state => state.transactions)
   const [investmentStockData, setInvestmentStockData] = useState({});
+  useEffect(() => {
+      dispatch(clearWatchlists())
+      dispatch(clearPortfolios())
+      dispatch(clearInvestments())
+      dispatch(clearTransactions())
+      dispatch(clearStocks())
+      dispatch(clearTransfers())
+  }, [])
 
   useEffect(() => {
     dispatch(getWatchlists());
     dispatch(getPortfolio(user.id))
     dispatch(getInvestments(portfolio.id));
-    dispatch(getTransactions(portfolio.id))
+    dispatch(getTransactions(portfolio.id));
   }, [dispatch, user.id, portfolio.id]);
+
 
   const fetchStocks = useCallback(async () => {
     const investmentIds = Object.keys(investments);

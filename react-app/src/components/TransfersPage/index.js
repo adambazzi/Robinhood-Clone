@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTransfers } from "../../store/transfers";
-import { getPortfolio } from "../../store/portfolio";
+import { clearTransfers, getTransfers } from "../../store/transfers";
+import { clearPortfolios, getPortfolio } from "../../store/portfolio";
 import TransferFormModal from "./TransferFormModal";
 import TransferComponent from "./TransferComponent";
 import OpenModalButton from "../OpenModalButton";
@@ -35,7 +35,13 @@ function TransfersPage() {
     useEffect(() => {
         dispatch(getPortfolio(user.id));
         dispatch(getTransfers(portfolio.id));
+
     }, [dispatch, user.id, portfolio.id]);
+
+    useEffect(() => {
+        dispatch(clearPortfolios)
+        dispatch(clearTransfers)
+    }, [])
 
     const closeMenu = () => setShowMenu(false);
 

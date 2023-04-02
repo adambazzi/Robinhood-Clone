@@ -1,7 +1,7 @@
 const LOAD_PORTFOLIO = 'portfolio/LOAD_PORTFOLIO'
 const EDIT_PORTFOLIO = 'portfolio/EDIT_PORTFOLIO'
 const CREATE_PORTFOLIO = 'portfolio/CREATE_PORTFOLIO'
-
+const REMOVE_PORTFOLIOS = 'portfolio/REMOVE_PORTFOLIOS'
 // action creators
 const loadPortfolio = payload => ({
     type: LOAD_PORTFOLIO,
@@ -16,6 +16,10 @@ const revisePortfolio = payload => ({
 const addPortfolio = payload => ({
     type: CREATE_PORTFOLIO,
     payload
+})
+
+const removePortfolios = () => ({
+    type: REMOVE_PORTFOLIOS
 })
 
 //Thunks
@@ -60,6 +64,10 @@ export const getPortfolio = (userId) => async dispatch => {
     }
 }
 
+export const clearPortfolios = () => async dispatch => {
+    dispatch(removePortfolios())
+}
+
 const initialState = {}
 
 
@@ -80,6 +88,8 @@ const portfolioReducer = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             };
+        case REMOVE_PORTFOLIOS:
+            return {}
         default:
             return state;
     }

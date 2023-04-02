@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
-import { createPortfolio } from "../../store/portfolio";
+import { clearPortfolios, createPortfolio } from "../../store/portfolio";
 import './SignupForm.css';
+import { clearWatchlists } from "../../store/watchlists";
+import { clearInvestments } from "../../store/investments";
+import { clearTransactions } from "../../store/transactions";
+import { clearStocks } from "../../store/stocks";
+import { clearTransfers } from "../../store/transfers";
+import { clearPorfolioHistories } from "../../store/portfolio_histories";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -25,6 +31,13 @@ function SignupFormPage() {
 
 
     if (password === confirmPassword) {
+        dispatch(clearWatchlists())
+        dispatch(clearPortfolios())
+        dispatch(clearInvestments())
+        dispatch(clearTransactions())
+        dispatch(clearStocks())
+        dispatch(clearTransfers())
+        dispatch(clearPorfolioHistories())
         const data = await dispatch(signUp(username, firstName, lastName, email, password));
         if (data) {
           setErrors(data)

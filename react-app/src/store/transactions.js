@@ -1,5 +1,6 @@
 const ADD_TRANSACTION = 'transactions/ADD_TRANSACTION'
 const LOAD_TRANSACTIONS = 'transactions/LOAD_TRANSACTIONS'
+const REMOVE_TRANSACTIONS = 'transactions/REMOVE_TRANSACTIONS'
 
 // action creators
 const addTransaction = payload => ({
@@ -10,6 +11,10 @@ const addTransaction = payload => ({
 const loadTransactions = payload => ({
     type: LOAD_TRANSACTIONS,
     payload
+})
+
+const removeTransactions = () => ({
+    type: REMOVE_TRANSACTIONS
 })
 
 //Thunks
@@ -36,6 +41,10 @@ export const getTransactions = (portfolioId) => async dispatch => {
     }
 }
 
+export const clearTransactions = () => async dispatch => {
+    dispatch(removeTransactions())
+}
+
 const initialState = {}
 
 const transactionsReducer = (state = initialState, action) => {
@@ -50,6 +59,8 @@ const transactionsReducer = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             };
+        case REMOVE_TRANSACTIONS:
+            return {}
         default:
             return state;
     }
