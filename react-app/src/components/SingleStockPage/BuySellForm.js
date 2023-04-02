@@ -61,7 +61,7 @@ const BuySellForm = () => {
 
   // Find the investment for the current ticker, if it exists
   let foundInvestment;
-  foundInvestment = investments.find(investment => investment.stock_id === ticker);
+  if (Object.values(investments).length) foundInvestment = investments.find(investment => investment.stock_id === ticker);
 
 
   // Handle form submission
