@@ -69,7 +69,7 @@ function HomePage() {
         <div className="transactions_container">
         {Object.values(transactions)
           .sort((a, b) => new Date(b.executed_at) - new Date(a.executed_at))
-          .map(transaction => <TransactionComponent transaction={transaction} />)}
+          .map(transaction => <TransactionComponent transaction={transaction} key={transaction.id} />)}
         </div>
       </div>
       <div className="homePage__sideBar_container">

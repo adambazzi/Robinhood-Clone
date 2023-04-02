@@ -72,6 +72,7 @@ def get_investments():
     if not investments:
         return jsonify({'message': 'No investments found'}), 404
 
+
     # Convert the investments to a list of dictionaries
     investments_dict = [investment.to_dict() for investment in investments]
 

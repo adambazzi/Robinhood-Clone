@@ -51,7 +51,7 @@ function SingleStockPage(){
             <AboutComponent details={details} />
             <div className='news__section'>
               <h2 className='news_header'>News</h2>
-              {news.length > 0 && news.map(article => <NewsFeedComponent article={article} />) }
+              {news.length > 0 && news.map(article => <NewsFeedComponent article={article} key={article.id}/>) }
             </div>
         </div>
         </>
