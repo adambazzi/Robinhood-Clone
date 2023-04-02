@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 
-# Seed the database with portfolio_histories
 def seed_portfolio_histories():
     def fetch_stock_chart_data(ticker, range=365):
         api_key = os.environ.get('REACT_APP_POLYGON_API_KEY')
@@ -20,6 +19,7 @@ def seed_portfolio_histories():
         return data
 
     data = fetch_stock_chart_data('TSLA')
+    print(data) # add this line to see what data is being returned
     dates = [datetime.fromtimestamp(result['t'] / 1000).strftime('%Y-%m-%d %H:%M:%S') for result in data['results']]
     values = [result['c'] for result in data['results']]
 
