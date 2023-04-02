@@ -61,12 +61,8 @@ const BuySellForm = () => {
 
   // Find the investment for the current ticker, if it exists
   let foundInvestment;
-  for (let key in investments) {
-    if (investments[Number(key)].stock_id === ticker) {
-      foundInvestment = investments[Number(key)];
-      break;
-    }
-  }
+  foundInvestment = investments.find(investment => investment.stock_id === ticker);
+
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -125,10 +121,10 @@ const BuySellForm = () => {
         // If there are no validation errors, dispatch the necessary actions to update the investment, portfolio, and transaction data
         if (!Object.values(errors).length) {
           // Check if the investment exists in the Redux store
-          const investmentExists = !!foundInvestment;
+          const investmentExists = foundInvestment !== undefined;
           let createdTransactionId;
 
-          const verifyInvestmentDelete = Number((payload.investment.numShares * payload.transaction.averagePrice).toFixed(2))
+          const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(2))
           // Create or edit the investment data
           if (investmentExists && verifyInvestmentDelete > 0) {
             dispatch(editInvestment(payload.investment, Number(foundInvestment.id)));
@@ -146,7 +142,7 @@ const BuySellForm = () => {
           // Create the transaction data
           let newTransaction = dispatch(createTransaction(payload.transaction));
 
-          createdTransactionId = newTransaction.id;
+          createdTransactionId = Number(newTransaction.id);
         } else {
           // If there are validation errors, set the validationErrors state to the error messages
           setValidationErrors(errors);
