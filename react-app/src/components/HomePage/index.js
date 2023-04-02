@@ -38,8 +38,11 @@ function HomePage() {
   useEffect(() => {
     dispatch(getWatchlists());
     dispatch(getPortfolio(user.id))
-    dispatch(getInvestments(portfolio.id));
-    dispatch(getTransactions(portfolio.id));
+    if (Object.values(portfolio).length) {
+      dispatch(getInvestments(portfolio.id));
+      dispatch(getTransactions(portfolio.id));
+
+    }
   }, [dispatch, user.id, portfolio.id]);
 
 
