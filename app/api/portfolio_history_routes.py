@@ -15,7 +15,7 @@ def get_portfolio_history():
     portfolio_id = int(request.args.get('portfolioId'))
 
     # Query for the history with the given ID
-    portfolio_histories = Portfolio_History.query.filter_by(portfolio_id=portfolio_id).all()
+    portfolio_histories = Portfolio_History.query.filter_by(portfolio_id=int(portfolio_id)).all()
 
     # Check if the history exists
     if not portfolio_histories:

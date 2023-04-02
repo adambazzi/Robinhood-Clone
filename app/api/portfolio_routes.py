@@ -67,7 +67,7 @@ def get_portfolio():
     user_id = int(request.args.get('userId'))
 
     # Query for the portfolio with the given ID
-    portfolio = Portfolio.query.filter_by(user_id=user_id).first()
+    portfolio = Portfolio.query.filter_by(user_id=int(user_id)).first()
 
     # Check if the portfolio exists
     if not portfolio:

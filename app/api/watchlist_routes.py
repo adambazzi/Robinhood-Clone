@@ -57,7 +57,7 @@ def edit_watchlist(watchlistId):
     data = request.get_json()
 
     # Query for the portfolio to be updated
-    watchlist = Watchlist.query.get(watchlistId)
+    watchlist = Watchlist.query.get(int(watchlistId))
 
     # Check if the portfolio exists
     if not watchlist:

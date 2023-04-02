@@ -38,7 +38,7 @@ def edit_investment(investmentId):
     # Parse request data
     data = request.get_json()
     # Query for the investment to be updated
-    investment = Investment.query.get(investmentId)
+    investment = Investment.query.get(int(investmentId))
 
     # Check if the investment exists
     if not investment:
@@ -65,7 +65,7 @@ def get_investments():
 
     # Query for the investments for the user
     investments = Investment.query.filter_by(
-        portfolio_id=portfolio_id
+        portfolio_id=int(portfolio_id)
     ).all()
 
     # Check if any investments exist for the user

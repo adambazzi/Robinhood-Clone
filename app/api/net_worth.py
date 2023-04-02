@@ -19,15 +19,15 @@ def calculate_net_worth():
             portfolios = Portfolio.query.all()
 
             for portfolio in portfolios:
-                investments = Investment.query.filter_by(portfolio_id=portfolio['id']).all()
+                investments = Investment.query.filter_by(portfolio_id=int(portfolio['id'])).all()
                 net_worth = 0.0
 
                 for investment in investments:
-                    closing_cost = int(fetch_closing_cost(investment.stock_id))
-                    investment_value = closing_cost * investment.num_shares
+                    closing_cost = int(fetch_closing_cost(int(investment.stock_id)))
+                    investment_value = closing_cost * int(investment.num_shares)
                     net_worth += investment_value
 
-                portfolio_history = Portfolio_History(portfolio_id=portfolio['id'], value=net_worth)
+                portfolio_history = Portfolio_History(portfolio_id=int(portfolio['id']), value=net_worth)
 
                 db.session.add(portfolio_history)
 
