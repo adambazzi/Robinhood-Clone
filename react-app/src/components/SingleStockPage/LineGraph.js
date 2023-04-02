@@ -20,7 +20,7 @@ function LineGraph({details}) {
   useEffect(() => {
     async function fetchChartData() {
       const data = await fetchStockChartData(ticker.toUpperCase(), range);
-      const labels = data.results.map(result => new Date(result.t).toLocaleDateString());
+      const labels = data.results.map(result => new Date(result.t).toLocaleString());
       const prices = data.results.map(result => result.c);
       setChartData({
         labels,

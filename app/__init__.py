@@ -1,10 +1,16 @@
 import os
-from flask import Flask, request,redirect
+######
+from apscheduler.schedulers.background import BackgroundScheduler
+from app.models import Investment, Portfolio_History, Portfolio, db, User
+import requests
+
+########
+from flask import Flask, request, redirect, current_app
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import generate_csrf
 from flask_login import LoginManager
-from .models import db, User
+# from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.watchlist_routes import watchlist_routes
@@ -13,6 +19,8 @@ from .api.transaction_routes import transaction_routes
 from .api.portfolio_routes import portfolio_routes
 from .api.investment_routes import investment_routes
 from .api.watchlist_stocks_routes import watchlist_stocks_routes
+from .api.transfer_routes import transfer_routes
+from .api.portfolio_history_routes import portfolio_history_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -39,6 +47,8 @@ app.register_blueprint(stock_routes, url_prefix='/api/stocks')
 app.register_blueprint(investment_routes, url_prefix='/api/investments')
 app.register_blueprint(portfolio_routes, url_prefix='/api/portfolio')
 app.register_blueprint(watchlist_stocks_routes, url_prefix='/api/watchlist_stocks')
+app.register_blueprint(transfer_routes, url_prefix='/api/transfers')
+app.register_blueprint(portfolio_history_routes, url_prefix='/api/portfolio_histories')
 
 app.register_blueprint(transaction_routes, url_prefix='/api/transactions')
 db.init_app(app)
@@ -102,3 +112,39 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
+
+def calculate_net_worth():
+    with app.app_context():
+        print('------- i just ran -------------')
+        def fetch_closing_cost(stock_id):
+            with current_app.app_context():
+                api_key = 'Tm5shHTsQ1xTD2yX5jesV303MwMB1Esb'
+                url = f'https://api.polygon.io/v1/open-close/{stock_id}/2023-01-09?adjusted=true&apiKey={api_key}'
+                with requests.get(url) as response:
+                    data = response.json()
+                return data['close']
+
+        with app.app_context():
+            portfolios = Portfolio.query.all()
+
+            for portfolio in portfolios:
+                investments = Investment.query.filter_by(portfolio_id=portfolio.id).all()
+                net_worth = 0.0
+
+                for investment in investments:
+                    closing_cost = int(fetch_closing_cost(investment.stock_id))
+                    investment_value = closing_cost * investment.num_shares
+                    net_worth += investment_value
+
+                portfolio_history = Portfolio_History(portfolio_id=portfolio.id, value=net_worth)
+
+                db.session.add(portfolio_history)
+
+            db.session.commit()
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(calculate_net_worth, 'interval', days=1)
+scheduler.start()
+if __name__ == '__main__':
+    app.run()

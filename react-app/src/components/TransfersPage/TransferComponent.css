@@ -1,0 +1,22 @@
+.transfer {
+    border-top: solid 2px var(--a__gray3);
+    width: 726px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+.transfer-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+}
+.deposit {
+    color: var(--a__primary-green)
+}
+
+.withdrawal {
+    color: var(--a__orange1)
+}

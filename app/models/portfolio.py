@@ -10,7 +10,7 @@ class Portfolio(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    buying_power = db.Column(db.Integer)
+    buying_power = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime,
@@ -30,6 +30,8 @@ class Portfolio(db.Model):
     investments = db.relationship('Investment', back_populates='portfolio')
     # Define a one-to-one relationship between portfolio and user
     user = db.relationship('User', uselist=False, back_populates='portfolio')
+    # Define One-to-Many relationship with Transfer table
+    transfers = db.relationship('Transfer', back_populates='portfolio')
 
     # Validations
     @validates('buying_power')

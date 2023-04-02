@@ -21,7 +21,7 @@ function WatchListComponent({ watchlist }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  // Function for opening the modal menu
+  // Function for opening the other options menu
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);

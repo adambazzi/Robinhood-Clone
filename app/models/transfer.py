@@ -14,15 +14,9 @@ class Transfer(db.Model):
     executed_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define Relationships
-    # Define Many-to-One relationship with Portfolio table
+    # Define One-to-Many relationship with Portfolio table
     portfolio = db.relationship('Portfolio', back_populates='transfers')
 
-    # Validations
-    @validates('amount')
-    def validate_integer_value(self, key, value):
-        if value <= 0:
-            raise ValueError(f'{key} must be a non-negative integer.')
-        return value
 
     def to_dict(self):
         return {

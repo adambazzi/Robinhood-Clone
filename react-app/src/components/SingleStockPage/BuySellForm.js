@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom';
 import { createInvestment, editInvestment, getInvestments } from '../../store/investments';
 import { getPortfolio, editPortfolio } from '../../store/portfolio';
 import { createTransaction } from '../../store/transactions';
-import { fetchClosingCost } from './FetchStockData';
+import { fetchClosingCost } from '../../Utils';
 import { deleteInvestment } from '../../store/investments';
 import ReviseWatchlistModal from './ReviseWatchlistModal';
 import OpenModalButton from "../OpenModalButton";
+import { createPortfolioHistory } from '../../store/portfolio_histories';
 import './BuySellForm.css';
 
 const BuySellForm = () => {
@@ -103,7 +104,7 @@ const BuySellForm = () => {
       portfolio: {
         userId: user.id,
         buyingPower: portfolio.buying_power - totalExpense
-      },
+      }
     };
 
     // Perform validation checks on the payload data
@@ -111,7 +112,7 @@ const BuySellForm = () => {
     if (payload.transaction.totalExpense > portfolio.buying_power && buy === true) {
       errors.buyPowerInsufficient = "Buy power insufficient";
     }
-    if (buy === true && payload.transaction.totalExpense <= 0) {
+    if (buy === true && Number(payload.transaction.totalExpense.toFixed(2)) <= 0) {
       errors.inputCannotBeNegative = "Input cannot be negative or 0";
     }
 
@@ -145,6 +146,12 @@ const BuySellForm = () => {
 
           // Create the transaction data
           let newTransaction = dispatch(createTransaction(payload.transaction));
+          const portfolioHistory = {
+            portfolioId: portfolio.id,
+            value: Number(payload.investment.numShares) * Number(averagePrice)
+          }
+          dispatch(createPortfolioHistory(portfolioHistory))
+
           createdTransactionId = newTransaction.id;
         } else {
           // If there are validation errors, set the validationErrors state to the error messages

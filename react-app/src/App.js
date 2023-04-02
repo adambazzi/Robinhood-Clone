@@ -7,7 +7,9 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import SingleStockPage from "./components/SingleStockPage";
 import HomePage from "./components/HomePage";
+import TransfersPage from "./components/TransfersPage";
 import './index.css'
+
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +58,13 @@ function App() {
         <Route exact path="/">
           {isAuthenticated ? (
             <HomePage />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
+        <Route exact path="/transfers">
+          {isAuthenticated ? (
+            <TransfersPage />
           ) : (
             <Redirect to="/login" />
           )}

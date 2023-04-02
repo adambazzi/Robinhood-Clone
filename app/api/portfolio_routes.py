@@ -7,23 +7,31 @@ import pdb
 portfolio_routes = Blueprint('portfolio', __name__)
 
 
-@portfolio_routes.route('', methods=['POST'])
-def create_portfolio():
-    """
-    Create portfolio
-    """
+# @portfolio_routes.route('', methods=['POST'])
+# def create_portfolio():
+#     """
+#     Create portfolio
+#     """
 
-    # Create new portfolio
-    new_porfolio = Portfolio(
-        user_id= current_user.id,
-        buying_power=0,
-    )
+#     # user = current_user.to_dict()
+#     # print(user, '----------- please work ---------')
+#     # Parse request data
+#     data = request.get_json()
 
-    db.session.add(new_porfolio)
-    db.session.commit()
+#     # Query for the portfolio to be updated
+#     user_id = data..get(user_id)
 
-    # Return newly created portfolio
-    return jsonify(new_porfolio.to_dict()), 201
+#     # Create new portfolio
+#     new_porfolio = Portfolio(
+#         user_id = int(user['id']),
+#         buying_power=0,
+#     )
+
+#     db.session.add(new_porfolio)
+#     db.session.commit()
+
+#     # Return newly created portfolio
+#     return jsonify(new_porfolio.to_dict()), 201
 
 
 @portfolio_routes.route('/<int:portfolioId>', methods=['PUT'])
@@ -50,14 +58,16 @@ def edit_portfolio(portfolioId):
     # Return updated portfolio
     return jsonify(portfolio.to_dict())
 
-@portfolio_routes.route('/<int:portfolioId>', methods=['GET'])
-def get_portfolio(portfolioId):
+@portfolio_routes.route('/', methods=['GET'])
+def get_portfolio():
     """
     Get protfolio for user
     """
 
+    user_id = int(request.args.get('userId'))
+
     # Query for the portfolio with the given ID
-    portfolio = Portfolio.query.filter_by(id=portfolioId).first()
+    portfolio = Portfolio.query.filter_by(user_id=user_id).first()
 
     # Check if the portfolio exists
     if not portfolio:

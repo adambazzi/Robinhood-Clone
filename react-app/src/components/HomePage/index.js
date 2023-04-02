@@ -11,6 +11,7 @@ import { fetchStockData } from "../SingleStockPage/FetchStockData";
 import StockComponent from "./StockComponent";
 import { getInvestments } from "../../store/investments";
 import { getPortfolio } from "../../store/portfolio";
+import LineGraph from "./LineGraph";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -18,13 +19,14 @@ function HomePage() {
   const user = useSelector(state => state.session.user);
   const watchlists = useSelector(state => state.watchlists);
   const investments = useSelector(state => state.investments);
+  const portfolio = useSelector(state => state.portfolio)
   const [investmentStockData, setInvestmentStockData] = useState({});
 
   useEffect(() => {
     dispatch(getWatchlists());
-    dispatch(getInvestments(user.id));
     dispatch(getPortfolio(user.id))
-  }, [dispatch, user.id]);
+    dispatch(getInvestments(portfolio.id));
+  }, [dispatch, user.id, portfolio.id]);
 
   const fetchStocks = useCallback(async () => {
     const investmentIds = Object.keys(investments);
@@ -35,7 +37,7 @@ function HomePage() {
       return acc;
     }, {});
     setInvestmentStockData(stockDataMap);
-  }, [investments]);
+  }, [investments, fetchStockData]);
 
   useEffect(() => {
     fetchStocks();
@@ -44,7 +46,9 @@ function HomePage() {
 
   return (
     <section className="homePage__main">
-      <div className="homePage_portfolio"></div>
+      <div className="homePage_portfolio">
+        {Object.values(portfolio).length && <LineGraph portfolio={portfolio} />}
+      </div>
       <div className="homePage__sideBar_container">
         <div className="stocks_container">
           <div className="stocks_container_header">

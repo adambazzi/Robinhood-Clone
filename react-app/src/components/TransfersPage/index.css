@@ -1,0 +1,30 @@
+.transfers-main {
+    height: 70vh;
+    position: fixed;
+    width: 100%;
+    padding: 0 30% 0 20%;
+    position: sticky;
+    overflow: auto;
+}
+.transfers-nav {
+    height: 10vh;
+    padding: 50px 30% 0 20%;
+}
+
+.transfer-menu-button__container button {
+    background-color: var(--a__primary-green);
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 14px 16px;
+    display: flex;
+    width: 300px;
+    justify-content: center;
+    border-radius: 20px;
+    border: none;
+
+  }
+
+  .transfer-menu-button__container button:hover {
+    background-color: var(--a__primary-greenHover);
+  }

@@ -28,8 +28,6 @@ function SignupFormPage() {
         const data = await dispatch(signUp(username, firstName, lastName, email, password));
         if (data) {
           setErrors(data)
-        } else {
-          await dispatch(createPortfolio())
         }
     } else {
         setErrors({...errors, 'confirm': 'Confirm Password field must be the same as the Password field'});
@@ -96,7 +94,7 @@ function SignupFormPage() {
           />
         </label>
         <label className="signup-form__label">
-          <div className="signup-form__label_textContainer"><div>Password</div>{errors.password !== undefined && <div className="ErrorText">{errors.password}</div>}{errors.confirm != undefined && <div className="ErrorText">{errors.confirm}</div>}</div>
+          <div className="signup-form__label_textContainer"><div>Password</div>{errors.password !== undefined && <div className="ErrorText">{errors.password}</div>}{errors.confirm !== undefined && <div className="ErrorText">{errors.confirm}</div>}</div>
           <input
             type="password"
             value={password}

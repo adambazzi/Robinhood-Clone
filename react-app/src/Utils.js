@@ -1,6 +1,5 @@
 
 
-
 export const fetchStockChartData = async (ticker, range=0) => {
     const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
     const dateTo = new Date();
@@ -25,12 +24,12 @@ export const fetchStockDetails = async (symbol) => {
 export const fetchClosingCost = async (ticker) => {
     const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
-    const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${apiKey}`;
+    const url = `https://api.polygon.io/v1/open-close/${ticker}/2023-01-09?adjusted=true&apiKey=${apiKey}`;
 
     const response = await fetch(url);
     const data = await response.json();
 
-    return data.results[0].c;
+    return data.close;
 }
 
 export const fetchStockData = async (ticker) => {
@@ -51,4 +50,7 @@ export const fetchTickerNews = async (ticker) => {
     const data = await response.json();
 
     return data.results;
+}
+export const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

@@ -19,10 +19,8 @@ const addPortfolio = payload => ({
 })
 
 //Thunks
-export const createPortfolio = userId => async dispatch => {
+export const createPortfolio = () => async dispatch => {
     const data = {
-        'id': userId,
-        'userId': userId,
         'buyingPower': 0,
     }
     const portfolioResponse = await fetch(`/api/portfolio`, {
@@ -54,8 +52,8 @@ export const editPortfolio = (data, portfolioId) => async dispatch => {
     }
 }
 
-export const getPortfolio = (portfolioId) => async dispatch => {
-    const response = await fetch(`/api/portfolio/${portfolioId}`);
+export const getPortfolio = (userId) => async dispatch => {
+    const response = await fetch(`/api/portfolio/?userId=${userId}`);
     if(response.ok) {
       const payload = await response.json()
       dispatch(loadPortfolio(payload))
