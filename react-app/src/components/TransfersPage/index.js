@@ -51,7 +51,13 @@ function TransfersPage() {
                     />
                 </div>
                 <h2>Completed Transfers</h2>
-                {Object.values(transfers).length > 0 && Object.values(transfers).map(transfer => <TransferComponent transfer={transfer} />)}
+                {Object.values(transfers).length > 0 &&
+                Object.values(transfers)
+                    .sort((a, b) => {
+                    return new Date(b.executed_at) - new Date(a.executed_at);
+                    })
+                    .map((transfer) => <TransferComponent transfer={transfer} />)
+                }
             </div>
         </section>
     );

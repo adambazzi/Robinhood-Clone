@@ -12,6 +12,8 @@ import StockComponent from "./StockComponent";
 import { getInvestments } from "../../store/investments";
 import { getPortfolio } from "../../store/portfolio";
 import LineGraph from "./LineGraph";
+import { getTransactions } from "../../store/transactions";
+import TransactionComponent from "./TransactionComponent";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -20,12 +22,14 @@ function HomePage() {
   const watchlists = useSelector(state => state.watchlists);
   const investments = useSelector(state => state.investments);
   const portfolio = useSelector(state => state.portfolio)
+  const transactions = useSelector(state => state.transactions)
   const [investmentStockData, setInvestmentStockData] = useState({});
 
   useEffect(() => {
     dispatch(getWatchlists());
     dispatch(getPortfolio(user.id))
     dispatch(getInvestments(portfolio.id));
+    dispatch(getTransactions(portfolio.id))
   }, [dispatch, user.id, portfolio.id]);
 
   const fetchStocks = useCallback(async () => {
@@ -48,6 +52,11 @@ function HomePage() {
     <section className="homePage__main">
       <div className="homePage_portfolio">
         {Object.values(portfolio).length && <LineGraph portfolio={portfolio} />}
+        <div className="transactions_container">
+        {Object.values(transactions)
+          .sort((a, b) => new Date(b.executed_at) - new Date(a.executed_at))
+          .map(transaction => <TransactionComponent transaction={transaction} />)}
+        </div>
       </div>
       <div className="homePage__sideBar_container">
         <div className="stocks_container">

@@ -90,13 +90,58 @@ function LineGraph({details}) {
         <nav className="chart-nav">
           {/* Display buttons to change the range of data */}
           <ul>
-            <li><button className="chart-nav__button" onClick={() => setRange(2)}>1D</button></li>
-            <li><button className="chart-nav__button" onClick={() => setRange(8)}>1W</button></li>
-            <li><button className="chart-nav__button" onClick={() => setRange(31)}>1M</button></li>
-            <li><button className="chart-nav__button" onClick={() => setRange(91)}>3M</button></li>
-            <li><button className="chart-nav__button" onClick={() => setRange(366)}>1Y</button></li>
-            <li><button className="chart-nav__button" onClick={() => setRange(365*5)}>5Y</button></li>
-          </ul>
+              <li>
+                <button
+                  className={`chart-nav__button ${range === 7 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(7);
+                  }}
+                >
+                  1W
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button ${range === 30 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(30);
+                  }}
+                >
+                  1M
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button ${range === 90 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(90);
+                  }}
+                >
+                  1Y
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button ${range === 365 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(365);
+                  }}
+                >
+                  5Y
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button ${range === 1825 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(1825);
+                  }}
+                >
+                  10Y
+                </button>
+              </li>
+
+            </ul>
         </nav>
       </section>
   );

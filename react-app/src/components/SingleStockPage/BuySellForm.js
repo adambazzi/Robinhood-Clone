@@ -76,7 +76,7 @@ const BuySellForm = () => {
     // Calculate the number of shares, total expense, and average price based on the user's inputs and stock data
     const numAmount = Number(amount)
     const numShares = buyingOption === false ? numAmount : numAmount / stockData;
-    const totalExpense = buy ? stockData * numShares : -stockData * numShares;
+    const totalExpense = buy ? stockData * numShares : -1 * stockData * numShares;
     const averagePrice = stockData;
 
 

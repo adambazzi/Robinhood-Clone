@@ -39,7 +39,7 @@
   }
 
   .investingStocks_container {
-    height: 300px;
+    min-height: 300px;
     margin-bottom: 20px;
   }
 
@@ -101,4 +101,7 @@
   padding-left: 10%;
   font-size: 13px;
   font-weight: bold;
+}
+.transactions_container {
+  margin-top: 100px;
 }

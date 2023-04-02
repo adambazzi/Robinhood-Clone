@@ -8,7 +8,7 @@ import './LineGraph.css'
 export default function LineGraph ({ portfolio }) {
     // State for storing chart data, range, stock details
     const [chartData, setChartData] = useState({});
-    const [range, setRange] = useState(24);
+    const [range, setRange] = useState(90);
     const [yAxis, setYAxis] = useState([])
     const [labels, setLabels] = useState(null)
     const dispatch = useDispatch();
@@ -17,33 +17,39 @@ export default function LineGraph ({ portfolio }) {
       dispatch(getPortfolioHistories(portfolio.id))
     }, [portfolio])
 
+    const rangeDate = new Date();
+    rangeDate.setDate(rangeDate.getDate() - range);
+
     useEffect(() => {
       // Convert object to arrays
-      const historyArr = Object.values(portfolioHistories)
+      const historyArr = Object.values(portfolioHistories);
 
-      // Extract value and date from history array
-      const historyValues = historyArr.map(el => el.value);
-      const dates = historyArr.map(el => new Date(el.createdAt));
-      const rangeDate = new Date();
-      rangeDate.setHours(rangeDate.getHours() - range);
+      if (historyArr.length === 0) {
+        return; // exit the function if the array is empty
+      }
 
-      let prevDate = new Date(dates[0]);
+      // Extract value and date from history array and sort by date
+      const historyValues = historyArr.map(el => {
+        return {
+          value: el.value,
+          date: new Date(el.createdAt)
+        };
+      }).sort((a, b) => a.date - b.date);
+
+      let prevDate = new Date(historyValues[0].date);
       while (prevDate > rangeDate) {
         const newDate = new Date(prevDate);
-        newDate.setHours(newDate.getHours() - 1);
-        dates.unshift(newDate);
-        historyValues.unshift(0);
+        newDate.setDate(newDate.getDate() - 1);
+        historyValues.unshift({date: newDate, value: 0});
         prevDate = newDate;
       }
 
+      const filteredValues = historyValues.filter(el => el.date > rangeDate);
 
-      const filteredValues = historyValues.filter(el => new Date(historyArr.find(e => e.value === el).createdAt) >= rangeDate)
       // Set state with updated data
-      setYAxis([...filteredValues])
-      setLabels(dates)
-    }, [portfolioHistories, range])
-
-
+      setYAxis([...filteredValues.map(el => el.value)]);
+      setLabels([...filteredValues.map(el => el.date)]);
+    }, [portfolioHistories, range]);
 
 
     // Fetch stock data from polygon for graph
@@ -51,6 +57,7 @@ export default function LineGraph ({ portfolio }) {
       async function fetchChartData() {
         setChartData({
           labels,
+          maintainAspectRatio: false,
           datasets: [{
             data: yAxis,
             backgroundColor: 'none',
@@ -78,14 +85,13 @@ export default function LineGraph ({ portfolio }) {
           grid: {
             display: false,
             drawOnChartArea: false,
-            min: labels ? labels[0] : 0,
-            max: labels ? labels[labels.length - 1] : 0
           },
           ticks: {
             display: false
           },
         },
         y: {
+          // beginAtZero: true,
           grid: {
             display: false,
             drawOnChartArea: false
@@ -116,12 +122,57 @@ export default function LineGraph ({ portfolio }) {
           <nav className="homePage-chart-nav">
             {/* Display buttons to change the range of data */}
             <ul>
-              <li><button className="chart-nav__button" onClick={() => setRange(1 * 24)}>1D</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(7 * 24)}>1W</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(30 * 24)}>1M</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(90 * 24)}>3M</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(365 * 24)}>1Y</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(365*5 * 24)}>5Y</button></li>
+              <li>
+                <button
+                  className={`chart-nav__button__homepage ${range === 7 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(7);
+                  }}
+                >
+                  1W
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button__homepage ${range === 30 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(30);
+                  }}
+                >
+                  1M
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button__homepage ${range === 90 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(90);
+                  }}
+                >
+                  1Y
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button__homepage ${range === 365 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(365);
+                  }}
+                >
+                  5Y
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`chart-nav__button__homepage ${range === 1825 ? "active" : ""}`}
+                  onClick={() => {
+                    setRange(1825);
+                  }}
+                >
+                  10Y
+                </button>
+              </li>
+
             </ul>
           </nav>
         </section>

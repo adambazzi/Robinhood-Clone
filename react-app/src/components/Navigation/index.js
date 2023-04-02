@@ -71,21 +71,20 @@ function Navigation() {
           onChange={handleSearchQueryChange}
           onKeyDown={handleKeyDown} // Add the onKeyDown event listener
         />
-	  {Object.values(stocks).length > 0 && stockSearchQuery.length > 0 && (
-		<div className='searchBar__results'>
-			{Object.values(stocks)
-			.slice(0, 6) // limit the results to the first 6 elements
-			.map(stock => <SearchBarComponent stock={stock} key={stock.id}/>)}
-		</div>
-	   )}
+        {Object.values(stocks).length > 0 && stockSearchQuery.length > 0 && (
+        <div className='searchBar__results'>
+          {Object.values(stocks)
+          .slice(0, 6) // limit the results to the first 6 elements
+          .map(stock => <SearchBarComponent stock={stock} key={stock.id}/>)}
+        </div>
+        )}
       </div>
 
       <div className="navbar__menuItems">
         <NavLink to="/">Portfolio</NavLink>
-        <a href="/" className='menuItem'>Transactions</a>
         <a href="https://www.linkedin.com/in/adam-bazzi/" target="_blank" rel="noopener noreferrer" className='menuItem'>LinkedIn</a>
         <a href="https://github.com/adambazzi" target="_blank" rel="noopener noreferrer" className='menuItem'>GitHub</a>
-        <a href="/" className='menuItem'>Notifications</a>
+        <button className="menuItem" type="button" onClick={() => alert('Feature Coming Soon...')()}>Notifications</button>
         <ul className="navbar__account">
           <li>
             <ProfileButton

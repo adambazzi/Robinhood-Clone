@@ -28,8 +28,8 @@ export const createTransaction = data => async dispatch => {
     }
 };
 
-export const getTransactions = () => async dispatch => {
-    const response = await fetch('/api/transactions');
+export const getTransactions = (portfolioId) => async dispatch => {
+    const response = await fetch(`/api/transactions/?portfolioId=${portfolioId}`);
     if (response.ok) {
         const payload = await response.json();
         dispatch(loadTransactions(payload))

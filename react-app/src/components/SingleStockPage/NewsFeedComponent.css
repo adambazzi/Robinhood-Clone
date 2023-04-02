@@ -1,0 +1,44 @@
+.articleItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #333;
+    text-decoration: none;
+    width: 800px;
+  }
+
+  .articleItem:hover {
+    background-color: var(--a__gray3);
+  }
+
+  .articleItem-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .articleItem-source {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .articleItem-date {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .articleItem-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .articleItem-description {
+    font-size: 16px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

@@ -7,7 +7,6 @@ from app import app
 
 def calculate_net_worth():
     with current_app.app_context():
-        print('------- i just ran -------------')
         def fetch_closing_cost(stock_id):
             with current_app.app_context():
                 api_key = os.environ.get('REACT_APP_POLYGON_API_KEY')

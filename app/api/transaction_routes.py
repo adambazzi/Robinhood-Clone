@@ -29,3 +29,22 @@ def create_transaction():
 
     # Return newly created transaction
     return jsonify(new_transaction.to_dict()), 201
+
+@transaction_routes.route('/')
+@login_required
+def get_current_user_transactions():
+    """
+    Get all current user's transactions and returns them in a list of transaction dictionaries
+    """
+    # Get portfolioId from query parameter
+    portfolio_id = int(request.args.get('portfolioId'))
+
+    # Query for all transactions associated with the current user
+    current_user_transactions = Transaction.query.filter_by(portfolio_id=portfolio_id).all()
+
+    if not current_user_transactions:
+        return jsonify({'message': 'No transactions available'}), 404
+
+    transaction_data = [transaction.to_dict() for transaction in current_user_transactions]
+
+    return jsonify(transaction_data), 200
