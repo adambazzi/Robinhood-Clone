@@ -1,4 +1,5 @@
 from app.models import Investment, Portfolio_History, Portfolio, db
+from dotenv import load_dotenv
 import os
 import requests
 from flask import current_app
@@ -9,7 +10,7 @@ def calculate_net_worth():
         print('------- i just ran -------------')
         def fetch_closing_cost(stock_id):
             with current_app.app_context():
-                api_key = 'Tm5shHTsQ1xTD2yX5jesV303MwMB1Esb'
+                api_key = os.environ.get('REACT_APP_POLYGON_API_KEY')
                 url = f'https://api.polygon.io/v1/open-close/{stock_id}/2023-01-09?adjusted=true&apiKey={api_key}'
                 with requests.get(url) as response:
                     data = response.json()
