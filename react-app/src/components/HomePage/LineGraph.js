@@ -8,7 +8,7 @@ import './LineGraph.css'
 export default function LineGraph ({ portfolio }) {
     // State for storing chart data, range, stock details
     const [chartData, setChartData] = useState({});
-    const [range, setRange] = useState(90);
+    const [range, setRange] = useState(24);
     const [yAxis, setYAxis] = useState([])
     const [labels, setLabels] = useState(null)
     const dispatch = useDispatch();
@@ -22,15 +22,22 @@ export default function LineGraph ({ portfolio }) {
       const historyArr = Object.values(portfolioHistories)
 
       // Extract value and date from history array
-      const historyValues = historyArr.map(el => Number(el.value))
-      const dates = historyArr.map(el => new Date(el.createdAt))
+      const historyValues = historyArr.map(el => el.value);
+      const dates = historyArr.map(el => new Date(el.createdAt));
       const rangeDate = new Date();
-      rangeDate.setDate(rangeDate.getDate() - range);
+      rangeDate.setHours(rangeDate.getHours() - range);
+
+      let prevDate = new Date(dates[0]);
+      while (prevDate > rangeDate) {
+        const newDate = new Date(prevDate);
+        newDate.setHours(newDate.getHours() - 1);
+        dates.unshift(newDate);
+        historyValues.unshift(0);
+        prevDate = newDate;
+      }
+
 
       const filteredValues = historyValues.filter(el => new Date(historyArr.find(e => e.value === el).createdAt) >= rangeDate)
-      filteredValues.unshift(0)
-      dates.unshift(rangeDate.toLocaleDateString())
-
       // Set state with updated data
       setYAxis([...filteredValues])
       setLabels(dates)
@@ -109,12 +116,12 @@ export default function LineGraph ({ portfolio }) {
           <nav className="homePage-chart-nav">
             {/* Display buttons to change the range of data */}
             <ul>
-              <li><button className="chart-nav__button" onClick={() => setRange(2)}>1D</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(8)}>1W</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(31)}>1M</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(91)}>3M</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(366)}>1Y</button></li>
-              <li><button className="chart-nav__button" onClick={() => setRange(365*5)}>5Y</button></li>
+              <li><button className="chart-nav__button" onClick={() => setRange(1 * 24)}>1D</button></li>
+              <li><button className="chart-nav__button" onClick={() => setRange(7 * 24)}>1W</button></li>
+              <li><button className="chart-nav__button" onClick={() => setRange(30 * 24)}>1M</button></li>
+              <li><button className="chart-nav__button" onClick={() => setRange(90 * 24)}>3M</button></li>
+              <li><button className="chart-nav__button" onClick={() => setRange(365 * 24)}>1Y</button></li>
+              <li><button className="chart-nav__button" onClick={() => setRange(365*5 * 24)}>5Y</button></li>
             </ul>
           </nav>
         </section>

@@ -9,7 +9,6 @@ import { fetchClosingCost } from '../../Utils';
 import { deleteInvestment } from '../../store/investments';
 import ReviseWatchlistModal from './ReviseWatchlistModal';
 import OpenModalButton from "../OpenModalButton";
-import { createPortfolioHistory } from '../../store/portfolio_histories';
 import './BuySellForm.css';
 
 const BuySellForm = () => {
@@ -146,11 +145,6 @@ const BuySellForm = () => {
 
           // Create the transaction data
           let newTransaction = dispatch(createTransaction(payload.transaction));
-          const portfolioHistory = {
-            portfolioId: portfolio.id,
-            value: Number(payload.investment.numShares) * Number(averagePrice)
-          }
-          dispatch(createPortfolioHistory(portfolioHistory))
 
           createdTransactionId = newTransaction.id;
         } else {
