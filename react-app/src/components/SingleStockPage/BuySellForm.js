@@ -60,7 +60,7 @@ const BuySellForm = () => {
   }, [dispatch, portfolio.id, ticker]);
 
   // Find the investment for the current ticker, if it exists
-  let foundInvestment;
+  let foundInvestment = {}
   if (Object.values(investments).length) foundInvestment =  Object.values(investments).find(investment => investment.stock_id === ticker);
 
   // Handle form submission
@@ -88,10 +88,10 @@ const BuySellForm = () => {
         portfolioId: portfolio.id,
         stockId: ticker,
         numShares: buy
-          ? (foundInvestment
+          ? (Object.values(foundInvestment).length
             ? Number(foundInvestment.num_shares) + numShares
             : numShares)
-          : (foundInvestment
+          : (Object.values(foundInvestment).length
             ? Number(foundInvestment.num_shares) - numShares
             : numShares),
       },
@@ -121,7 +121,7 @@ const BuySellForm = () => {
         // If there are no validation errors, dispatch the necessary actions to update the investment, portfolio, and transaction data
         if (!Object.values(errors).length) {
           // Check if the investment exists in the Redux store
-          const investmentExists = foundInvestment !== undefined;
+          const investmentExists = Object.values(foundInvestment).length;
           let createdTransactionId;
 
           const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(1))
@@ -180,7 +180,7 @@ const BuySellForm = () => {
             <div className='buy-sell-buttons-container'>
               <div className='buy-sell-buttons'>
                 <button type="button" className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
-                {foundInvestment && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
+                {Object.values(foundInvestment).length > 0 && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
               </div>
             </div>
             <div className='buySell__entryContainer'>
