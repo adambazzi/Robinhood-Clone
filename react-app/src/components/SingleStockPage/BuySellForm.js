@@ -68,6 +68,7 @@ const BuySellForm = () => {
     e.preventDefault();
 
 
+
     // Calculate the number of shares, total expense, and average price based on the user's inputs and stock data
     const numAmount = Number(amount)
     const numShares = buyingOption === false ? numAmount : numAmount / stockData;
@@ -117,6 +118,9 @@ const BuySellForm = () => {
     if (payload.investment.numShares < 0) {
         errors.unableToSell = "Unable to sell, insufficient funds";
     }
+    if (typeof payload.investment.numShares === 'NaN') {
+      errors.unableToSell = "Invalid input";
+  }
 
         // If there are no validation errors, dispatch the necessary actions to update the investment, portfolio, and transaction data
         if (!Object.values(errors).length) {
@@ -124,7 +128,7 @@ const BuySellForm = () => {
           const investmentExists = Object.values(foundInvestment).length;
           let createdTransactionId;
 
-          const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(1))
+          const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(2))
           // Create or edit the investment data
           if (investmentExists && verifyInvestmentDelete > 0) {
             dispatch(editInvestment(payload.investment, Number(foundInvestment.id)));
@@ -198,11 +202,12 @@ const BuySellForm = () => {
               <label className='amount-label'>Amount</label>
                 <input
                   id="amount"
-                  type="decimal"
+                  type="number"
                   className='amount-input'
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   min="0"
+                  step='any'
                 />
             </div>
             <div className='buySell__marketPrice'>
