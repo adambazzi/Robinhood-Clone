@@ -41,12 +41,12 @@ const BuySellForm = () => {
     if (portfolio.id) {
       dispatch(getInvestments(Number(portfolio.id)));
     }
-  }, [dispatch, portfolio.id]);
+  }, [dispatch, portfolio]);
 
   // Fetch investment data and stock data when the portfolio data or ticker changes
   useEffect(() => {
     const fetchInvestmentData = async () => {
-      if (portfolio.id) {
+      if (Object.values(portfolio).length) {
         dispatch(getInvestments(Number(portfolio.id)));
       }
     }
@@ -100,6 +100,7 @@ const BuySellForm = () => {
         buyingPower: portfolio.buying_power - totalExpense
       }
     };
+    console.log('step1', payload)
 
     // Perform validation checks on the payload data
     const errors = {};
@@ -123,7 +124,7 @@ const BuySellForm = () => {
           const investmentExists = foundInvestment !== undefined;
           let createdTransactionId;
 
-          const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(2))
+          const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(1))
           // Create or edit the investment data
           if (investmentExists && verifyInvestmentDelete > 0) {
             dispatch(editInvestment(payload.investment, Number(foundInvestment.id)));
