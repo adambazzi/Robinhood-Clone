@@ -17,7 +17,7 @@ function LoginFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const history = useHistory()
 
   if (sessionUser) return <Redirect to="/" />;
@@ -66,7 +66,7 @@ function LoginFormPage() {
       <form className="login-form" onSubmit={handleSubmit}>
         <h1 className="login-form__title">Log in to Arrow</h1>
 
-        <div className="login-form__errors">{errors.length ? 'Unable to login with provided credentials' : ''}</div>
+        <div className="login-form__errors">{Object.values(errors).length > 0 ? 'Unable to login with provided credentials' : ''}</div>
         <label className="login-form__label">
           <div>Email</div>
           <input
