@@ -155,7 +155,7 @@ export default function LineGraph ({ portfolio }) {
                     setRange(90);
                   }}
                 >
-                  1Y
+                  3M
                 </button>
               </li>
               <li>
@@ -165,17 +165,17 @@ export default function LineGraph ({ portfolio }) {
                     setRange(365);
                   }}
                 >
-                  5Y
+                  1Y
                 </button>
               </li>
               <li>
                 <button
-                  className={`chart-nav__button__homepage ${range === 1825 ? "active" : ""}`}
+                  className={`chart-nav__button__homepage ${range === 365*5 ? "active" : ""}`}
                   onClick={() => {
-                    setRange(1825);
+                    setRange(365 * 5);
                   }}
                 >
-                  10Y
+                  5Y
                 </button>
               </li>
 
