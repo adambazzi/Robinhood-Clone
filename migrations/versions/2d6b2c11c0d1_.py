@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6737d880461f
+Revision ID: 2d6b2c11c0d1
 Revises: 
-Create Date: 2023-04-02 17:02:24.060851
+Create Date: 2023-04-02 20:00:01.421145
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6737d880461f'
+revision = '2d6b2c11c0d1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,7 +40,7 @@ def upgrade():
     op.create_table('portfolios',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('buying_power', sa.Integer(), nullable=True),
+    sa.Column('buying_power', sa.Float(precision=2), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
@@ -59,7 +59,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('portfolio_id', sa.Integer(), nullable=False),
     sa.Column('stock_id', sa.String(), nullable=False),
-    sa.Column('num_shares', sa.Integer(), nullable=False),
+    sa.Column('num_shares', sa.Float(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
@@ -87,9 +87,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('portfolio_id', sa.Integer(), nullable=False),
     sa.Column('stock_id', sa.String(), nullable=False),
-    sa.Column('num_shares', sa.Integer(), nullable=False),
-    sa.Column('average_price', sa.Integer(), nullable=False),
-    sa.Column('total_expense', sa.Integer(), nullable=False),
+    sa.Column('num_shares', sa.Float(), nullable=False),
+    sa.Column('average_price', sa.Float(), nullable=False),
+    sa.Column('total_expense', sa.Float(), nullable=False),
     sa.Column('executed_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
     sa.ForeignKeyConstraint(['stock_id'], ['stocks.ticker'], ),
@@ -98,7 +98,7 @@ def upgrade():
     op.create_table('transfers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('portfolio_id', sa.Integer(), nullable=False),
-    sa.Column('amount', sa.Integer(), nullable=False),
+    sa.Column('amount', sa.Float(), nullable=False),
     sa.Column('executed_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
     sa.PrimaryKeyConstraint('id')

@@ -10,7 +10,7 @@ class Transfer(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
-    amount = db.Column(db.Integer, nullable=False)
+    amount = db.Column(db.Float, nullable=False)
     executed_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define Relationships

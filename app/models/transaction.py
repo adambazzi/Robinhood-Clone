@@ -11,9 +11,9 @@ class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
     stock_id = db.Column(db.String, db.ForeignKey(add_prefix_for_prod('stocks.ticker')), nullable=False)
-    num_shares = db.Column(db.Integer, nullable=False)
-    average_price = db.Column(db.Integer, nullable=False)
-    total_expense = db.Column(db.Integer, nullable=False)
+    num_shares = db.Column(db.Float, nullable=False)
+    average_price = db.Column(db.Float, nullable=False)
+    total_expense = db.Column(db.Float, nullable=False)
     executed_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define Relationships
