@@ -7,7 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './index.css'
 import { useWatchlistFormContext } from "../../context/WatchlistContext";
-import { fetchStockData } from "../SingleStockPage/FetchStockData";
+import { fetchStockData } from "../../Utils";
 import StockComponent from "./StockComponent";
 import { clearInvestments, getInvestments } from "../../store/investments";
 import { clearPortfolios, getPortfolio } from "../../store/portfolio";
@@ -48,18 +48,26 @@ function HomePage() {
 
   const fetchStocks = useCallback(async () => {
     const investmentIds = Object.keys(investments);
-    const promises = investmentIds.map(id => fetchStockData(investments[id].stock_id));
-    const data = await Promise.all(promises);
-    const stockDataMap = investmentIds.reduce((acc, id, index) => {
-      acc[id] = data[index];
-      return acc;
-    }, {});
-    setInvestmentStockData(stockDataMap);
+    if (investmentIds.length) {
+      const promises = investmentIds.map(id => fetchStockData(investments[String(id)].stock_id));
+      const data = await Promise.all(promises);
+      const stockDataMap = investmentIds.reduce((acc, id, index) => {
+        acc[id] = data[index];
+        return acc;
+      }, {});
+      setInvestmentStockData(stockDataMap);
+
+    }
   }, [investments, fetchStockData]);
 
   useEffect(() => {
     fetchStocks();
   }, [fetchStocks]);
+
+
+  if (!Object.values(investmentStockData).length ) {
+    return null
+  }
 
 
   return (

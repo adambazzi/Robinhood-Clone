@@ -9,11 +9,11 @@ import { fetchTickerNews } from '../../Utils';
 import NewsFeedComponent from './NewsFeedComponent';
 
 
-
 function SingleStockPage(){
     const {ticker} = useParams()
     const [details, setDetails] = useState(null);
     const [news, setNews] = useState([])
+
 
 
       // Fetch stock details such as company name
@@ -34,15 +34,17 @@ function SingleStockPage(){
           const dateB = new Date(b.published_utc);
           return dateB - dateA;
         });
-        setNews(data);
+        await setNews(data);
       }
       fetchChartData();
     }, [ticker]);
 
+    if (!news.length) return null
+
 	return (
         <>
         <div className="singleStockPage-upper">
-            <LineGraph details={details} />
+            <LineGraph details={details} ticker={ticker} />
             <div className="buySell__master">
                 <BuySellForm />
             </div>
@@ -51,7 +53,7 @@ function SingleStockPage(){
             <AboutComponent details={details} />
             <div className='news__section'>
               <h2 className='news_header'>News</h2>
-              {news.length > 0 && news.map(article => <NewsFeedComponent article={article} key={article.id}/>) }
+              {news.map(article => <NewsFeedComponent article={article} key={article.id}/>) }
             </div>
         </div>
         </>

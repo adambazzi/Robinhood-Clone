@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editWatchlist } from "../../store/watchlists";
 import { useModal } from "../../context/Modal";
 import './EditWatchlistModel.css'
@@ -7,7 +7,6 @@ import './EditWatchlistModel.css'
 function EditWatchlistModel({watchlistId, watchlist}) {
   const dispatch = useDispatch();
   const [name, setName] = useState(watchlist.name);
-  const [validationErrors, setValidationErrors] = useState({});
   const { closeModal } = useModal();
   const [disableButton, setDisableButton] = useState(false)
 

@@ -12,7 +12,7 @@ function CreateWatchlistForm() {
     const [validationErrors, setValidationErrors] = useState({
       invalidInput: ""
     })
-    const { watchlistFormState, setWatchlistFormState } = useWatchlistFormContext();
+    const { setWatchlistFormState } = useWatchlistFormContext();
 
 
 

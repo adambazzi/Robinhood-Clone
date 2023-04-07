@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import { fetchStockChartData } from '../../Utils';
 import './LineGraph.css';
 
-function LineGraph({details}) {
+function LineGraph({details, ticker}) {
   // State for storing chart data, range, stock details
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState({});
   const [range, setRange] = useState(90);
-
-
-  // Get the stock ticker from the URL params
-  const { ticker } = useParams();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Fetch stock details such as company name
-
+  useEffect(() => {
+    // Make the API call to fetch stock details here
+  }, [ticker]);
 
   // Fetch stock data from polygon for graph
   useEffect(() => {
@@ -39,6 +37,7 @@ function LineGraph({details}) {
           fill: false
         }],
       });
+      setIsLoaded(true)
     }
     fetchChartData();
   }, [range, ticker]);
@@ -73,8 +72,10 @@ function LineGraph({details}) {
   };
 
 
-
   return (
+    <>
+
+    {isLoaded && (
       <section className="stock__chart">
         {/* Display the company name if it has been fetched */}
         <h3>{details && details.name}</h3>
@@ -143,7 +144,8 @@ function LineGraph({details}) {
 
             </ul>
         </nav>
-      </section>
+      </section>)}
+        </>
   );
 
 }

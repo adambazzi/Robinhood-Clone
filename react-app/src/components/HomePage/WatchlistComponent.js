@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import StockComponent from "./StockComponent";
-import { fetchStockData } from "../SingleStockPage/FetchStockData";
+import { fetchStockData } from "../../Utils";
 import EditWatchlistModel from "./EditWatchlistModel";
 import DeleteWatchlistModel from "./DeleteWatchlistModel";
 import OpenModalButton from "../OpenModalButton";

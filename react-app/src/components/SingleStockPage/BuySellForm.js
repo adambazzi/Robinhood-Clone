@@ -19,6 +19,7 @@ const BuySellForm = () => {
   const [buy, setBuy] = useState(true);
   const [amount, setAmount] = useState(0);
   const [stockData, setStockData] = useState(0)
+  const [foundInvestment, setFoundInvestment] = useState({})
   let { ticker } = useParams();
   ticker = ticker.toUpperCase();
   const [validationErrors, setValidationErrors] = useState({
@@ -34,34 +35,31 @@ const BuySellForm = () => {
   // Fetch portfolio data when the component mounts
   useEffect(() => {
     dispatch(getPortfolio(Number(user.id)));
-  }, [dispatch, user.id]);
+  }, [dispatch, user]);
 
   // Fetch investment data when the portfolio data is loaded or the ticker changes
-  useEffect(() => {
-    if (portfolio.id) {
-      dispatch(getInvestments(Number(portfolio.id)));
-    }
-  }, [dispatch, portfolio]);
-
   // Fetch investment data and stock data when the portfolio data or ticker changes
   useEffect(() => {
     const fetchInvestmentData = async () => {
-      if (Object.values(portfolio).length) {
+      if (portfolio.id) {
         dispatch(getInvestments(Number(portfolio.id)));
       }
-    }
+    };
     const fetchStockData = async () => {
       let value = await fetchClosingCost(ticker);
       setStockData(Number(value));
-    }
+    };
 
-    Promise.all([fetchInvestmentData(), fetchStockData()])
-      .catch(error => console.error(error));
-  }, [dispatch, portfolio.id, ticker]);
+    Promise.all([fetchInvestmentData(), fetchStockData()]).catch((error) =>
+      console.error(error)
+    );
+  }, [dispatch, ticker]);
+
 
   // Find the investment for the current ticker, if it exists
-  let foundInvestment = {}
-  if (Object.values(investments).length) foundInvestment =  Object.values(investments).find(investment => investment.stock_id === ticker);
+  useEffect(() => {
+    setFoundInvestment(Object.values(investments).find(investment => investment.stock_id === ticker) || {});
+  }, [investments, ticker]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -101,7 +99,6 @@ const BuySellForm = () => {
         buyingPower: portfolio.buying_power - totalExpense
       }
     };
-    console.log('step1', payload)
 
     // Perform validation checks on the payload data
     const errors = {};
@@ -177,6 +174,8 @@ const BuySellForm = () => {
 
   const closeMenu = () => setShowMenu(false);
 
+  if (!Object.values(portfolio).length) return null
+
   return (
       <section className='stock-form-section'>
         <div className='stock-form-container'>
@@ -184,7 +183,7 @@ const BuySellForm = () => {
             <div className='buy-sell-buttons-container'>
               <div className='buy-sell-buttons'>
                 <button type="button" className={`buy-button ${buy ? 'underline' : ''}`} onClick={() => setBuy(true)}>Buy</button>
-                {Object.values(foundInvestment).length > 0 && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
+                {foundInvestment && Object.values(foundInvestment).length > 0 && <button type="button" className={`sell-button ${buy ? '' : 'underline'}`} onClick={() => setBuy(false)}>Sell</button>}
               </div>
             </div>
             <div className='buySell__entryContainer'>
@@ -218,7 +217,8 @@ const BuySellForm = () => {
             </div>
             <button type="submit" className='submit-button'>Review order</button>
             <div className='buySell__buyingPower'>
-              {buy ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : (buyingOption ? `$${Number(foundInvestment.num_shares * stockData).toFixed(2)} availableⓘ` : `${foundInvestment.num_shares.toFixed(2)} shares availableⓘ`)}
+              {buy === true && (buyingOption ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : `$${(Number(portfolio.buying_power) * stockData).toFixed(2)} shares available ⓘ`)}
+              {buy === false && Object.values(foundInvestment).length > 0 && Object.values(foundInvestment).length > 0 && (buyingOption ? `$${Number(foundInvestment.num_shares * stockData).toFixed(2)} availableⓘ` : `${foundInvestment.num_shares.toFixed(2)} shares availableⓘ`)}
             </div>
           </form>
         </div>

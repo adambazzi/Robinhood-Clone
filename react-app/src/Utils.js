@@ -1,7 +1,7 @@
 
 
 export const fetchStockChartData = async (ticker, range=0) => {
-    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+    const apiKey = 'PUsMG2IrSAOB4kKXV35tF9Wp0HG1fISd';
     const dateTo = new Date();
     const dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - range);
@@ -15,7 +15,7 @@ export const fetchStockChartData = async (ticker, range=0) => {
 
 // Get information on single stock page about the business
 export const fetchStockDetails = async (symbol) => {
-    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+    const apiKey = 'PUsMG2IrSAOB4kKXV35tF9Wp0HG1fISd';
     const url = `https://api.polygon.io/v1/meta/symbols/${symbol}/company?apiKey=${apiKey}`
     const response = await fetch(url);
     const data = await response.json();
@@ -24,10 +24,8 @@ export const fetchStockDetails = async (symbol) => {
 
 // Get the most recent closing cost
 export const fetchClosingCost = async (ticker) => {
-    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
-
+    const apiKey = 'PUsMG2IrSAOB4kKXV35tF9Wp0HG1fISd';
     const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${apiKey}`
-
     const response = await fetch(url);
     const data = await response.json();
 
@@ -36,7 +34,7 @@ export const fetchClosingCost = async (ticker) => {
 
 // Get the most recent stock date including closing cost, opening cost etc
 export const fetchStockData = async (ticker) => {
-    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+    const apiKey = 'PUsMG2IrSAOB4kKXV35tF9Wp0HG1fISd';
 
     const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${apiKey}`;
 
@@ -48,7 +46,7 @@ export const fetchStockData = async (ticker) => {
 
 // Get news related to a single stock
 export const fetchTickerNews = async (ticker) => {
-    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+    const apiKey = 'PUsMG2IrSAOB4kKXV35tF9Wp0HG1fISd';
     const url = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&order=asc&limit=10&sort=published_utc&apiKey=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
