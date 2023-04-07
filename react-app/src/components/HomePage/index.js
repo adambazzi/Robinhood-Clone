@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearWatchlists, getWatchlists } from "../../store/watchlists";
 import CreateWatchlistForm from "./CreateWatchlistForm";
@@ -46,28 +46,22 @@ function HomePage() {
   }, [dispatch, user.id, portfolio.id]);
 
 
-  const fetchStocks = useCallback(async () => {
-    const investmentIds = Object.keys(investments);
-    if (investmentIds.length) {
-      const promises = investmentIds.map(id => fetchStockData(investments[String(id)].stock_id));
-      const data = await Promise.all(promises);
-      const stockDataMap = investmentIds.reduce((acc, id, index) => {
-        acc[id] = data[index];
-        return acc;
-      }, {});
-      setInvestmentStockData(stockDataMap);
-
-    }
-  }, [investments, fetchStockData]);
-
   useEffect(() => {
+    const fetchStocks = async () => {
+      const investmentIds = Object.keys(investments);
+      if (investmentIds.length) {
+        const promises = investmentIds.map(id => fetchStockData(investments[String(id)].stock_id));
+        const data = await Promise.all(promises);
+        const stockDataMap = investmentIds.reduce((acc, id, index) => {
+          acc[id] = data[index];
+          return acc;
+        }, {});
+        setInvestmentStockData(stockDataMap);
+      }
+    };
+
     fetchStocks();
-  }, [fetchStocks]);
-
-
-  if (!Object.values(investmentStockData).length ) {
-    return null
-  }
+  }, [investments, fetchStockData]);
 
 
   return (
@@ -85,7 +79,7 @@ function HomePage() {
           <div className="stocks_container_header">
             <div className="stocks_container_stocks">Stocks</div>
           </div>
-          {Object.values(investmentStockData).map((stockData, index) => (
+          {Object.values(investmentStockData).length > 0 && Object.values(investmentStockData).map((stockData, index) => (
             <StockComponent key={index} stock={stockData} />
           ))}
         </div>

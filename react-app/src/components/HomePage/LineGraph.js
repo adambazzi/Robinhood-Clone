@@ -1,115 +1,117 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { clearPorfolioHistories, getPortfolioHistories } from "../../store/portfolio_histories";
 import { useDispatch, useSelector } from "react-redux";
 import { Line } from 'react-chartjs-2';
 import './LineGraph.css'
 
 export default function LineGraph ({ portfolio }) {
-  // State for storing chart data, range, stock details
-  const [chartData, setChartData] = useState({});
-  const [range, setRange] = useState(90);
-  const [yAxis, setYAxis] = useState([])
-  const [labels, setLabels] = useState(null)
-  const dispatch = useDispatch();
-  const portfolioHistories = useSelector(state => state.portfolioHistories)
+    // State for storing chart data, range, stock details
+    const [chartData, setChartData] = useState({});
+    const [range, setRange] = useState(90);
+    const [yAxis, setYAxis] = useState([])
+    const [labels, setLabels] = useState(null)
+    const dispatch = useDispatch();
+    const portfolioHistories = useSelector(state => state.portfolioHistories)
+    useEffect(() => {
+      dispatch(getPortfolioHistories(portfolio.id))
 
-  useEffect(() => {
-    dispatch(getPortfolioHistories(portfolio.id))
-  }, [dispatch, portfolio.id])
 
-  useEffect(() => {
-    return () => {
+    }, [portfolio])
+
+    useEffect(() => {
       dispatch(clearPorfolioHistories())
-    }
-  }, [dispatch])
+    }, [])
 
-  const rangeDate = new Date();
-  rangeDate.setDate(rangeDate.getDate() - range);
+    const rangeDate = new Date();
+    rangeDate.setDate(rangeDate.getDate() - range);
 
-  useEffect(() => {
-    // Convert object to arrays
-    const historyArr = Object.values(portfolioHistories);
+    useEffect(() => {
+      // Convert object to arrays
+      const historyArr = Object.values(portfolioHistories);
 
-    if (historyArr.length === 0) {
-      return; // exit the function if the array is empty
-    }
-
-    // Extract value and date from history array and sort by date
-    const historyValues = historyArr.map(el => {
-      return {
-        value: el.value,
-        date: new Date(el.createdAt)
-      };
-    }).sort((a, b) => a.date - b.date);
-
-    let prevDate = new Date(historyValues[0].date);
-    while (prevDate > rangeDate) {
-      const newDate = new Date(prevDate);
-      newDate.setDate(newDate.getDate() - 1);
-      historyValues.unshift({date: newDate, value: 0});
-      prevDate = newDate;
-    }
-
-    const filteredValues = historyValues.filter(el => el.date > rangeDate);
-
-    // Set state with updated data
-    setYAxis([...filteredValues.map(el => el.value)]);
-    setLabels([...filteredValues.map(el => el.date)]);
-  }, [portfolioHistories, range]);
-
-  // Fetch stock data from polygon for graph
-  useEffect(() => {
-    async function fetchChartData() {
-      setChartData({
-        labels,
-        maintainAspectRatio: false,
-        datasets: [{
-          data: yAxis,
-          backgroundColor: 'none',
-          borderColor: '#5AC53B',
-          borderWidth: 2,
-          pointBorderColor: 'rgba(0, 0, 0, 0)',
-          pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-          pointHoverBackgroundColor: '#5AC53B',
-          pointHoverBorderColor: '#000000',
-          pointHoverBorderWidth: 4,
-          pointHoverRadius: 6,
-          tension: 0.0,
-          fill: false
-        }],
-      });
-    }
-    fetchChartData();
-  }, [range, yAxis, labels]);
-
-  // Chart.js options
-  const options = {
-    responsive: true,
-    scales: {
-      x: {
-        grid: {
-          display: false,
-          drawOnChartArea: false,
-        },
-        ticks: {
-          display: false
-        },
-      },
-      y: {
-        // beginAtZero: true,
-        grid: {
-          display: false,
-          drawOnChartArea: false
-        },
-        ticks: {
-          display: false
-        },
+      if (historyArr.length === 0) {
+        return; // exit the function if the array is empty
       }
-    },
-    plugins: {
-      legend: false,
-    },
-  };
+
+      // Extract value and date from history array and sort by date
+      const historyValues = historyArr.map(el => {
+        return {
+          value: el.value,
+          date: new Date(el.createdAt)
+        };
+      }).sort((a, b) => a.date - b.date);
+
+      let prevDate = new Date(historyValues[0].date);
+      while (prevDate > rangeDate) {
+        const newDate = new Date(prevDate);
+        newDate.setDate(newDate.getDate() - 1);
+        historyValues.unshift({date: newDate, value: 0});
+        prevDate = newDate;
+      }
+
+      const filteredValues = historyValues.filter(el => el.date > rangeDate);
+
+      // Set state with updated data
+      setYAxis([...filteredValues.map(el => el.value)]);
+      setLabels([...filteredValues.map(el => el.date)]);
+    }, [portfolioHistories, range]);
+
+
+    // Fetch stock data from polygon for graph
+    useEffect(() => {
+      async function fetchChartData() {
+        setChartData({
+          labels,
+          maintainAspectRatio: false,
+          datasets: [{
+            data: yAxis,
+            backgroundColor: 'none',
+            borderColor: '#5AC53B',
+            borderWidth: 2,
+            pointBorderColor: 'rgba(0, 0, 0, 0)',
+            pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+            pointHoverBackgroundColor: '#5AC53B',
+            pointHoverBorderColor: '#000000',
+            pointHoverBorderWidth: 4,
+            pointHoverRadius: 6,
+            tension: 0.0,
+            fill: false
+          }],
+        });
+      }
+      fetchChartData();
+    }, [range, yAxis])
+
+    // Chart.js options
+    const options = {
+      responsive: true,
+      scales: {
+        x: {
+          grid: {
+            display: false,
+            drawOnChartArea: false,
+          },
+          ticks: {
+            display: false
+          },
+        },
+        y: {
+          // beginAtZero: true,
+          grid: {
+            display: false,
+            drawOnChartArea: false
+          },
+          ticks: {
+            display: false
+          },
+        }
+      },
+      plugins: {
+        legend: false,
+      },
+    };
+
+
 
     return (
         <section className="homePage_chart">

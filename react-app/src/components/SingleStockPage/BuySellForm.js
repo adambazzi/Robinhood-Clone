@@ -13,32 +13,31 @@ import './BuySellForm.css';
 
 const BuySellForm = () => {
   const dispatch = useDispatch();
-  // The 'buyingOption' dropdown allows the user to choose whether they want to buy in USD or shares.
-  const [buyingOption, setBuyingOption] = useState(true);
-  // The 'buy' option determines if the user is buying or selling shares
-  const [buy, setBuy] = useState(true);
-  const [amount, setAmount] = useState(0);
-  const [stockData, setStockData] = useState(0)
-  const [foundInvestment, setFoundInvestment] = useState({})
-  let { ticker } = useParams();
-  ticker = ticker.toUpperCase();
+
+  // State variables
+  const [buyingOption, setBuyingOption] = useState(true); // true: buy, false: sell
+  const [buy, setBuy] = useState(true); // true: buy, false: sell
+  const [amount, setAmount] = useState(0); // the dollar amount to buy/sell
+  const [stockData, setStockData] = useState(0); // the current stock price
+  const [foundInvestment, setFoundInvestment] = useState({}); // object with the user's investment details (if any)
+  const { ticker } = useParams(); // the stock symbol passed as a parameter
   const [validationErrors, setValidationErrors] = useState({
     buyPowerInsufficient: '',
     unableToSell: '',
-    inputCannotBeNegative: ''
+    inputCannotBeNegative: '',
   });
 
-  const user = useSelector(state => state.session.user);
-  const investments = useSelector(state => state.investments);
-  const portfolio = useSelector(state => state.portfolio);
+  // Redux state variables
+  const user = useSelector(state => state.session.user); // the logged in user
+  const investments = useSelector(state => state.investments); // the user's investments
+  const portfolio = useSelector(state => state.portfolio); // the user's portfolio
 
-  // Fetch portfolio data when the component mounts
+  // Fetch portfolio data when the user logs in or logs out
   useEffect(() => {
     dispatch(getPortfolio(Number(user.id)));
   }, [dispatch, user]);
 
-  // Fetch investment data when the portfolio data is loaded or the ticker changes
-  // Fetch investment data and stock data when the portfolio data or ticker changes
+  // Fetch investment and stock data when the component mounts or when the stock ticker changes
   useEffect(() => {
     const fetchInvestmentData = async () => {
       if (portfolio.id) {
@@ -46,17 +45,15 @@ const BuySellForm = () => {
       }
     };
     const fetchStockData = async () => {
-      let value = await fetchClosingCost(ticker);
+      const value = await fetchClosingCost(ticker);
       setStockData(Number(value));
     };
 
-    Promise.all([fetchInvestmentData(), fetchStockData()]).catch((error) =>
-      console.error(error)
-    );
-  }, [dispatch, ticker]);
+    Promise.all([fetchInvestmentData(), fetchStockData()])
+      .catch((error) => console.error(error));
+  }, [dispatch, portfolio.id, ticker]);
 
-
-  // Find the investment for the current ticker, if it exists
+  // Update the foundInvestment state variable when the user's investments or the stock ticker changes
   useEffect(() => {
     setFoundInvestment(Object.values(investments).find(investment => investment.stock_id === ticker) || {});
   }, [investments, ticker]);
@@ -65,48 +62,41 @@ const BuySellForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-
-    // Calculate the number of shares, total expense, and average price based on the user's inputs and stock data
-    const numAmount = Number(amount)
-    const numShares = buyingOption === false ? numAmount : numAmount / stockData;
+    // Calculate transaction data
+    const numAmount = Number(amount);
+    const numShares = buyingOption ? numAmount / stockData : numAmount;
     const totalExpense = buy ? stockData * numShares : -1 * stockData * numShares;
     const averagePrice = stockData;
 
-
-    // Construct the payload object for the request
+    // Create payload object with data to be sent to the server
     const payload = {
       transaction: {
         portfolioId: portfolio.id,
         stockId: ticker,
-        numShares: numShares,
-        averagePrice: averagePrice,
-        totalExpense: totalExpense,
+        numShares,
+        averagePrice,
+        totalExpense,
       },
       investment: {
         portfolioId: portfolio.id,
         stockId: ticker,
         numShares: buy
-          ? (Object.values(foundInvestment).length
-            ? Number(foundInvestment.num_shares) + numShares
-            : numShares)
-          : (Object.values(foundInvestment).length
-            ? Number(foundInvestment.num_shares) - numShares
-            : numShares),
+          ? (Object.values(foundInvestment).length ? Number(foundInvestment.num_shares) + numShares : numShares)
+          : (Object.values(foundInvestment).length ? Number(foundInvestment.num_shares) - numShares : numShares),
       },
       portfolio: {
         userId: user.id,
-        buyingPower: portfolio.buying_power - totalExpense
-      }
+        buyingPower: portfolio.buying_power - totalExpense,
+      },
     };
 
-    // Perform validation checks on the payload data
+    // Validate form data and handle errors
     const errors = {};
-    if (payload.transaction.totalExpense > portfolio.buying_power && buy === true) {
-      errors.buyPowerInsufficient = "Buy power insufficient";
+    if (buy && payload.transaction.totalExpense > portfolio.buying_power) {
+      errors.buyPowerInsufficient = 'Buy power insufficient';
     }
-    if (buy === true && Number(payload.transaction.totalExpense.toFixed(2)) <= 0) {
-      errors.inputCannotBeNegative = "Input cannot be negative or 0";
+    if (buy && Number(payload.transaction.totalExpense.toFixed(2)) <= 0) {
+      errors.inputCannotBeNegative = 'Input cannot be negative or 0';
     }
 
     if (buy === false && payload.transaction.totalExpense >= 0) {
@@ -119,36 +109,36 @@ const BuySellForm = () => {
       errors.unableToSell = "Invalid input";
   }
 
-        // If there are no validation errors, dispatch the necessary actions to update the investment, portfolio, and transaction data
-        if (!Object.values(errors).length) {
-          // Check if the investment exists in the Redux store
-          const investmentExists = Object.values(foundInvestment).length;
-          let createdTransactionId;
+  // If there are no validation errors, dispatch the necessary actions to update the investment, portfolio, and transaction data
+  if (!Object.values(errors).length) {
+    // Check if the investment exists in the Redux store
+    const investmentExists = Object.values(foundInvestment).length;
+    let createdTransactionId;
 
-          const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(2))
-          // Create or edit the investment data
-          if (investmentExists && verifyInvestmentDelete > 0) {
-            dispatch(editInvestment(payload.investment, Number(foundInvestment.id)));
-          }
-          else if (investmentExists && verifyInvestmentDelete === 0) {
-            setBuy(true)
-            dispatch(deleteInvestment(Number(foundInvestment.id)))
-          } else {
-            dispatch(createInvestment(payload.investment));
-          }
+    const verifyInvestmentDelete = Number((Number(payload.investment.numShares) * Number(payload.transaction.averagePrice)).toFixed(2))
+    // Create or edit the investment data
+    if (investmentExists && verifyInvestmentDelete > 0) {
+      dispatch(editInvestment(payload.investment, Number(foundInvestment.id)));
+    }
+    else if (investmentExists && verifyInvestmentDelete === 0) {
+      setBuy(true)
+      dispatch(deleteInvestment(Number(foundInvestment.id)))
+    } else {
+      dispatch(createInvestment(payload.investment));
+    }
 
-          // Edit the portfolio data
-          dispatch(editPortfolio(payload.portfolio, Number(portfolio.id)));
+    // Edit the portfolio data
+    dispatch(editPortfolio(payload.portfolio, Number(portfolio.id)));
 
-          // Create the transaction data
-          let newTransaction = dispatch(createTransaction(payload.transaction));
+    // Create the transaction data
+    let newTransaction = dispatch(createTransaction(payload.transaction));
 
-          createdTransactionId = Number(newTransaction.id);
-        } else {
-          // If there are validation errors, set the validationErrors state to the error messages
-          setValidationErrors(errors);
-        }
-      };
+    createdTransactionId = Number(newTransaction.id);
+  } else {
+    // If there are validation errors, set the validationErrors state to the error messages
+    setValidationErrors(errors);
+  }
+};
 
 
   // State variables for showing and hiding the modal menu
