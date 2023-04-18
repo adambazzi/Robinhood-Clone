@@ -73,7 +73,7 @@ VGAN, a Yelp clone, is a website for users to post their restaurant businesses a
 
 	* Create, Read, Update, Delete
 
-* Transactions + Investments + Transfers
+* Transactions + Investments + Transfers + Portfolio
 
 	* Create, Read, Update, Delete
 
