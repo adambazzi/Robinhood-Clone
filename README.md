@@ -1,12 +1,12 @@
-# VGAN
+# Arrow
 
 ## Project Description
 
-VGAN, a Yelp clone, is a website for users to post their restaurant businesses and leave (possibly passive aggressive) reviews about the businesses.
+Arrow, a Robinhood clone, is a trading platform that allows users to buy and sell stocks, ETFs, and cryptocurrencies.
 
 ## Deployed Live Link
 
-[VGAN](https://vgan.onrender.com/)
+[Arrow](https://arrow-zwnd.onrender.com)
 
 ## Technologies/Frameworks Used
 
