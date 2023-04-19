@@ -1,6 +1,6 @@
 
 
-const apiKey = 'ztsOEV3luptJb7idNc36awUpUevpRncX';
+const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 const today = new Date();
 const dateString = today.toISOString().slice(0, 10);
 export const fetchStockChartData = async (ticker, range=0) => {
