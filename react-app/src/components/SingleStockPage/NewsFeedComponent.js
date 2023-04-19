@@ -3,7 +3,7 @@ import './NewsFeedComponent.css'
 
 function NewsFeedComponent ({ article }) {
     const title = article.title
-    const description = article.description.substring(0, 40)
+    const description = article.description ? article.description.substring(0, 40) : "";
     const imageURL = article.image_url
     const articleURL = article.article_url
     const date = new Date(article.published_utc)

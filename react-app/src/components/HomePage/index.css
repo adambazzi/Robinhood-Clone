@@ -16,12 +16,13 @@
   .homePage__sideBar_container {
     width: 330px;
     display: flex;
-    position: sticky;
+    position: fixed;
     display: flex;
     flex-direction: column;
     border: solid 2px var(--a__gray1);
     height: 87vh;
     overflow: auto;
+    right: 170px;
   }
 
   /* Hide the scrollbar */
@@ -104,4 +105,71 @@
 }
 .transactions_container {
   margin-top: 100px;
+}
+
+
+.daily-snacks {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: var(--a__gray3);
+  border-radius: 5px;
+  border: solid 1px var(--a__gray1);
+  margin-top: 50px;
+}
+.daily-snacks__top {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  color: #333333;
+  margin-top: 10px;
+}
+.daily-snacks__nasdaq1 {
+  font-weight: bold;
+}
+.daily-snacks__nasdaq1, .daily-snacks__nasdaq2, .daily-snacks__nasdaq3 {
+  padding: 0 10px;
+}
+.red {
+  color: red;
+}
+.green {
+  color: var(--a__primary-green);
+}
+.daily-snacks__bottom {
+  color: #333333;
+  padding: 20px 10% 20px 10%;
+}
+.daily-snacks__closing-opening {
+  font-weight: 500;
+}
+.daily-snacks__update {
+  padding: 20px 0;
+}
+.daily-snacks__nasdaq {
+  border-right: solid 2px var(--a__gray1);
+  width: 50%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+.daily-snacks__bitcoin {
+  width: 50%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+
+}
+
+
+/* home page newsfeed */
+.home-page__newsFeed {
+  margin-top: 80px;
+  width: 100%;
+  margin-left: 5%;
 }
