@@ -1,4 +1,5 @@
 
+require('dotenv').config();
 
 const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 const today = new Date();

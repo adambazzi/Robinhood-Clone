@@ -198,16 +198,18 @@ const BuySellForm = () => {
                   min="0"
                   step='any'
                 />
+
             </div>
             <div className='buySell__marketPrice'>
               <div style={{"color": "var(--a__primary-green)"}}>Market Price</div><div>${stockData && stockData}</div>
             </div>
             <div>
-              {/* Total Cost {buyingOption ? 'Total Cost ' + } */}
+                {buy && validationErrors.buyPowerInsufficient && <div className='form-error-handlers'>Buying Power insufficient</div>}
+                {!buy && validationErrors.unableToSell && <div className='form-error-handlers'>{validationErrors.unableToSell}</div>}
             </div>
             <button type="submit" className='submit-button'>Review order</button>
             <div className='buySell__buyingPower'>
-              {buy === true && (buyingOption ? `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ` : `$${(Number(portfolio.buying_power) * stockData).toFixed(2)} shares available ⓘ`)}
+              {buy === true && `$${Number(portfolio.buying_power).toFixed(2)} available ⓘ`}
               {buy === false && Object.values(foundInvestment).length > 0 && Object.values(foundInvestment).length > 0 && (buyingOption ? `$${Number(foundInvestment.num_shares * stockData).toFixed(2)} availableⓘ` : `${foundInvestment.num_shares.toFixed(2)} shares availableⓘ`)}
             </div>
           </form>

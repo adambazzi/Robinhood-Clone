@@ -145,3 +145,13 @@
 .ReviseWatchlistModalButton__container button:hover {
   background-color: var(--a__primary-lightGreenHover);
 }
+.form-error-handlers {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+  padding: 10px;
+  background-color: white;
+  color: var(--a__orange1);
+  font-size: 15px;
+
+}
