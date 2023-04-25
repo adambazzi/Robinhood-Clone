@@ -173,3 +173,58 @@
   width: 100%;
   margin-left: 5%;
 }
+
+
+@media (max-width: 1024px) {
+  .homePage__main {
+    flex-direction: column;
+  }
+
+  .homePage_portfolio {
+    width: 100%;
+  }
+
+  .homePage__sideBar_container {
+    width: 100%;
+    position: relative;
+    right: 0;
+    border: none;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .homePage_portfolio {
+    width: 100%;
+  }
+
+  .daily-snacks__nasdaq, .daily-snacks__bitcoin {
+    font-size: 14px;
+  }
+
+  .daily-snacks__nasdaq1, .daily-snacks__nasdaq2, .daily-snacks__nasdaq3 {
+    padding: 0 5px;
+  }
+
+  .home-page__newsFeed {
+    margin-left: 2%;
+  }
+}
+
+@media (max-width: 480px) {
+  .homePage_portfolio {
+    width: 100%;
+  }
+
+  .daily-snacks__nasdaq, .daily-snacks__bitcoin {
+    font-size: 12px;
+  }
+
+  .daily-snacks__nasdaq1, .daily-snacks__nasdaq2, .daily-snacks__nasdaq3 {
+    padding: 0 3px;
+  }
+
+  .home-page__newsFeed {
+    margin-left: 1%;
+  }
+}
