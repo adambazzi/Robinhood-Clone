@@ -44,10 +44,22 @@
 }
 
 .homePage-chart__container {
-    width: 1000px;
+    width: 900px;
     margin: 0;
     padding: 0;
   }
 .chart-nav__button__homepage.active {
     border-bottom: solid 2px black;
+}
+
+
+@media (max-width: 1600px) {
+    .homePage-chart__container {
+        width: 800px;
+    }
+}
+@media (max-width: 1400px) {
+    .homePage-chart__container {
+        width: 700px;
+    }
 }
