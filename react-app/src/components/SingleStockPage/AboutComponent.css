@@ -40,3 +40,8 @@
   .about-hq-city {
     text-transform: capitalize;
   }
+  @media (max-width: 1600px) {
+    .about-section {
+      width: 850px;
+    }
+  }

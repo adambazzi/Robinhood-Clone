@@ -42,3 +42,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  @media (max-width: 1600px) {
+    .articleItem  {
+        width: 750px;
+    }
+}

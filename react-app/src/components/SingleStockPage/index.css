@@ -17,3 +17,8 @@
 .singleStockPage-middle {
     margin: 0 15%;
 }
+@media (max-width: 1600px) {
+    .buySell__master {
+        left: 75%;
+    }
+}
