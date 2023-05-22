@@ -21,6 +21,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 80%;
+    padding: 0 10%;
+
   }
 
   .watchlist-stocks__input {
@@ -30,7 +33,7 @@
     font-size: 16px;
     margin-bottom: 20px;
     padding: 10px;
-    width: 80%;
+
   }
 
   .watchlist-stocks__input:focus {
@@ -60,4 +63,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 80%;
+    margin: 0;
+    padding: 0;
   }

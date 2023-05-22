@@ -1,7 +1,7 @@
 
 require('dotenv').config();
 
-const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+const apiKey = 'pPPoCsW50asFmsNb3eNVvpZr4L6Ifg78'
 const today = new Date();
 const dateString = today.toISOString().slice(0, 10);
 export const fetchStockChartData = async (ticker, range=0) => {
